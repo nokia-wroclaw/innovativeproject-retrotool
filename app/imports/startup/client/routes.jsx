@@ -1,7 +1,7 @@
 import React from 'react';
-import {Route, IndexRoute} from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
-import BasicLayout from '/imports/components/layout/BasicLayout';
+import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 
 import Hello from '/imports/components/Hello';
 

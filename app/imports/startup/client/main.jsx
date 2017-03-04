@@ -1,9 +1,9 @@
-import {Meteor} from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import {render} from 'react-dom';
-import {Router, browserHistory} from 'react-router';
+import { render } from 'react-dom';
+import { Router, browserHistory } from 'react-router';
 
-import routes from './routes';
+import routes from './routes.jsx';
 
 const App = () => (
     <Router history={browserHistory}>
@@ -14,6 +14,6 @@ const App = () => (
 Meteor.startup(() => {
     render(
         <App />,
-        document.getElementById('app')
+        document.getElementById('app'),
     );
 });
