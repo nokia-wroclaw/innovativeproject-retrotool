@@ -1,0 +1,21 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - 6.10
+
+before_install:
+  - curl https://install.meteor.com | /bin/sh
+  - export PATH="$HOME/.meteor:$PATH"
+
+cache:
+  directories:
+    - app/node_modules
+
+before_script:
+  - cd app
+  - meteor npm install
+
+script:
+  - npm run lint
