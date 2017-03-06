@@ -19,3 +19,6 @@ before_script:
 
 script:
   - npm run lint
+
+notifications:
+  slack: innoprojectssummer17:GfpoLDDb4wXvnQoBO287fB1W
