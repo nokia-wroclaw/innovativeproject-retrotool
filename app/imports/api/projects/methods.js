@@ -1,11 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import SimpleSchema from 'simpl-schema';
 
 import { isAdmin } from '/imports/api/users';
 
 import Projects from './Projects.js';
-import { ProjectBaseSchema } from './schema.js';
+import ProjectSchema, {
+    ProjectIdentitySchema,
+    AddMembersSchema,
+    AddModeratorsSchema,
+    UpdateProjectSchema,
+    ProjectIdAndUserIdSchema,
+} from './schema.js';
 import { isProjectModerator } from './helpers.js';
 
 const changeProjectName = (projectId, name) =>
@@ -20,7 +25,7 @@ const changeProjectName = (projectId, name) =>
  */
 export const createProject = new ValidatedMethod({
     name: 'projects.create',
-    validate: ProjectBaseSchema.validator({
+    validate: ProjectSchema.validator({
         clean: true,
     }),
     run({ name, moderators, members }) {
@@ -45,24 +50,20 @@ export const createProject = new ValidatedMethod({
             moderators,
             members,
         }, {
-            validateContext: ProjectBaseSchema.newContext(),
+            validateContext: ProjectSchema.newContext(),
         });
     },
 });
 
 /**
  * Remove project
- * @param   {String}    id          project id
+ * @param   {String}    projectId   project id
  * @return  {Boolean}               true if no error
  */
 export const removeProject = new ValidatedMethod({
     name: 'projects.remove',
-    validate: new SimpleSchema({
-        id: {
-            type: String,
-        },
-    }).validator({ clean: true }),
-    run({ id }) {
+    validate: ProjectIdentitySchema.validator({ clean: true }),
+    run({ projectId }) {
         if (!isAdmin()) {
             throw new Meteor.Error(
                 'projects.remove.unauthorized',
@@ -70,35 +71,23 @@ export const removeProject = new ValidatedMethod({
             );
         }
 
-        return Projects.remove({ _id: id });
+        return Projects.remove({ _id: projectId });
     },
 });
 
 
 /**
- * Add members to project
- * @param  {String}    id          project id
+ * Add member to project
+ * @param  {String}    projectId   project id
  * @param  {Array}     members     project members to add
  * @return {Boolean}               true if no error
  */
 export const addMembers = new ValidatedMethod({
     name: 'projects.addMembers',
-    validate: new SimpleSchema({
-        id: {
-            type: String,
-        },
-        members: {
-            type: Array,
-            defaultValue: [],
-            optional: true,
-        },
-        'members.$': {
-            type: String,
-        },
-    }).validator({ clean: true }),
-    run({ id, members }) {
+    validate: AddMembersSchema.validator({ clean: true }),
+    run({ projectId, members }) {
         const userId = Meteor.userId();
-        const project = Projects.findOne({ _id: id });
+        const project = Projects.findOne({ _id: projectId });
         if (!isAdmin && !isProjectModerator(project, userId)) {
             throw new Meteor.Error(
                 'projects.addMembers.unauthorized',
@@ -117,7 +106,7 @@ export const addMembers = new ValidatedMethod({
             return true;
         }
 
-        return Projects.update({ _id: id }, { $addToSet: { members } });
+        return Projects.update({ _id: projectId }, { $addToSet: { members } });
     },
 });
 
@@ -129,14 +118,7 @@ export const addMembers = new ValidatedMethod({
  */
 export const removeMember = new ValidatedMethod({
     name: 'projects.removeMember',
-    validate: new SimpleSchema({
-        projectId: {
-            type: String,
-        },
-        userId: {
-            type: String,
-        },
-    }).validator({ clean: true }),
+    validate: ProjectIdAndUserIdSchema.validator({ clean: true }),
     run({ projectId, userId }) {
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
@@ -157,30 +139,19 @@ export const removeMember = new ValidatedMethod({
         return Projects.update({ _id: projectId }, { $pull: { userId } });
     },
 });
+
 /**
  * Add moderators to project
- * @param  {String}     id          project id
+ * @param  {String}     projectId   project id
  * @param  {Array}      members     project members to add
  * @return {Boolean}                true if no error
 */
 export const addModerators = new ValidatedMethod({
     name: 'projects.addModerators',
-    validate: new SimpleSchema({
-        id: {
-            type: String,
-        },
-        moderators: {
-            type: Array,
-            defaultValue: [],
-            optional: true,
-        },
-        'moderators.$': {
-            type: String,
-        },
-    }).validator({ clean: true }),
-    run({ id, moderators }) {
+    validate: AddModeratorsSchema.validator({ clean: true }),
+    run({ projectId, moderators }) {
         const userId = Meteor.userId();
-        const project = Projects.findOne({ _id: id });
+        const project = Projects.findOne({ _id: projectId });
         if (!isAdmin && !isProjectModerator(project, userId)) {
             throw new Meteor.Error(
                 'projects.addMembers.unauthorized',
@@ -195,7 +166,7 @@ export const addModerators = new ValidatedMethod({
             );
         }
 
-        return Projects.update({ _id: id }, { $addToSet: { moderators } });
+        return Projects.update({ _id: projectId }, { $addToSet: { moderators } });
     },
 });
 
@@ -207,14 +178,7 @@ export const addModerators = new ValidatedMethod({
  */
 export const removeModerator = new ValidatedMethod({
     name: 'projects.removeModerator',
-    validate: new SimpleSchema({
-        projectId: {
-            type: String,
-        },
-        userId: {
-            type: String,
-        },
-    }).validator({ clean: true }),
+    validate: ProjectIdAndUserIdSchema.validator({ clean: true }),
     run({ projectId, userId }) {
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
@@ -245,42 +209,18 @@ export const removeModerator = new ValidatedMethod({
  */
 export const updateProject = new ValidatedMethod({
     name: 'projects.update',
-    validate: new SimpleSchema({
-        id: {
-            type: String,
-        },
-        name: {
-            type: String,
-            optional: true,
-        },
-        members: {
-            type: Array,
-            defaultValue: [],
-            optional: true,
-        },
-        'members.$': {
-            type: String,
-        },
-        moderators: {
-            type: Array,
-            defaultValue: [],
-            optional: true,
-        },
-        'moderators.$': {
-            type: String,
-        },
-    }).validator({ clean: true }),
-    run({ id, name, members, moderators }) {
+    validate: UpdateProjectSchema.validator({ clean: true }),
+    run({ projectId, name, members, moderators }) {
         if (members && members.length !== 0) {
-            addMembers.call({ id, members, moderators });
+            addMembers.call({ projectId, members, moderators });
         }
 
         if (moderators && moderators.length !== 0) {
-            addModerators.call({ id, members, moderators });
+            addModerators.call({ projectId, members, moderators });
         }
 
         if (name) {
-            changeProjectName(id, name);
+            changeProjectName(projectId, name);
         }
     },
 });
