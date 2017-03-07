@@ -4,7 +4,7 @@ import {
 } from './methods';
 import ProjectSchema from './schema.js';
 
-export {
+export default {
     Projects,
     ProjectSchema,
     createProject,
