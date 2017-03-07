@@ -13,8 +13,37 @@ import ProjectSchema, {
 } from './schema.js';
 import { isProjectModerator } from './helpers.js';
 
-const changeProjectName = (projectId, name) =>
-    Projects.update({ _id: projectId }, { $set: { name } });
+const throwErrorIfProjectDoesNotExist = (project) => {
+    if (!project) {
+        throw new Meteor.Error(
+            'project-not-found',
+            'Project not found!',
+        );
+    }
+};
+
+const throwErrorIfNotAdmin = () => {
+    if (!isAdmin()) {
+        throw new Meteor.Error(
+            'projects.unauthorized.only-admin',
+            'Only admin is authorized to do it',
+        );
+    }
+};
+
+const throwErrorIfNotProjectModeratorOrAdmin = (project, userId) => {
+    if (!isAdmin && !isProjectModerator(project, userId)) {
+        throw new Meteor.Error(
+            'projects.unauthorized.only-moderator-or-admin',
+            'No permissions to update!',
+        );
+    }
+};
+
+const changeProjectName = (projectId, name) => {
+    throwErrorIfNotAdmin();
+    return Projects.update({ _id: projectId }, { $set: { name } });
+};
 
 /**
  * Create new project
@@ -29,20 +58,15 @@ export const createProject = new ValidatedMethod({
         clean: true,
     }),
     run({ name, moderators, members }) {
-        if (!isAdmin()) {
-            throw new Meteor.Error(
-                'projects.create.unauthorized',
-                'Only admin can create new project',
-            );
-        }
+        throwErrorIfNotAdmin();
 
-        const userId = Meteor.userId();
+        const currentUserId = Meteor.userId();
         if (moderators.length === 0) {
-            moderators = [userId];
+            moderators = [currentUserId];
         }
 
         if (members.length === 0) {
-            members = [userId];
+            members = [currentUserId];
         }
 
         return Projects.insert({
@@ -64,13 +88,7 @@ export const removeProject = new ValidatedMethod({
     name: 'projects.remove',
     validate: ProjectIdentitySchema.validator({ clean: true }),
     run({ projectId }) {
-        if (!isAdmin()) {
-            throw new Meteor.Error(
-                'projects.remove.unauthorized',
-                'Only admin can remove project',
-            );
-        }
-
+        throwErrorIfNotAdmin();
         return Projects.remove({ _id: projectId });
     },
 });
@@ -87,26 +105,22 @@ export const addMembers = new ValidatedMethod({
     validate: AddMembersSchema.validator({ clean: true }),
     run({ projectId, members }) {
         const userId = Meteor.userId();
-        const project = Projects.findOne({ _id: projectId });
-        if (!isAdmin && !isProjectModerator(project, userId)) {
-            throw new Meteor.Error(
-                'projects.addMembers.unauthorized',
-                'No permissions to update!',
-            );
-        }
+        const project = Projects.findOne({ _id: projectId }, { fields: { moderators: 1 } });
 
-        if (!project) {
-            throw new Meteor.Error(
-                'project-not-found',
-                'Project not found!',
-            );
-        }
+        throwErrorIfNotProjectModeratorOrAdmin(project, userId);
+        throwErrorIfProjectDoesNotExist(project);
 
         if (members.length === 0) {
             return true;
         }
 
-        return Projects.update({ _id: projectId }, { $addToSet: { members } });
+        return Projects.update({
+            _id: projectId,
+        }, {
+            $addToSet: {
+                members,
+            },
+        });
     },
 });
 
@@ -122,21 +136,18 @@ export const removeMember = new ValidatedMethod({
     run({ projectId, userId }) {
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
-        if (!isAdmin && !isProjectModerator(project, currentUserId)) {
-            throw new Meteor.Error(
-                'projects.removeMember.unauthorized',
-                'No permissions to remove!',
-            );
-        }
 
-        if (!project) {
-            throw new Meteor.Error(
-                'project-not-found',
-                'Project not found!',
-            );
-        }
+        throwErrorIfNotProjectModeratorOrAdmin(project, currentUserId);
+        throwErrorIfProjectDoesNotExist(project);
 
-        return Projects.update({ _id: projectId }, { $pull: { userId } });
+        return Projects.update({
+            _id: projectId,
+        }, {
+            $pull: {
+                members: userId,
+                moderators: userId,
+            },
+        });
     },
 });
 
@@ -152,28 +163,23 @@ export const addModerators = new ValidatedMethod({
     run({ projectId, moderators }) {
         const userId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
-        if (!isAdmin && !isProjectModerator(project, userId)) {
-            throw new Meteor.Error(
-                'projects.addMembers.unauthorized',
-                'No permissions to update!',
-            );
-        }
 
-        if (!project) {
-            throw new Meteor.Error(
-                'project-not-found',
-                'Project not found!',
-            );
-        }
+        throwErrorIfNotProjectModeratorOrAdmin(project, userId);
+        throwErrorIfProjectDoesNotExist(project);
 
-        return Projects.update({ _id: projectId }, { $addToSet: { moderators } });
+        return Projects.update({ _id: projectId }, {
+            $addToSet: {
+                moderators,
+                members: moderators,
+            },
+        });
     },
 });
 
 /**
  * Remove moderator from project
  * @param   {String}    projectId   project id
- * @param   {String}    userId      user
+ * @param   {String}    userId      moderator userId
  * @return  {Boolean}               true if success
  */
 export const removeModerator = new ValidatedMethod({
@@ -182,21 +188,17 @@ export const removeModerator = new ValidatedMethod({
     run({ projectId, userId }) {
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
-        if (!isAdmin && !isProjectModerator(project, currentUserId)) {
-            throw new Meteor.Error(
-                'projects.removeModerator.unauthorized',
-                'No permissions to remove!',
-            );
-        }
 
-        if (!project) {
-            throw new Meteor.Error(
-                'project-not-found',
-                'Project not found!',
-            );
-        }
+        throwErrorIfNotProjectModeratorOrAdmin(project, currentUserId);
+        throwErrorIfProjectDoesNotExist(project);
 
-        return Projects.update({ _id: projectId }, { $pull: { userId } });
+        return Projects.update({
+            _id: projectId,
+        }, {
+            $pull: {
+                moderators: userId,
+            },
+        });
     },
 });
 
