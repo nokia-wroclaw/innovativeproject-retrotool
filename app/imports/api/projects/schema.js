@@ -79,4 +79,4 @@ export const ProjectIdAndUserIdSchema = new SimpleSchema({
     },
 });
 
-export default ProjectSchema;
+export { ProjectSchema };

@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import _ from 'lodash';
 
 import { isAdmin } from '/imports/api/users';
 
-import Projects from './Projects.js';
-import ProjectSchema, {
+import { Projects } from './Projects.js';
+import {
+    ProjectSchema,
     ProjectIdentitySchema,
     AddMembersSchema,
     AddModeratorsSchema,
@@ -65,9 +67,7 @@ export const createProject = new ValidatedMethod({
             moderators = [currentUserId];
         }
 
-        if (members.length === 0) {
-            members = [currentUserId];
-        }
+        members = _.uniq(members.push(moderators));
 
         return Projects.insert({
             name,
@@ -118,7 +118,7 @@ export const addMembers = new ValidatedMethod({
             _id: projectId,
         }, {
             $addToSet: {
-                members,
+                members: { $each: members },
             },
         });
     },
@@ -169,8 +169,8 @@ export const addModerators = new ValidatedMethod({
 
         return Projects.update({ _id: projectId }, {
             $addToSet: {
-                moderators,
-                members: moderators,
+                moderators: { $each: moderators },
+                members: { $each: moderators },
             },
         });
     },
@@ -226,15 +226,3 @@ export const updateProject = new ValidatedMethod({
         }
     },
 });
-
-
-// export all methods
-export default {
-    createProject,
-    removeProject,
-    addMembers,
-    removeMember,
-    addModerators,
-    removeModerator,
-    updateProject,
-};

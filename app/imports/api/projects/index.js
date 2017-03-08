@@ -1,11 +1,11 @@
-import Projects from './Projects.js';
-import {
+export { Projects } from './Projects.js';
+export {
     createProject,
+    removeProject,
+    addMembers,
+    removeMember,
+    addModerators,
+    removeModerator,
+    updateProject,
 } from './methods';
-import ProjectSchema from './schema.js';
-
-export default {
-    Projects,
-    ProjectSchema,
-    createProject,
-};
+export { ProjectSchema } from './schema.js';
