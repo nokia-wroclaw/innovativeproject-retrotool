@@ -2,10 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Projects } from './../Projects.js';
 
+/**
+ * If user is not admin limit query to current user projects
+ * Works only if query doesn't have property `members`
+ * @param  {String} userId Current userId
+ * @param  {Object} query  Mongo query
+ * @return {Object}        Updated mongo query
+ */
 const limitQueryToUserProjects = (userId, query) => {
     const user = Meteor.users.findOne(userId);
     const { isAdmin } = user;
-    query = isAdmin ? query : query.members = user._id;
+    if (!isAdmin && query && !query.members) {
+        query.members = userId;
+    }
     return query;
 };
 
