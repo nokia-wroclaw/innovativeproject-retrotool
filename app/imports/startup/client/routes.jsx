@@ -6,8 +6,11 @@ import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 import MainLayout from '/imports/components/layout/MainLayout.jsx';
 
 import Login from '/imports/components/Users/Login';
+import SingleProject from '/imports/components/Projects/SingleProject';
 
 import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+
+import ProjectList from '/imports/components/Projects/ProjectList';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -24,8 +27,10 @@ const onlyLoggedOut = (nextState, replace) => {
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="hello" component={Hello} />
-            <Route path="project" />
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="project">
+                <Route path=":projectId" components={{ main: SingleProject, drawerContent: ProjectList }} />
+            </Route>
         </Route>
 
         <Route component={BasicLayout} onEnter={onlyLoggedOut}>
