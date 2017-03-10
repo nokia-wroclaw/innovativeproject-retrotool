@@ -1,16 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
-import { withRouter } from 'react-router';
 
 import {
     Projects,
+    actions,
 } from '/imports/api/projects';
 
 import ProjectList from './ProjectList.jsx';
 
-const goToProject = (router, projectId) => router.push(`/project/${projectId}`);
+const {
+    goToProject,
+} = actions;
 
-const composer = ({ router }, onData) => {
+const composer = (props, onData) => {
     const projectsHandler = Meteor.subscribe('projectList');
 
     if (projectsHandler.ready()) {
@@ -18,13 +20,11 @@ const composer = ({ router }, onData) => {
 
         onData(null, {
             projects,
-            onTouchTap: goToProject.bind(null, router),
+            onTouchTap: goToProject,
         });
     }
 };
 
-export default withRouter(
-    composeWithTracker(
-        composer,
-    )(ProjectList),
-);
+export default composeWithTracker(
+    composer,
+)(ProjectList);
