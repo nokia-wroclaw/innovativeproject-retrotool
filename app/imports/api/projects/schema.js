@@ -30,23 +30,10 @@ export const ProjectModeratorsSchema = new SimpleSchema({
     },
 });
 
-export const ProjectSprintsSchema = new SimpleSchema({
-    // array with sprintIds
-    sprints: {
-        type: Array,
-        defaultValue: [],
-        optional: true,
-    },
-    'sprints.$': {
-        type: String,
-    },
-});
-
 const ProjectSchema = new SimpleSchema({});
 ProjectSchema.extend(ProjectBaseSchema);
 ProjectSchema.extend(ProjectMembersSchema);
 ProjectSchema.extend(ProjectModeratorsSchema);
-ProjectSchema.extend(ProjectSprintsSchema);
 
 // Methods schemas
 
