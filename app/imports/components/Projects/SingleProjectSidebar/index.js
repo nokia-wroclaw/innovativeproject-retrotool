@@ -4,8 +4,12 @@ import { withRouter } from 'react-router';
 
 import {
     Projects,
-    actions,
+    actions as projectActions,
 } from '/imports/api/projects';
+
+import {
+    actions as sprintActions,
+} from '/imports/api/sprints';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
@@ -16,8 +20,10 @@ const composer = ({ params: { projectId } }, onData) => {
         const projectList = Projects.find({}).fetch();
 
         onData(null, {
+            projectId,
             projects: projectList,
-            goToProject: actions.goToProject,
+            goToProject: projectActions.goToProject,
+            goToAddSprint: sprintActions.goToAddSprint,
         });
     }
 };
