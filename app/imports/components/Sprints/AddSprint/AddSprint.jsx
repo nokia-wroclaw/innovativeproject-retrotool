@@ -37,7 +37,7 @@ class AddSprint extends Component {
     }
 
     renderTextField() {
-        const {isError, isResult} = this.state;
+        const { isError, isResult } = this.state;
 
         if (!isResult) {
             return (
