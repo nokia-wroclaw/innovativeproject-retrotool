@@ -1,5 +1,5 @@
+import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-
 
 let num = 0;
 
@@ -10,5 +10,10 @@ Accounts.onCreateUser((options, user) => {
     } else {
         user.isAdmin = false;
     }
+
     return user;
 });
+
+
+Meteor.publish('userData', () => Meteor.users.find({}));
+

@@ -1,0 +1,8 @@
+{
+  "services": {
+    "github": {
+      "clientId": "08dbe52ef1461299d946",
+      "clientSecret": "da04513040b0726b4ac1546aec26b2e9951af4c1"
+    }
+  }
+}
