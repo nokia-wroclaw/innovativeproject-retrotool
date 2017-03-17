@@ -18,13 +18,12 @@ Meteor.publish('sprintList', function publishSprintList(projectId) {
     if (!this.userId) {
         return this.ready();
     }
-    const query = {};
+    const query = { projectId };
     limitQueryToUserSprints(this.userId, query);
 
     const options = {
         fields: {
             name: 1,
-            projectId,
         },
     };
 
