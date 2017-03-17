@@ -13,8 +13,27 @@ const getProjectListItems = (projects, onTouchTap) =>
         />
     ));
 
+const getSprintListItems = (sprints, goToAddSprint, projectId) => {
+    const listSprints = sprints.map(sprint => (
+        <ListItem
+            key={sprint._id}
+            primaryText={sprint.name}
+        />
+    ));
+
+    listSprints[listSprints.length] = (
+        <ListItem
+            key="addSprint"
+            primaryText="Add sprint"
+            onTouchTap={() => goToAddSprint(projectId)}
+        />
+    );
+
+    return listSprints;
+};
+
 const SingleProjectSidebar = (props) => {
-    const { projects, goToProject, projectId, goToAddSprint } = props;
+    const { projects, goToProject, projectId, sprints, goToAddSprint } = props;
 
     return (
         <List>
@@ -26,8 +45,8 @@ const SingleProjectSidebar = (props) => {
             <ListItem
                 primaryText="Sprints"
 
-                nestedItems={[
-                    <ListItem key="addSprint" primaryText="Add sprint" onTouchTap={() => goToAddSprint(projectId)} />]}
+
+                nestedItems={getSprintListItems(sprints, goToAddSprint, projectId)}
             />
         </List>
     );
@@ -35,6 +54,12 @@ const SingleProjectSidebar = (props) => {
 
 SingleProjectSidebar.propTypes = {
     projects: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
+    sprints: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
