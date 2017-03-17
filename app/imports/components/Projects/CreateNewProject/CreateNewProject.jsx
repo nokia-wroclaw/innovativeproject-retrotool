@@ -16,10 +16,10 @@ class CreateNewProject extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const { createNewProject, goToProject } = this.props;
+        const { createNewProject } = this.props;
 
         const name = this.area.input.value;
-        console.log('dziala');
+
         const result = createNewProject(name, [0], [0]);
 
         if (result) {
@@ -27,8 +27,6 @@ class CreateNewProject extends Component {
                 isError: false,
                 isResult: true,
             });
-
-            goToProject(projectId);
         } else {
             this.setState({
                 isError: true,
@@ -69,18 +67,6 @@ class CreateNewProject extends Component {
 
 CreateNewProject.propTypes = {
     createNewProject: PropTypes.func.isRequired,
-    goToProject: PropTypes.func.isRequired,
 };
 
 export default CreateNewProject;
-
-/*import React from 'react';
-
-const CreateNewProject = () => (
-    <h2>Here you can create a new project!</h2>
-);
-
-CreateNewProject.propTypes = {};
-
-export default CreateNewProject;
-*/

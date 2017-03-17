@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
@@ -9,9 +8,9 @@ import {
 import Hello from './Hello.jsx';
 
 const composer = (props, onData) => {
-        onData(null, {
-            goToAddProject: projectActions.goToAddProject,
-        });
+    onData(null, {
+        goToAddProject: projectActions.goToAddProject,
+    });
 };
 
 export default withRouter(
