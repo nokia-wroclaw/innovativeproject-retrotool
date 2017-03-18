@@ -21,7 +21,7 @@ const getSprintListItems = (sprints, goToAddSprint, projectId) => {
         />
     ));
 
-    listSprints[listSprints.length] = (
+    listSprints.push(
         <ListItem
             key="addSprint"
             primaryText="Add sprint"
@@ -44,8 +44,6 @@ const SingleProjectSidebar = (props) => {
             <ListItem primaryText="Posts" />
             <ListItem
                 primaryText="Sprints"
-
-
                 nestedItems={getSprintListItems(sprints, goToAddSprint, projectId)}
             />
         </List>
