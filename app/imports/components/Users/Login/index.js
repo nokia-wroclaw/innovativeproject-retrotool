@@ -6,7 +6,7 @@ import Login from './Login.jsx';
 
 const composer = ({ router }, onData) => {
     if (Meteor.userId()) {
-        router.push('/project');
+        router.push('/hello');
         return;
     }
 

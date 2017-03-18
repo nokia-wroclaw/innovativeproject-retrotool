@@ -30,8 +30,8 @@ const Login = (props) => {
             }
             <CardActions>
                 <RaisedButton
-                    label="Login with GitHub"
-                    onClick={onGithubLogin}
+                    label="Sign in with GitHub"
+                    onTouchTap={onGithubLogin}
                     fullWidth
                 />
             </CardActions>

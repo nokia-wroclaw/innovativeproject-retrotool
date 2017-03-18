@@ -6,7 +6,14 @@ import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 import MainLayout from '/imports/components/layout/MainLayout.jsx';
 
 import Login from '/imports/components/Users/Login';
-import Hello from '/imports/components/Hello';
+import SingleProject from '/imports/components/Projects/SingleProject';
+
+import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+
+import ProjectList from '/imports/components/Projects/ProjectList';
+import SingleProjectSidebar from '/imports/components/Projects/SingleProjectSidebar';
+
+import AddSprint from '/imports/components/Sprints/AddSprint';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -16,14 +23,18 @@ const onlyLoggedIn = (nextState, replace) => {
 
 const onlyLoggedOut = (nextState, replace) => {
     if (Meteor.userId()) {
-        replace('/project');
+        replace('/hello');
     }
 };
 
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="project" component={Hello} />
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="project">
+                <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
+                <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
+            </Route>
         </Route>
 
         <Route component={BasicLayout} onEnter={onlyLoggedOut}>
