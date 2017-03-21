@@ -1,11 +1,8 @@
-import React, { PropTypes } from 'react';
-import { RaisedButton } from 'material-ui';
+import React from 'react';
 
-const Hello = (props) => {
-    return (
-        <h1>Hello!</h1>
-    );
-};
+const Hello = () => (
+    <h1>Hello!</h1>
+);
 
 Hello.propTypes = {};
 

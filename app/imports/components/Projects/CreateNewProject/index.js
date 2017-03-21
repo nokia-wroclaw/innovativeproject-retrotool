@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
-import { Accounts } from 'meteor/accounts-base';
 
 import isAdmin from '/imports/api/users';
 import { actions as projectActions } from '/imports/api/projects';

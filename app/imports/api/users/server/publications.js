@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
-Meteor.publish("userList", function publishUserList() {
+Meteor.publish('userList', () => {
     const query = {};
 
     const options = {
         fields: {
-
+            services: 1,
         },
     };
 

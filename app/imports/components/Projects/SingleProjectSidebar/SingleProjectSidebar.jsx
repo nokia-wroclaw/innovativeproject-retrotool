@@ -26,7 +26,7 @@ const getSprintListItems = (sprints, goToAddSprint, projectId) => {
             key="addSprint"
             primaryText="Add sprint"
             onTouchTap={() => goToAddSprint(projectId)}
-        />
+        />,
     );
 
     return listSprints;

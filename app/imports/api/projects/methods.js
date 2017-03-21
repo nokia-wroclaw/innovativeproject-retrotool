@@ -60,14 +60,14 @@ export const createProject = new ValidatedMethod({
         clean: true,
     }),
     run({ name, moderators, members }) {
-        //throwErrorIfNotAdmin();
+        //  throwErrorIfNotAdmin();
 
         const currentUserId = Meteor.userId();
         if (moderators.length === 0) {
             moderators = [currentUserId];
         }
 
-        members = _.uniq(members.push(moderators));
+        members = _.union(members, moderators);
 
         return Projects.insert({
             name,
