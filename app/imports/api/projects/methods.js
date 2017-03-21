@@ -60,7 +60,7 @@ export const createProject = new ValidatedMethod({
         clean: true,
     }),
     run({ name, moderators, members }) {
-        //  throwErrorIfNotAdmin();
+        throwErrorIfNotAdmin();
 
         const currentUserId = Meteor.userId();
         if (moderators.length === 0) {
