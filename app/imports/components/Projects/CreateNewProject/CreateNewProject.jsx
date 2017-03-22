@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { TextField,
     RaisedButton,
     AutoComplete,
-    List,
-    ListItem,
     Chip,
 } from 'material-ui';
 
@@ -36,14 +34,13 @@ class CreateNewProject extends Component {
         const moderatorsId = [];
         let user = '';
 
-        moderators.forEach(moderator => {
+        moderators.forEach((moderator) => {
             user = userList.find(obj => obj.services.github.username === moderator);
             moderatorsId.push(user._id);
-            console.log(user);
         });
-console.log(moderatorsId);
+
         const membersId = [];
-        members.forEach(member => {
+        members.forEach((member) => {
             user = userList.find(obj => obj.services.github.username === member);
             membersId.push(user._id);
         });
@@ -111,6 +108,13 @@ console.log(moderatorsId);
                     message: '',
                 },
             });
+        } else if (usersNames !== -1 && members === -1 && moderators !== -1) {
+            this.setState({
+                error: {
+                    type: 'member',
+                    message: 'User is chosen as a member',
+                },
+            });
         } else {
             this.setState({
                 error: {
@@ -124,27 +128,29 @@ console.log(moderatorsId);
         this.memberInput.focus();
     }
 
-    removeRow(e, index, type) {
+    removeModerator(e, index) {
         e.preventDefault();
 
-        if (type === 'moderator') {
-            const moderators = this.state.moderators;
-            moderators.splice(index, 1);
-            this.setState({
-                moderators: moderators,
-            });
-        } else {
-            const members = this.state.members;
-            members.splice(index, 1);
-            this.setState({
-                members: members,
-            });
-        }
+        const moderators = this.state.moderators;
+        moderators.splice(index, 1);
+        this.setState({
+            moderators,
+        });
+    }
+
+    removeMember(e, index) {
+        e.preventDefault();
+
+        const members = this.state.members;
+        members.splice(index, 1);
+        this.setState({
+            members,
+        });
     }
 
     rendermembers() {
         const chosen = this.state.members;
-        return chosen.map((name, index) => <Chip key={`membername${name}`} onRequestDelete={e => this.removeRow(e, index, 'member')}>
+        return chosen.map((name, index) => <Chip key={`membername${name}`} onRequestDelete={e => this.removeMember(e, index)}>
             {name}
         </Chip>,
         );
@@ -152,7 +158,7 @@ console.log(moderatorsId);
 
     rendermoderators() {
         const chosen = this.state.moderators;
-        return chosen.map((name, index) => <Chip key={`modname${name}`} onRequestDelete={e => this.removeRow(e, index, 'moderator')}>
+        return chosen.map((name, index) => <Chip key={`modname${name}`} onRequestDelete={e => this.removeModerator(e, index)}>
             {name}
         </Chip>,
         );
@@ -164,14 +170,12 @@ console.log(moderatorsId);
 
         const names = [];
 
-        users.forEach(user => {
-            names.push(user.services.github.username);
-        });
+        users.forEach(user => names.push(user.services.github.username));
 
         if (!isResult) {
             return (
                 <AutoComplete
-                    floatingLabelText="Members"
+                    floatingLabelText="Members - optional"
                     filter={AutoComplete.fuzzyFilter}
                     dataSource={names}
                     maxSearchResults={5}
@@ -189,14 +193,12 @@ console.log(moderatorsId);
         const users = this.props.userList;
 
         const names = [];
-        users.forEach(user => {
-            names.push(user.services.github.username);
-        });
+        users.forEach(user => names.push(user.services.github.username));
 
         if (!isResult) {
             return (
                 <AutoComplete
-                    floatingLabelText="Moderators"
+                    floatingLabelText="Moderators - optional"
                     filter={AutoComplete.fuzzyFilter}
                     dataSource={names}
                     maxSearchResults={5}
