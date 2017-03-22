@@ -4,6 +4,7 @@ import { TextField,
     AutoComplete,
     List,
     ListItem,
+    Chip,
 } from 'material-ui';
 
 class CreateNewProject extends Component {
@@ -14,8 +15,8 @@ class CreateNewProject extends Component {
         this.addModerator = this.addModerator.bind(this);
         this.state = {
             isResult: false,
-            chosenMods: [],
-            chosenMbrs: [],
+            moderators: [],
+            members: [],
             inputError: false,
             memberError: false,
             error: {
@@ -28,21 +29,21 @@ class CreateNewProject extends Component {
     onSubmit(e) {
         e.preventDefault();
         const { createNewProject, userList } = this.props;
-        const { chosenMods, chosenMbrs } = this.state;
+        const { moderators, members } = this.state;
 
         const name = this.area.input.value;
 
         const moderatorsId = [];
         let user = '';
 
-        chosenMods.forEach(moderator => {
+        moderators.forEach(moderator => {
             user = userList.find(obj => obj.services.github.username === moderator);
             moderatorsId.push(user._id);
             console.log(user);
         });
 console.log(moderatorsId);
         const membersId = [];
-        chosenMbrs.forEach(member => {
+        members.forEach(member => {
             user = userList.find(obj => obj.services.github.username === member);
             membersId.push(user._id);
         });
@@ -70,13 +71,13 @@ console.log(moderatorsId);
 
     addModerator(name, names) {
         const usersNames = names.indexOf(name);
-        const chosenMods = this.state.chosenMods.indexOf(name);
+        const moderators = this.state.moderators.indexOf(name);
 
-        if (usersNames !== -1 && chosenMods === -1) {
-            const chosen = this.state.chosenMods;
+        if (usersNames !== -1 && moderators === -1) {
+            const chosen = this.state.moderators;
             chosen.push(name);
             this.setState({
-                chosenMods: chosen,
+                moderators: chosen,
                 error: {
                     type: '',
                     message: '',
@@ -97,14 +98,14 @@ console.log(moderatorsId);
 
     addMember(name, names) {
         const usersNames = names.indexOf(name);
-        const chosenMbrs = this.state.chosenMbrs.indexOf(name);
-        const chosenMods = this.state.chosenMods.indexOf(name);
+        const members = this.state.members.indexOf(name);
+        const moderators = this.state.moderators.indexOf(name);
 
-        if (usersNames !== -1 && chosenMbrs === -1 && chosenMods === -1) {
-            const chosen = this.state.chosenMbrs;
+        if (usersNames !== -1 && members === -1 && moderators === -1) {
+            const chosen = this.state.members;
             chosen.push(name);
             this.setState({
-                chosenMbrs: chosen,
+                members: chosen,
                 error: {
                     type: '',
                     message: '',
@@ -127,35 +128,33 @@ console.log(moderatorsId);
         e.preventDefault();
 
         if (type === 'moderator') {
-            const moderators = this.state.chosenMods;
+            const moderators = this.state.moderators;
             moderators.splice(index, 1);
             this.setState({
-                chosenMods: moderators,
+                moderators: moderators,
             });
         } else {
-            const members = this.state.chosenMbrs;
+            const members = this.state.members;
             members.splice(index, 1);
             this.setState({
-                chosenMbrs: members,
+                members: members,
             });
         }
     }
 
-    renderchosenMbrs() {
-        const chosen = this.state.chosenMbrs;
-        return chosen.map((name, index) => <ListItem key={`membername${name}`}>
+    rendermembers() {
+        const chosen = this.state.members;
+        return chosen.map((name, index) => <Chip key={`membername${name}`} onRequestDelete={e => this.removeRow(e, index, 'member')}>
             {name}
-            <RaisedButton onTouchTap={e => this.removeRow(e, index, 'member')} label="Remove" type="submit" />
-        </ListItem>,
+        </Chip>,
         );
     }
 
-    renderchosenMods() {
-        const chosen = this.state.chosenMods;
-        return chosen.map((name, index) => <ListItem key={`modname${name}`}>
+    rendermoderators() {
+        const chosen = this.state.moderators;
+        return chosen.map((name, index) => <Chip key={`modname${name}`} onRequestDelete={e => this.removeRow(e, index, 'moderator')}>
             {name}
-            <RaisedButton onTouchTap={e => this.removeRow(e, index, 'moderator')} label="Remove" type="submit" />
-        </ListItem>,
+        </Chip>,
         );
     }
 
@@ -185,7 +184,7 @@ console.log(moderatorsId);
         return false;
     }
 
-    renderModForm() {
+    renderModeratorForm() {
         const { isResult, error } = this.state;
         const users = this.props.userList;
 
@@ -230,18 +229,14 @@ console.log(moderatorsId);
         return (<div>
             <h2>Here you can create a new project!</h2>
             {this.renderProjectNameForm()}
-            {this.renderModForm()}
+            {this.renderModeratorForm()}
             {!this.state.error.type && this.state.isResult ? '' :
-            <List>
-                {this.renderchosenMods()}
-            </List>
+                this.rendermoderators()
             }
             {this.renderMemberForm()}
             {!this.state.error.type && this.state.isResult ? '' :
             <div>
-                <List>
-                    {this.renderchosenMbrs()}
-                </List>
+                {this.rendermembers()}
                 <RaisedButton onTouchTap={e => this.onSubmit(e)} label="Create project" type="submit" primary />
             </div>
             }
