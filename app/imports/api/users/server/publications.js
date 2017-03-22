@@ -5,7 +5,7 @@ Meteor.publish('userList', () => {
 
     const options = {
         fields: {
-            services: 1,
+            "services.github.username": 1,
         },
     };
 
