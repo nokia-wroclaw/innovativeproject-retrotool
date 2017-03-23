@@ -11,6 +11,8 @@ Accounts.onCreateUser((options, user) => {
         user.isAdmin = false;
     }
 
+    user.isBanned = false;
+
     return user;
 });
 

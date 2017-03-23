@@ -3,17 +3,20 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
-import MainLayout from '/imports/components/layout/MainLayout.jsx';
+import MainLayout from '/imports/components/layout/';
 
 import Login from '/imports/components/Users/Login';
-import Hello from '/imports/components/Hello';
+import SingleProject from '/imports/components/Projects/SingleProject';
+
+import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+
+import ProjectList from '/imports/components/Projects/ProjectList';
+import SingleProjectSidebar from '/imports/components/Projects/SingleProjectSidebar';
+
+import CreateNewProject from '/imports/components/Projects/CreateNewProject';
+import AddSprint from '/imports/components/Sprints/AddSprint';
+
 import Panel from '/imports/components/Users/AdminPanel';
-
-import { isAdmin } from '/imports/api/users';
-
-Meteor.subscribe('userData');
-
-const Admin = isAdmin();
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -23,25 +26,20 @@ const onlyLoggedIn = (nextState, replace) => {
 
 const onlyLoggedOut = (nextState, replace) => {
     if (Meteor.userId()) {
-        replace('/project');
-    }
-};
-
-const onlyAdmin = (nextState, replace) => {
-    console.log(Admin);
-    if (Admin) {
-        replace('/project');
+        replace('/hello');
     }
 };
 
 export default (
     <Route path="/">
+        <Route path="admin" component={Panel} onEnter={onlyLoggedIn} />
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="project" component={Hello} />
-        </Route>
-
-        <Route component={MainLayout} onEnter={onlyAdmin}>
-            <Route path="admin" component={Panel} />
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="create" components={{ main: CreateNewProject, drawerContent: ProjectList }} />
+            <Route path="project">
+                <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
+                <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
+            </Route>
         </Route>
 
         <Route component={BasicLayout} onEnter={onlyLoggedOut}>
@@ -50,4 +48,3 @@ export default (
         </Route>
     </Route>
 );
-

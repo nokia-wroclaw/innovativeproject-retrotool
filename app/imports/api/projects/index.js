@@ -9,3 +9,4 @@ export {
     updateProject,
 } from './methods';
 export { ProjectSchema } from './schema.js';
+export { actions } from './actions.js';
