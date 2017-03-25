@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
+
 import WallToolbar from './WallToolbar.jsx';
+import Post from './Post.jsx';
 
 class Wall extends React.Component {
     constructor(props) {
@@ -36,7 +38,15 @@ class Wall extends React.Component {
                     handleChangeSelectedCategory={this.handleChangeSelectedCategory}
                 />
 
-                {/* posts */}
+                {posts.map(post =>
+                    <Post
+                        key={post.id}
+                        id={post.id}
+                        showAuthor={post.showAuthor}
+                        author={post.author}
+                        text={post.text}
+                    />,
+                )}
             </div>
         );
     }

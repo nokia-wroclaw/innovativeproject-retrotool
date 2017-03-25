@@ -10,7 +10,12 @@ const categories = [
     { id: '3', name: 'Another great idea' },
 ];
 
-const posts = [];
+const posts = [
+    { id: '1', text: 'lorem ipsum', showAuthor: false },
+    { id: '2', text: 'lorem ipsum', showAuthor: false },
+    { id: '3', text: 'lorem ipsum', showAuthor: false },
+    { id: '4', text: 'lorem ipsum', showAuthor: false }
+];
 
 const WrapperWall = () => (
     <Wall
