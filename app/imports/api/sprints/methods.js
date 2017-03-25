@@ -9,7 +9,7 @@ export const addSprint = new ValidatedMethod({
     name: 'sprints.add',
     validate: SprintSchema.validator({ clean: true }),
     run({ name, projectId }) {
-        // @todo add check if user is moderator
+        // @TODO add check if user is moderator
         return Sprints.insert({ name, projectId });
     },
 });

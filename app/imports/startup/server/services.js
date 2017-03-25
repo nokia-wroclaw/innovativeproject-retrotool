@@ -29,7 +29,7 @@ const addGithubConfiguration = () => {
 };
 
 const addServicesConfiguration = () => {
-    // @todo check before add if configuration found
+    // @TODO check before add if configuration found
     addGithubConfiguration();
 };
 

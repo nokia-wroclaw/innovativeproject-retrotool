@@ -11,5 +11,17 @@ export const PostSchema = new SimpleSchema({
     text: {
         type: String,
     },
+    // @TODO add category
 });
 
+
+// method schemas
+export const AddPostSchema = new SimpleSchema({
+    showAuthor: {
+        type: Boolean,
+        defaultValue: true,
+    },
+    text: {
+        type: String,
+    },
+});
