@@ -26,58 +26,5 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-meteor": "^4.0.1",
     "eslint-plugin-react": "^6.10.0"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
-    },
-    "plugins": [
-      "meteor"
-    ],
-    "env": {
-      "browser": true
-    },
-    "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
-    },
-    "rules": {
-      "indent": [
-        "error",
-        4
-      ],
-      "no-param-reassign": [
-        "off"
-      ],
-      "no-underscore-dangle": [
-        "off"
-      ],
-      "no-unused-vars": [
-        "error"
-      ],
-      "import/no-absolute-path": 0,
-      "import/no-extraneous-dependencies": [
-        "off"
-      ],
-      "import/prefer-default-export": [
-        "off"
-      ],
-      "react/jsx-indent": [
-        "error",
-        4
-      ],
-      "react/jsx-indent-props": [
-        "error",
-        4
-      ],
-      "import/extensions": [
-        "off",
-        "never"
-      ]
-    }
   }
 }
