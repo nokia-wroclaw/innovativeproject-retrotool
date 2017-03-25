@@ -1,8 +1,8 @@
 import React from 'react';
 import Wall from './Wall.jsx';
 
-// @TODO: add categories
-// @TODO: add posts
+// @TODO: add categories sub
+// @TODO: add posts sub
 
 const categories = [
     { id: '1', name: 'All categories' },
@@ -19,7 +19,6 @@ const posts = [
 
 const WrapperWall = () => (
     <Wall
-        addPost={() => {}}
         categories={categories}
         posts={posts}
     />

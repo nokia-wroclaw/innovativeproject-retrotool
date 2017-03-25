@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 
+import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
@@ -8,12 +9,15 @@ class Wall extends React.Component {
         super(props);
 
         this.handleChangeSelectedCategory = this.handleChangeSelectedCategory.bind(this);
+        this.showAddPostModal = this.showAddPostModal.bind(this);
+        this.hideAddPostModal = this.hideAddPostModal.bind(this);
 
         const { categories } = props;
         const firstCategoryId = categories.length && categories[0].id;
 
         this.state = {
             selectedCategoryId: firstCategoryId,
+            showAddPostModal: false,
         };
     }
 
@@ -21,12 +25,22 @@ class Wall extends React.Component {
         this.setState({ selectedCategoryId: value });
     }
 
+    showAddPostModal() {
+        this.setState({ showAddPostModal: true });
+    }
+
+    hideAddPostModal() {
+        this.setState({ showAddPostModal: false });
+    }
+
     render() {
-        const { selectedCategoryId } = this.state;
+        const {
+            selectedCategoryId,
+            showAddPostModal,
+        } = this.state;
         const {
             posts,
             categories,
-            addPost,
         } = this.props;
 
         return (
@@ -34,7 +48,7 @@ class Wall extends React.Component {
                 <WallToolbar
                     selectedCategoryId={selectedCategoryId}
                     categories={categories}
-                    addPost={addPost}
+                    addPost={this.showAddPostModal}
                     handleChangeSelectedCategory={this.handleChangeSelectedCategory}
                 />
 
@@ -47,13 +61,17 @@ class Wall extends React.Component {
                         text={post.text}
                     />,
                 )}
+
+                <AddPost
+                    open={showAddPostModal}
+                    onClose={this.hideAddPostModal}
+                />
             </div>
         );
     }
 }
 
 Wall.propTypes = {
-    addPost: PropTypes.func.isRequired,
     posts: PropTypes.arrayOf(
         PropTypes.shape({
 
