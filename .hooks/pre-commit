@@ -1,0 +1,13 @@
+#!/bin/sh
+
+npm test
+
+TEST_RESULT=$?
+
+if [ $TEST_RESULT -ne 0 ]
+then
+    echo "\nTests must pass!\n"
+else
+    echo "\nEverything OK!\n"
+fi
+

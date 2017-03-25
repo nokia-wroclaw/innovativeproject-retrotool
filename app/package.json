@@ -1,5 +1,5 @@
 {
-  "name": "retro-tool",
+  "name": "retrotool-webapp",
   "private": true,
   "scripts": {
     "start": "meteor run --settings=settings.json",
