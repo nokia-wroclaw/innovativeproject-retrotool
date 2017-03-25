@@ -16,9 +16,10 @@ cache:
 before_script:
   - cd app
   - meteor npm install
+  - cd ..
 
 script:
-  - npm run lint
+  - npm test
 
 notifications:
   slack: innoprojectssummer17:GfpoLDDb4wXvnQoBO287fB1W
