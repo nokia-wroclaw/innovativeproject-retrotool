@@ -14,7 +14,13 @@ const getProjectListItems = (projects, onTouchTap) =>
     ));
 
 const SingleProjectSidebar = (props) => {
-    const { projects, goToProject, projectId, goToAddSprint } = props;
+    const {
+        projectId,
+        projects,
+        goToAddSprint,
+        goToPosts,
+        goToProject,
+    } = props;
 
     return (
         <List>
@@ -22,7 +28,10 @@ const SingleProjectSidebar = (props) => {
                 primaryText="Projects"
                 nestedItems={getProjectListItems(projects, goToProject)}
             />
-            <ListItem primaryText="Posts" />
+            <ListItem
+                primaryText="Posts"
+                onTouchTap={() => goToPosts(projectId)}
+            />
             <ListItem
                 primaryText="Sprints"
 
@@ -34,15 +43,16 @@ const SingleProjectSidebar = (props) => {
 };
 
 SingleProjectSidebar.propTypes = {
+    projectId: PropTypes.string.isRequired,
     projects: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,
-    goToProject: PropTypes.func.isRequired,
-    projectId: PropTypes.string.isRequired,
     goToAddSprint: PropTypes.func.isRequired,
+    goToPosts: PropTypes.func.isRequired,
+    goToProject: PropTypes.func.isRequired,
 };
 
 export default SingleProjectSidebar;
