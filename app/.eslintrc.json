@@ -30,6 +30,17 @@
     "no-unused-vars": [
       "error"
     ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": [
+          "todo",
+          "fixme",
+          "xxx"
+        ],
+        "location": "anywhere"
+      }
+    ],
     "import/no-absolute-path": 0,
     "import/no-extraneous-dependencies": [
       "off"
