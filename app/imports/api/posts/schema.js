@@ -1,6 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
 export const PostSchema = new SimpleSchema({
+    projectId: {
+        type: String,
+    },
     authorId: {
         type: String,
     },
@@ -22,6 +25,9 @@ export const AddPostSchema = new SimpleSchema({
         defaultValue: true,
     },
     text: {
+        type: String,
+    },
+    projectId: {
         type: String,
     },
 });

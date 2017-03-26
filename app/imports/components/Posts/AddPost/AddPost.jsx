@@ -30,11 +30,15 @@ class AddPost extends React.Component {
         } = this.state;
 
         const {
+            projectId,
+        } = this.props;
+
+        const {
             addPost,
             onClose,
         } = this.props;
 
-        addPost({ text, showAuthor }, (error) => {
+        addPost({ text, showAuthor, projectId }, (error) => {
             if (error) {
                 // @TODO show error modal
             }
@@ -113,6 +117,7 @@ class AddPost extends React.Component {
 }
 
 AddPost.propTypes = {
+    projectId: PropTypes.string.isRequired,
     addPost: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,

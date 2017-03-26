@@ -12,10 +12,11 @@ export const addPost = new ValidatedMethod({
     validate: AddPostSchema.validator({
         clean: true,
     }),
-    run({ text, showAuthor }) {
-        // @TODO: projectId
+    run({ text, showAuthor, projectId }) {
+        // @TODO check if user can add post
         const authorId = Meteor.userId();
         return Posts.insert({
+            projectId,
             text,
             showAuthor,
             authorId,
@@ -31,7 +32,7 @@ export const removePost = new ValidatedMethod({
         },
     }).validator({ clean: true }),
     run({ postId }) {
-        // @TODO check if is admin or moderator
+        // @TODO check if user can delete
         return Posts.remove({ _id: postId });
     },
 });

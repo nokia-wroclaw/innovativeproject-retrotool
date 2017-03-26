@@ -1,4 +1,9 @@
-import React from 'react';
+import { Meteor } from 'meteor/meteor';
+import { composeWithTracker } from 'react-komposer';
+import { withRouter } from 'react-router';
+
+import { Posts } from '/imports/api/posts';
+
 import Wall from './Wall.jsx';
 
 // @TODO: add categories sub
@@ -10,18 +15,21 @@ const categories = [
     { id: '3', name: 'Another great idea' },
 ];
 
-const posts = [
-    { id: '1', text: 'lorem ipsum', showAuthor: false },
-    { id: '2', text: 'lorem ipsum', showAuthor: false },
-    { id: '3', text: 'lorem ipsum', showAuthor: false },
-    { id: '4', text: 'lorem ipsum', showAuthor: false }
-];
+const composer = ({ params: { projectId } }, onData) => {
+    const postsHandler = Meteor.subscribe('projectPosts', projectId);
 
-const WrapperWall = () => (
-    <Wall
-        categories={categories}
-        posts={posts}
-    />
+    if (postsHandler.ready()) {
+        const posts = Posts.find({}).fetch();
+
+        onData(null, {
+            posts,
+            categories,
+        });
+    }
+};
+
+export default withRouter(
+    composeWithTracker(
+        composer,
+    )(Wall),
 );
-
-export default WrapperWall;
