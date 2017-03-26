@@ -13,12 +13,22 @@ const composer = (props, onData) => {
 
     if (user && projectsHandler.ready()) {
         const userList = Meteor.users.find({}).fetch();
+
+        const newUserList = [];
+
+        for (i=0; i < userList.length; i++) {
+            newUserList.push({
+                _id: userList[i]._id,
+                username: userList[i].profile.name,
+            });
+        }
+
         onData(null, {
             createNewProject: projectActions.createNewProject,
             goToProject: projectActions.goToProject,
             user,
             isAdmin,
-            userList,
+            newUserList,
         });
     }
 };
