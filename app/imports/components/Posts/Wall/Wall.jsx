@@ -38,6 +38,7 @@ class Wall extends React.Component {
             selectedCategoryId,
             showAddPostModal,
         } = this.state;
+
         const {
             posts,
             categories,
@@ -54,8 +55,8 @@ class Wall extends React.Component {
 
                 {posts.map(post =>
                     <Post
-                        key={post.id}
-                        id={post.id}
+                        key={post._id}
+                        id={post._id}
                         showAuthor={post.showAuthor}
                         author={post.author}
                         text={post.text}

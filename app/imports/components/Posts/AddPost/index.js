@@ -18,5 +18,5 @@ const composer = (props, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
-    )(AddPost)
+    )(AddPost),
 );

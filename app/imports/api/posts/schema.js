@@ -1,6 +1,10 @@
 import SimpleSchema from 'simpl-schema';
 
 export const PostSchema = new SimpleSchema({
+    createdAt: {
+        type: Date,
+        defaultValue: new Date(),
+    },
     projectId: {
         type: String,
     },

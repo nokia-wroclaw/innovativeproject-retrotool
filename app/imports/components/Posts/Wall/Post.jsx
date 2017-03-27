@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import {
     Card,
     CardActions,
@@ -7,12 +7,17 @@ import {
     FlatButton,
 } from 'material-ui';
 
-const Post = (props) => (
-    <Card key={props.id}>
-        {props.showAuthor ?
+const Post = ({
+    id,
+    showAuthor,
+    author,
+    text,
+}) => (
+    <Card key={id}>
+        {showAuthor ?
             <CardHeader
-                title={props.author.name}
-                avatar={props.author.avatar}
+                title={author.name}
+                avatar={author.avatar}
             />
             :
             <CardHeader
@@ -20,7 +25,7 @@ const Post = (props) => (
             />
         }
         <CardText>
-            {props.text}
+            {text}
         </CardText>
         <CardActions>
             <FlatButton
@@ -34,5 +39,24 @@ const Post = (props) => (
         </CardActions>
     </Card>
 );
+
+Post.propTypes = {
+    id: PropTypes.string.isRequired,
+    showAuthor: PropTypes.bool.isRequired,
+    author: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        avatar: PropTypes.string,
+    }),
+    text: PropTypes.string.isRequired,
+};
+
+// @TODO add default avatar
+Post.defaultProps = {
+    showAuthor: false,
+    author: {
+        name: 'Anonymous user',
+        avatar: '',
+    },
+};
 
 export default Post;
