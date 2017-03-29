@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import _ from 'lodash';
 
 import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
@@ -12,12 +13,11 @@ class Wall extends React.Component {
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
 
-        const { categories } = props;
-        const firstCategoryId = categories.length && categories[0].id;
+        const selectedCategoryId = _.get(this.props, 'categories.0._id', undefined);
 
         this.state = {
-            selectedCategoryId: firstCategoryId,
             showAddPostModal: false,
+            selectedCategoryId,
         };
     }
 
@@ -57,7 +57,6 @@ class Wall extends React.Component {
                     <Post
                         key={post._id}
                         id={post._id}
-                        showAuthor={post.showAuthor}
                         author={post.author}
                         text={post.text}
                     />,
@@ -75,12 +74,17 @@ class Wall extends React.Component {
 Wall.propTypes = {
     posts: PropTypes.arrayOf(
         PropTypes.shape({
-
+            _id: PropTypes.string.isRequired,
+            author: PropTypes.shape({
+                name: PropTypes.string,
+                avatar: PropTypes.string,
+            }),
+            text: PropTypes.string.isRequired,
         }),
     ).isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,

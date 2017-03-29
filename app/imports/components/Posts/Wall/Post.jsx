@@ -9,21 +9,14 @@ import {
 
 const Post = ({
     id,
-    showAuthor,
     author,
     text,
 }) => (
     <Card key={id}>
-        {showAuthor ?
-            <CardHeader
-                title={author.name}
-                avatar={author.avatar}
-            />
-            :
-            <CardHeader
-                title="Anonymous post"
-            />
-        }
+        <CardHeader
+            title={author.name}
+            avatar={author.avatar}
+        />
         <CardText>
             {text}
         </CardText>
@@ -42,7 +35,6 @@ const Post = ({
 
 Post.propTypes = {
     id: PropTypes.string.isRequired,
-    showAuthor: PropTypes.bool.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string.isRequired,
         avatar: PropTypes.string,
@@ -52,7 +44,6 @@ Post.propTypes = {
 
 // @TODO add default avatar
 Post.defaultProps = {
-    showAuthor: false,
     author: {
         name: 'Anonymous user',
         avatar: '',

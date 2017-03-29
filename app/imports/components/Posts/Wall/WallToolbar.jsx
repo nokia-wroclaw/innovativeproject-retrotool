@@ -21,8 +21,8 @@ const WallToolbar = ({
             >
                 {categories.map(category =>
                     <MenuItem
-                        key={category.id}
-                        value={category.id}
+                        key={category._id}
+                        value={category._id}
                         primaryText={category.name}
                     />,
                 )}
@@ -44,7 +44,7 @@ WallToolbar.propTypes = {
     selectedCategoryId: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.string.isRequired,
+            _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,
