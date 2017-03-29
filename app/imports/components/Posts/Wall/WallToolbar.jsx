@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import {
-    DropDownMenu,
+    SelectField,
     MenuItem,
     RaisedButton,
     Toolbar,
@@ -15,9 +15,12 @@ const WallToolbar = ({
 }) =>
     <Toolbar>
         <ToolbarGroup>
-            <DropDownMenu
+            <SelectField
                 value={selectedCategoryId}
                 onChange={handleChangeSelectedCategory}
+                floatingLabelText="Category"
+                floatingLabelFixed
+                hintText="Select category"
             >
                 {categories.map(category =>
                     <MenuItem
@@ -26,7 +29,15 @@ const WallToolbar = ({
                         primaryText={category.name}
                     />,
                 )}
-            </DropDownMenu>
+                {selectedCategoryId ?
+                    <MenuItem
+                        onTouchTap={(...args) => handleChangeSelectedCategory(...args)}
+                        primaryText="Reset filter"
+                    />
+                    :
+                    ''
+                }
+            </SelectField>
         </ToolbarGroup>
         <ToolbarGroup>
             <RaisedButton
@@ -41,13 +52,17 @@ const WallToolbar = ({
 WallToolbar.propTypes = {
     addPost: PropTypes.func.isRequired,
     handleChangeSelectedCategory: PropTypes.func.isRequired,
-    selectedCategoryId: PropTypes.string.isRequired,
+    selectedCategoryId: PropTypes.string,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,
+};
+
+WallToolbar.defaultProps = {
+    selectedCategoryId: '',
 };
 
 export default WallToolbar;

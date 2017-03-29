@@ -12,7 +12,7 @@ export const addPost = new ValidatedMethod({
     validate: AddPostSchema.validator({
         clean: true,
     }),
-    run({ text, showAuthor, projectId }) {
+    run({ text, showAuthor, projectId, categoryId }) {
         // @TODO check if user can add post
         const authorId = Meteor.userId();
         return Posts.insert({
@@ -20,6 +20,7 @@ export const addPost = new ValidatedMethod({
             text,
             showAuthor,
             authorId,
+            categoryId,
         });
     },
 });

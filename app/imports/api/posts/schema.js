@@ -18,7 +18,10 @@ export const PostSchema = new SimpleSchema({
     text: {
         type: String,
     },
-    // @TODO add category
+    categoryId: {
+        type: String,
+        optional: true,
+    },
 });
 
 
@@ -33,5 +36,9 @@ export const AddPostSchema = new SimpleSchema({
     },
     projectId: {
         type: String,
+    },
+    categoryId: {
+        type: String,
+        optional: true,
     },
 });

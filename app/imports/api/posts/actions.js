@@ -1,8 +1,8 @@
 import { browserHistory } from 'react-router';
 import { addPost as addPostMethod } from './methods.js';
 
-const addPost = ({ text, showAuthor, projectId }, callback = () => {}) =>
-    addPostMethod.call({ text, showAuthor, projectId }, callback);
+const addPost = (args, callback = () => {}) =>
+    addPostMethod.call({ ...args }, callback);
 
 const goToPosts = projectId =>
     browserHistory.push(`/project/${projectId}/wall`);

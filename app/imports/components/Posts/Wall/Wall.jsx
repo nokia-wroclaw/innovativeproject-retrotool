@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import _ from 'lodash';
 
 import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
@@ -13,11 +12,8 @@ class Wall extends React.Component {
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
 
-        const selectedCategoryId = _.get(this.props, 'categories.0._id', undefined);
-
         this.state = {
             showAddPostModal: false,
-            selectedCategoryId,
         };
     }
 
@@ -65,6 +61,7 @@ class Wall extends React.Component {
                 <AddPost
                     open={showAddPostModal}
                     onClose={this.hideAddPostModal}
+                    categories={categories}
                 />
             </div>
         );

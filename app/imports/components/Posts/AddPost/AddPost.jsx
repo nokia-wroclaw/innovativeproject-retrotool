@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 import {
     Dialog,
+    SelectField,
     FlatButton,
+    MenuItem,
     TextField,
     Toggle,
 } from 'material-ui';
-
-// @TODO: addPost()
 
 class AddPost extends React.Component {
     constructor(props) {
@@ -15,6 +15,7 @@ class AddPost extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.updatePostText = this.updatePostText.bind(this);
         this.changeShowAuthor = this.changeShowAuthor.bind(this);
+        this.changeSelectedCategory = this.changeSelectedCategory.bind(this);
         this.resetState = this.resetState.bind(this);
 
         this.state = {
@@ -27,6 +28,7 @@ class AddPost extends React.Component {
         const {
             postText: text,
             showAuthor,
+            selectedCategoryId: categoryId,
         } = this.state;
 
         const {
@@ -38,7 +40,7 @@ class AddPost extends React.Component {
             onClose,
         } = this.props;
 
-        addPost({ text, showAuthor, projectId }, (error) => {
+        addPost({ text, showAuthor, projectId, categoryId }, (error) => {
             if (error) {
                 // @TODO show error modal
             }
@@ -52,6 +54,7 @@ class AddPost extends React.Component {
         this.setState({
             postText: '',
             showAuthor: true,
+            selectedCategoryId: 'NO_CATEGORY_SELECTED',
         });
     }
 
@@ -66,16 +69,21 @@ class AddPost extends React.Component {
         this.setState({ showAuthor: !showAuthor });
     }
 
+    changeSelectedCategory(event, index, selectedCategoryId) {
+        this.setState({ selectedCategoryId });
+    }
 
     render() {
         const {
             onClose,
             open,
+            categories,
         } = this.props;
 
         const {
             postText,
             showAuthor,
+            selectedCategoryId,
         } = this.state;
 
         const actions = [
@@ -106,6 +114,25 @@ class AddPost extends React.Component {
                     value={postText}
                     onChange={this.updatePostText}
                 />
+                {categories.length !== 0 ?
+                    <SelectField
+                        value={selectedCategoryId}
+                        onChange={this.changeSelectedCategory}
+                        floatingLabelText="Category"
+                        floatingLabelFixed
+                        hintText="Select category"
+                    >
+                        {categories.map(category =>
+                            <MenuItem
+                                key={category._id}
+                                value={category._id}
+                                primaryText={category.name}
+                            />,
+                        )}
+                    </SelectField>
+                    :
+                    ''
+                }
                 <Toggle
                     label="Show my name"
                     onToggle={this.changeShowAuthor}
@@ -121,10 +148,17 @@ AddPost.propTypes = {
     addPost: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    categories: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 };
 
 AddPost.defaultPropTypes = {
     open: false,
+    categories: [],
 };
 
 export default AddPost;
