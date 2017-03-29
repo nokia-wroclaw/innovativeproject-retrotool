@@ -4,6 +4,7 @@ import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
+// @TODO add category name to `Post` component
 class Wall extends React.Component {
     constructor(props) {
         super(props);
@@ -49,14 +50,17 @@ class Wall extends React.Component {
                     handleChangeSelectedCategory={this.handleChangeSelectedCategory}
                 />
 
-                {posts.map(post =>
-                    <Post
-                        key={post._id}
-                        id={post._id}
-                        author={post.author}
-                        text={post.text}
-                    />,
-                )}
+                {posts
+                    .filter(post => !selectedCategoryId || post.categoryId === selectedCategoryId)
+                    .map(post =>
+                        <Post
+                            key={post._id}
+                            id={post._id}
+                            author={post.author}
+                            text={post.text}
+                        />,
+                    )
+                }
 
                 <AddPost
                     open={showAddPostModal}
