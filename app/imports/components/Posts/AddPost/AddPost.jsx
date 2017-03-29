@@ -54,7 +54,7 @@ class AddPost extends React.Component {
         this.setState({
             postText: '',
             showAuthor: true,
-            selectedCategoryId: 'NO_CATEGORY_SELECTED',
+            selectedCategoryId: undefined,
         });
     }
 
