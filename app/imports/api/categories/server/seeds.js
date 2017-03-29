@@ -8,9 +8,9 @@ if (Meteor.isServer) {
     }
 
     const categories = [
-        'idea',
-        'code improvement',
-        'random',
+        'Idea',
+        'Code Improvement',
+        'Random',
     ];
 
     if (Categories.find().count() === 0) {
