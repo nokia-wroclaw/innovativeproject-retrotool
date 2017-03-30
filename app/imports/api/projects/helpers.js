@@ -6,3 +6,6 @@
  */
 export const isProjectModerator = (project, userId) =>
     project && project.moderators && project.moderators.indexOf(userId) !== -1;
+
+export const isProjectMember = (project, userId) =>
+    project && project.members && project.members.indexOf(userId) !== -1;
