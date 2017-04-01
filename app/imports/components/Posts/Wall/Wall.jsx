@@ -59,6 +59,7 @@ class Wall extends React.Component {
                             id={post._id}
                             author={post.author}
                             text={post.text}
+                            createdAt={post.createdAt}
                         />,
                     )
                 }
@@ -91,6 +92,7 @@ Wall.propTypes = {
                 avatar: PropTypes.string,
             }),
             text: PropTypes.string.isRequired,
+            createdAt: PropTypes.instanceOf(Date).isRequired,
         }),
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
