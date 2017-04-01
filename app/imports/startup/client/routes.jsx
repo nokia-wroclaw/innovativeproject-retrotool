@@ -8,7 +8,7 @@ import MainLayout from '/imports/components/layout/MainLayout.jsx';
 import Login from '/imports/components/Users/Login';
 import SingleProject from '/imports/components/Projects/SingleProject';
 
-import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+import Hello from '/imports/components/Hello';
 import PostsWall from '/imports/components/Posts/Wall';
 
 import ProjectList from '/imports/components/Projects/ProjectList';

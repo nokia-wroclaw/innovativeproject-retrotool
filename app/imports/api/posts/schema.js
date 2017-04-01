@@ -20,7 +20,6 @@ export const PostSchema = new SimpleSchema({
     },
     categoryId: {
         type: String,
-        optional: true,
     },
 });
 
@@ -39,6 +38,5 @@ export const AddPostSchema = new SimpleSchema({
     },
     categoryId: {
         type: String,
-        optional: true,
     },
 });

@@ -4,7 +4,6 @@ import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
-// @TODO add category name to `Post` component
 class Wall extends React.Component {
     constructor(props) {
         super(props);

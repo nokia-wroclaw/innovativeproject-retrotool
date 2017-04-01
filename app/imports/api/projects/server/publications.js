@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Projects } from './../Projects.js';
+import { isProjectMember } from './../helpers.js';
 
 /**
  * If user is not admin limit query to current user projects
@@ -50,4 +51,25 @@ Meteor.publish('singleProject', function publishSingleProject(projectId) {
     const options = {};
 
     return Projects.find(query, options);
+});
+
+
+Meteor.publish('projectMembers', function publishProjectMembers(projectId) {
+    check(projectId, String);
+
+    const userId = this.userId;
+    const project = Projects.findOne(projectId);
+
+    const isMember = isProjectMember(project, userId);
+    const { isAdmin } = Meteor.users.findOne(userId);
+
+    if (isMember || isAdmin) {
+        return Meteor.users.find({}, {
+            fields: {
+                'profile.name': 1,
+                'profile.avatar': 1,
+            },
+        });
+    }
+    return this.ready();
 });

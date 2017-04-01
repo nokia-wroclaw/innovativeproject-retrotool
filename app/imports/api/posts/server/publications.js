@@ -14,7 +14,10 @@ Meteor.publish('projectPosts', function publishProjectPosts(projectId) {
     const userId = this.userId;
     const project = Projects.findOne(projectId);
 
-    if (isProjectMember(project, userId)) { // @TODO or isAdmin, server-side helpers?
+    const isMember = isProjectMember(project, userId);
+    const { isAdmin } = Meteor.users.findOne(userId);
+
+    if (isMember || isAdmin) {
         return Posts.find({ projectId });
     }
 

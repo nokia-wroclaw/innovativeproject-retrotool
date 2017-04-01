@@ -42,7 +42,6 @@ Post.propTypes = {
     text: PropTypes.string.isRequired,
 };
 
-// @TODO add default avatar
 Post.defaultProps = {
     author: {
         name: 'Anonymous user',

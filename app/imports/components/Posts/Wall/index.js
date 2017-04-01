@@ -11,7 +11,7 @@ import Wall from './Wall.jsx';
 const composer = ({ params: { projectId } }, onData) => {
     const postsHandler = Meteor.subscribe('projectPosts', projectId);
     const categoriesHandler = Meteor.subscribe('categories');
-    const usersHandler = Meteor.subscribe('allUsers'); // @TODO limit to project
+    const usersHandler = Meteor.subscribe('projectMembers', projectId);
 
     if (postsHandler.ready() && categoriesHandler.ready() && usersHandler.ready()) {
         const users = Meteor.users.find().fetch();

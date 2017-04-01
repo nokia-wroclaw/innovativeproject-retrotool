@@ -4,7 +4,7 @@ import { actions } from '/imports/api/posts';
 import AddPost from './AddPost.jsx';
 
 const composer = (props, onData) => {
-    // @TODO subscribe categories...
+    // @TODO remove this composer
 
     const { projectId } = props.router.params;
 
