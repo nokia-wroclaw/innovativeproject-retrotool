@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import {
-    SelectField,
-    MenuItem,
     RaisedButton,
     Toolbar,
     ToolbarGroup,
 } from 'material-ui';
+
+import CategorySelect from './CategorySelect.jsx';
 
 const WallToolbar = ({
     addPost,
@@ -15,29 +15,11 @@ const WallToolbar = ({
 }) =>
     <Toolbar>
         <ToolbarGroup>
-            <SelectField
-                value={selectedCategoryId}
-                onChange={handleChangeSelectedCategory}
-                floatingLabelText="Category"
-                floatingLabelFixed
-                hintText="Select category"
-            >
-                {categories.map(category =>
-                    <MenuItem
-                        key={category._id}
-                        value={category._id}
-                        primaryText={category.name}
-                    />,
-                )}
-                {selectedCategoryId ?
-                    <MenuItem
-                        onTouchTap={(...args) => handleChangeSelectedCategory(...args)}
-                        primaryText="Reset filter"
-                    />
-                    :
-                    ''
-                }
-            </SelectField>
+            <CategorySelect
+                categories={categories}
+                selectedCategoryId={selectedCategoryId}
+                handleChangeSelectedCategory={handleChangeSelectedCategory}
+            />
         </ToolbarGroup>
         <ToolbarGroup>
             <RaisedButton
