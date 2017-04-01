@@ -8,6 +8,7 @@ import '/imports/api/users';
 
 // Server modules
 import '/imports/api/projects/server';
+import '/imports/api/sprints/server';
 import '/imports/api/posts/server';
 import '/imports/api/categories/server';
 

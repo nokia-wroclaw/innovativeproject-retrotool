@@ -11,14 +11,16 @@ import { Categories } from '/imports/api/categories';
 
 import Wall from './Wall.jsx';
 
-const composer = ({ params: { projectId } }, onData) => {
+const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectHandler = Meteor.subscribe('singleProject', projectId);
-    const postsHandler = Meteor.subscribe('projectPosts', projectId);
+    const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
+    const postsHandler = Meteor.subscribe('sprintPosts', sprintId);
     const categoriesHandler = Meteor.subscribe('categories');
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
 
     if (
         projectHandler.ready() &&
+        sprintHandler.ready() &&
         postsHandler.ready() &&
         categoriesHandler.ready() &&
         usersHandler.ready()
@@ -40,7 +42,7 @@ const composer = ({ params: { projectId } }, onData) => {
             addPost: actions.addPost,
             categories,
             posts,
-            projectId,
+            sprintId,
         });
     }
 };

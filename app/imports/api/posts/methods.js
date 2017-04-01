@@ -7,6 +7,9 @@ import {
     isProjectMember,
     isProjectModerator,
 } from '/imports/api/projects';
+import {
+    Sprints,
+} from '/imports/api/sprints';
 
 import { Posts } from './Posts.js';
 import {
@@ -18,13 +21,16 @@ export const addPost = new ValidatedMethod({
     validate: AddPostSchema.validator({
         clean: true,
     }),
-    run({ text, showAuthor, projectId, categoryId }) {
+    run({ text, showAuthor, sprintId, categoryId }) {
         const authorId = Meteor.userId();
+        const sprint = Sprints.findOne(sprintId);
+
+        const { projectId = null } = sprint;
         const project = Projects.findOne(projectId);
 
         if (isProjectMember(project, authorId)) {
             return Posts.insert({
-                projectId,
+                sprintId,
                 text,
                 showAuthor,
                 authorId,

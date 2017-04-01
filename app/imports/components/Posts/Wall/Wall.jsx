@@ -39,7 +39,7 @@ class Wall extends React.Component {
             addPost,
             categories,
             posts,
-            projectId,
+            sprintId,
         } = this.props;
 
         return (
@@ -64,7 +64,7 @@ class Wall extends React.Component {
                 }
 
                 <AddPost
-                    projectId={projectId}
+                    sprintId={sprintId}
                     addPost={addPost}
                     open={showAddPostModal}
                     onClose={this.hideAddPostModal}
@@ -93,7 +93,7 @@ Wall.propTypes = {
             text: PropTypes.string.isRequired,
         }),
     ).isRequired,
-    projectId: PropTypes.string.isRequired,
+    sprintId: PropTypes.string.isRequired,
 };
 
 export default Wall;

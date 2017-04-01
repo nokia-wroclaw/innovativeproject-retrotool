@@ -21,7 +21,7 @@ const SingleProjectSidebar = (props) => {
         goToPosts,
         goToProject,
     } = props;
-
+    // @TODO if sprints ready, remove Posts ListItem
     return (
         <List>
             <ListItem
@@ -34,7 +34,6 @@ const SingleProjectSidebar = (props) => {
             />
             <ListItem
                 primaryText="Sprints"
-
                 nestedItems={[
                     <ListItem key="addSprint" primaryText="Add sprint" onTouchTap={() => goToAddSprint(projectId)} />]}
             />
