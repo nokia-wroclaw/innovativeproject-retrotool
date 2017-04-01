@@ -3,6 +3,7 @@ import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 import _ from 'lodash';
 
+import { FullPageLoader } from '/imports/components/Loaders';
 import {
     Posts,
     actions,
@@ -50,5 +51,6 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
+        FullPageLoader,
     )(Wall),
 );
