@@ -4,8 +4,8 @@ import { addPost as addPostMethod } from './methods.js';
 const addPost = (args, callback = () => {}) =>
     addPostMethod.call({ ...args }, callback);
 
-const goToPosts = projectId =>
-    browserHistory.push(`/project/${projectId}/wall`);
+const goToPosts = (projectId, sprintId) =>
+    browserHistory.push(`/project/${projectId}/${sprintId}/wall`);
 
 const actions = {
     addPost,

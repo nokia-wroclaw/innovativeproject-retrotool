@@ -32,7 +32,7 @@ class AddPost extends React.Component {
         } = this.state;
 
         const {
-            projectId,
+            sprintId,
         } = this.props;
 
         const {
@@ -40,8 +40,9 @@ class AddPost extends React.Component {
             onClose,
         } = this.props;
 
-        addPost({ text, showAuthor, projectId, categoryId }, (error) => {
+        addPost({ text, showAuthor, sprintId, categoryId }, (error) => {
             if (error) {
+                console.error(error);
                 // @TODO show error modal
             }
 
@@ -144,7 +145,7 @@ class AddPost extends React.Component {
 }
 
 AddPost.propTypes = {
-    projectId: PropTypes.string.isRequired,
+    sprintId: PropTypes.string.isRequired,
     addPost: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,

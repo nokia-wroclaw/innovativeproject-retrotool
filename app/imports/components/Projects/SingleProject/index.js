@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
+import { FullPageLoader } from '/imports/components/Loaders';
 import {
     Projects,
 } from '/imports/api/projects';
@@ -15,7 +16,7 @@ const composer = ({ params: { projectId } }, onData) => {
         const project = Projects.findOne({ _id: projectId });
 
         onData(null, {
-            name: project.name,
+            name: project && project.name,
         });
     }
 };
@@ -23,5 +24,6 @@ const composer = ({ params: { projectId } }, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
+        FullPageLoader,
     )(SingleProject),
 );

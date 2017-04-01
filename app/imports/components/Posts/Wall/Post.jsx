@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import moment from 'moment';
 import {
     Card,
     CardActions,
@@ -7,15 +8,19 @@ import {
     FlatButton,
 } from 'material-ui';
 
+const formatDate = date => moment(date).fromNow();
+
 const Post = ({
     id,
     author,
     text,
+    createdAt,
 }) => (
     <Card key={id}>
         <CardHeader
             title={author.name}
             avatar={author.avatar}
+            subtitle={`Posted at ${formatDate(createdAt)}`}
         />
         <CardText>
             {text}
@@ -40,9 +45,9 @@ Post.propTypes = {
         avatar: PropTypes.string,
     }),
     text: PropTypes.string.isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
 };
 
-// @TODO add default avatar
 Post.defaultProps = {
     author: {
         name: 'Anonymous user',

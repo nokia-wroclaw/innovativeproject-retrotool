@@ -11,7 +11,7 @@ import { actions as postActions } from '/imports/api/posts';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
-const composer = ({ params: { projectId } }, onData) => {
+const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectListHandler = Meteor.subscribe('projectList');
 
     if (projectListHandler.ready()) {
@@ -23,6 +23,7 @@ const composer = ({ params: { projectId } }, onData) => {
             goToAddSprint: sprintActions.goToAddSprint,
             goToPosts: postActions.goToPosts,
             goToProject: projectActions.goToProject,
+            sprintId,
         });
     }
 };

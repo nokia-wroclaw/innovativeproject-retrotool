@@ -5,7 +5,7 @@ export const PostSchema = new SimpleSchema({
         type: Date,
         defaultValue: new Date(),
     },
-    projectId: {
+    sprintId: {
         type: String,
     },
     authorId: {
@@ -20,7 +20,6 @@ export const PostSchema = new SimpleSchema({
     },
     categoryId: {
         type: String,
-        optional: true,
     },
 });
 
@@ -34,11 +33,10 @@ export const AddPostSchema = new SimpleSchema({
     text: {
         type: String,
     },
-    projectId: {
+    sprintId: {
         type: String,
     },
     categoryId: {
         type: String,
-        optional: true,
     },
 });

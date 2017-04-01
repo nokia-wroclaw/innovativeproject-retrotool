@@ -4,7 +4,6 @@ import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
-// @TODO add category name to `Post` component
 class Wall extends React.Component {
     constructor(props) {
         super(props);
@@ -37,8 +36,10 @@ class Wall extends React.Component {
         } = this.state;
 
         const {
-            posts,
+            addPost,
             categories,
+            posts,
+            sprintId,
         } = this.props;
 
         return (
@@ -58,11 +59,14 @@ class Wall extends React.Component {
                             id={post._id}
                             author={post.author}
                             text={post.text}
+                            createdAt={post.createdAt}
                         />,
                     )
                 }
 
                 <AddPost
+                    sprintId={sprintId}
+                    addPost={addPost}
                     open={showAddPostModal}
                     onClose={this.hideAddPostModal}
                     categories={categories}
@@ -73,6 +77,13 @@ class Wall extends React.Component {
 }
 
 Wall.propTypes = {
+    addPost: PropTypes.func.isRequired,
+    categories: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
     posts: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -81,14 +92,10 @@ Wall.propTypes = {
                 avatar: PropTypes.string,
             }),
             text: PropTypes.string.isRequired,
+            createdAt: PropTypes.instanceOf(Date).isRequired,
         }),
     ).isRequired,
-    categories: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        }),
-    ).isRequired,
+    sprintId: PropTypes.string.isRequired,
 };
 
 export default Wall;

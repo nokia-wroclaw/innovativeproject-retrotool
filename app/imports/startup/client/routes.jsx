@@ -8,7 +8,7 @@ import MainLayout from '/imports/components/layout/MainLayout.jsx';
 import Login from '/imports/components/Users/Login';
 import SingleProject from '/imports/components/Projects/SingleProject';
 
-import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+import Hello from '/imports/components/Hello';
 import PostsWall from '/imports/components/Posts/Wall';
 
 import ProjectList from '/imports/components/Projects/ProjectList';
@@ -35,7 +35,7 @@ export default (
             <Route path="project">
                 <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
                 <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/wall" components={{ main: PostsWall, drawerContent: SingleProjectSidebar }} />
+                <Route path=":projectId/:sprintId/wall" components={{ main: PostsWall, drawerContent: SingleProjectSidebar }} />
             </Route>
         </Route>
 
