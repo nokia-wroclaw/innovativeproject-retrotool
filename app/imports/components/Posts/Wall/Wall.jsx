@@ -36,8 +36,10 @@ class Wall extends React.Component {
         } = this.state;
 
         const {
-            posts,
+            addPost,
             categories,
+            posts,
+            projectId,
         } = this.props;
 
         return (
@@ -62,6 +64,8 @@ class Wall extends React.Component {
                 }
 
                 <AddPost
+                    projectId={projectId}
+                    addPost={addPost}
                     open={showAddPostModal}
                     onClose={this.hideAddPostModal}
                     categories={categories}
@@ -72,6 +76,13 @@ class Wall extends React.Component {
 }
 
 Wall.propTypes = {
+    addPost: PropTypes.func.isRequired,
+    categories: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
     posts: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -82,12 +93,7 @@ Wall.propTypes = {
             text: PropTypes.string.isRequired,
         }),
     ).isRequired,
-    categories: PropTypes.arrayOf(
-        PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        }),
-    ).isRequired,
+    projectId: PropTypes.string.isRequired,
 };
 
 export default Wall;

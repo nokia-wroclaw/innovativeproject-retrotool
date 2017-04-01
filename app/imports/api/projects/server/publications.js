@@ -59,12 +59,17 @@ Meteor.publish('projectMembers', function publishProjectMembers(projectId) {
 
     const userId = this.userId;
     const project = Projects.findOne(projectId);
+    const memberIds = project && project.members;
 
     const isMember = isProjectMember(project, userId);
     const { isAdmin } = Meteor.users.findOne(userId);
 
     if (isMember || isAdmin) {
-        return Meteor.users.find({}, {
+        return Meteor.users.find({
+            _id: {
+                $in: memberIds,
+            },
+        }, {
             fields: {
                 'profile.name': 1,
                 'profile.avatar': 1,

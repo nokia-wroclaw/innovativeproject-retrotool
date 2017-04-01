@@ -42,6 +42,7 @@ class AddPost extends React.Component {
 
         addPost({ text, showAuthor, projectId, categoryId }, (error) => {
             if (error) {
+                console.error(error);
                 // @TODO show error modal
             }
 
