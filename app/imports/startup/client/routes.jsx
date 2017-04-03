@@ -34,12 +34,27 @@ export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
             <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
-            <Route path="create" components={{ main: CreateNewProject, drawerContent: ProjectList }} />
+            <Route
+                path="create"
+                components={{ main: CreateNewProject, drawerContent: ProjectList }}
+            />
             <Route path="project">
-                <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/sprint/:sprintId" components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/sprint/:sprintId/wall" components={{ main: PostsWall, drawerContent: SingleProjectSidebar }} />
+                <Route
+                    path=":projectId"
+                    components={{ main: SingleProject, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/add-sprint"
+                    components={{ main: AddSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId"
+                    components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/wall"
+                    components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
             </Route>
         </Route>
 

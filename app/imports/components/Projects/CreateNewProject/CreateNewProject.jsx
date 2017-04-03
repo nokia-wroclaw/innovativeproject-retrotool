@@ -168,18 +168,26 @@ class CreateNewProject extends Component {
 
     renderMembers() {
         const chosen = this.state.members;
-        return chosen.map((user, index) => <Chip key={`membername${user.username}`} onRequestDelete={e => this.removeMember(e, index)}>
-            {user.username}
-        </Chip>,
-        );
+        return chosen.map((user, index) => (
+            <Chip
+                key={`membername${user.username}`}
+                onRequestDelete={e => this.removeMember(e, index)}
+            >
+                {user.username}
+            </Chip>
+        ));
     }
 
     renderModerators() {
         const chosen = this.state.moderators;
-        return chosen.map((user, index) => <Chip key={`modname${user.username}`} onRequestDelete={e => this.removeModerator(e, index)}>
-            {user.username}
-        </Chip>,
-        );
+        return chosen.map((user, index) => (
+            <Chip
+                key={`modname${user.username}`}
+                onRequestDelete={e => this.removeModerator(e, index)}
+            >
+                {user.username}
+            </Chip>
+        ));
     }
 
     renderMemberForm() {
@@ -256,7 +264,12 @@ class CreateNewProject extends Component {
                 {this.renderModerators()}
                 {this.renderMemberForm()}
                 {this.renderMembers()}
-                <RaisedButton onTouchTap={e => this.onSubmit(e)} label="Create project" type="submit" primary />
+                <RaisedButton
+                    onTouchTap={this.onSubmit}
+                    label="Create project"
+                    type="submit"
+                    primary
+                />
             </div>
             }
         </div>
