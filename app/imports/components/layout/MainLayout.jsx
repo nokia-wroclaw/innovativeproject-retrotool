@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Meteor } from 'meteor/meteor';
 import { browserHistory } from 'react-router';
 import {
     AppBar,
@@ -24,12 +25,6 @@ class MainLayout extends React.Component {
         this.setState({ isDrawerOpen: !this.state.isDrawerOpen });
     }
 
-    logOut() {
-        Meteor.logout(() => {
-            browserHistory.push('/login');
-        });
-    }
-
     render() {
         const { drawerContent, main } = this.props;
 
@@ -40,7 +35,10 @@ class MainLayout extends React.Component {
                 <AppBar
                     title="Retro Tool"
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
-                    iconElementRight={<FlatButton onTouchTap={() => this.logOut()} label="Log out" />}
+                    iconElementRight={<FlatButton
+                        onTouchTap={() => Meteor.logout(() => { browserHistory.push('/login'); })}
+                        label="Log out"
+                    />}
                 />
                 <Drawer
                     open={isDrawerOpen}
