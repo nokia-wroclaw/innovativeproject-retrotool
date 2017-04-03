@@ -7,6 +7,7 @@ import {
 const ProjectList = ({
     projects,
     onTouchTap,
+    goToAddProject,
 }) => (
     <List>
         {projects.map(({ _id, name }) => (
@@ -16,6 +17,11 @@ const ProjectList = ({
                 onTouchTap={() => onTouchTap(_id)}
             />
         ))}
+        <ListItem
+            key="createProject"
+            primaryText="Create a new project"
+            onTouchTap={() => goToAddProject()}
+        />
     </List>
 );
 
@@ -27,6 +33,7 @@ ProjectList.propTypes = {
         }),
     ).isRequired,
     onTouchTap: PropTypes.func.isRequired,
+    goToAddProject: PropTypes.func.isRequired,
 };
 
 export default ProjectList;

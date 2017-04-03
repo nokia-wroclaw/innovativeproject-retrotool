@@ -10,6 +10,7 @@ import ProjectList from './ProjectList.jsx';
 
 const {
     goToProject,
+    goToAddProject,
 } = actions;
 
 const composer = (props, onData) => {
@@ -21,6 +22,7 @@ const composer = (props, onData) => {
         onData(null, {
             projects,
             onTouchTap: goToProject,
+            goToAddProject,
         });
     }
 };
