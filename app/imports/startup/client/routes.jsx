@@ -39,7 +39,7 @@ export default (
                 <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
                 <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
                 <Route path=":projectId/sprint/:sprintId" components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/:sprintId/wall" components={{ main: PostsWall, drawerContent: SingleProjectSidebar }} />
+                <Route path=":projectId/sprint/:sprintId/wall" components={{ main: PostsWall, drawerContent: SingleProjectSidebar }} />
             </Route>
         </Route>
 

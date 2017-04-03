@@ -5,7 +5,7 @@ const addPost = (args, callback = () => {}) =>
     addPostMethod.call({ ...args }, callback);
 
 const goToPosts = (projectId, sprintId) =>
-    browserHistory.push(`/project/${projectId}/${sprintId}/wall`);
+    browserHistory.push(`/project/${projectId}/sprint/${sprintId}/wall`);
 
 const actions = {
     addPost,
