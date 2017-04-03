@@ -15,6 +15,7 @@ import SingleProjectSidebar from '/imports/components/Projects/SingleProjectSide
 
 import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
+import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -36,6 +37,7 @@ export default (
             <Route path="project">
                 <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
                 <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
+                <Route path=":projectId/sprint/:sprintId" components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }} />
             </Route>
         </Route>
 

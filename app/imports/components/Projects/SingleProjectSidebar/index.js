@@ -27,6 +27,7 @@ const composer = ({ params: { projectId } }, onData) => {
             projects: projectList,
             sprints: sprintList,
             goToProject: projectActions.goToProject,
+            goToSprint: sprintActions.goToSprint,
             goToAddSprint: sprintActions.goToAddSprint,
         });
     }

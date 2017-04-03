@@ -19,3 +19,19 @@ Meteor.publish('sprintList', function publishSprintList(projectId) {
 
     return Sprints.find(query, options);
 });
+
+Meteor.publish('singleSprint', function publishSingleSprint(sprintId) {
+    check(sprintId, String);
+
+    if (!this.userId) {
+        return this.ready();
+    }
+
+    const query = {
+        _id: sprintId,
+    };
+
+    const options = {};
+
+    return Sprints.find(query, options);
+});
