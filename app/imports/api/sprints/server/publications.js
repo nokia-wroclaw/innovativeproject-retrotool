@@ -10,18 +10,24 @@ import { Sprints } from './../Sprints.js';
 Meteor.publish('sprintList', function publishSprintList(projectId) {
     check(projectId, String);
 
-    if (!this.userId) {
-        return this.ready();
+    const project = Projects.findOne(projectId);
+
+    const userId = this.userId;
+    const { isAdmin = false } = Meteor.users.findOne(userId);
+
+    if (isProjectMember(project, userId) || isAdmin) {
+        const query = { projectId };
+
+        const options = {
+            fields: {
+                name: 1,
+            },
+        };
+
+        return Sprints.find(query, options);
     }
-    const query = { projectId };
 
-    const options = {
-        fields: {
-            name: 1,
-        },
-    };
-
-    return Sprints.find(query, options);
+    return this.ready;
 });
 
 
