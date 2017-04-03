@@ -30,6 +30,22 @@
     "no-unused-vars": [
       "error"
     ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": [
+          "todo",
+          "fixme",
+          "xxx"
+        ],
+        "location": "anywhere"
+      }
+    ],
+    "prefer-arrow-callback": "off",
+    "import/extensions": [
+      "off",
+      "never"
+    ],
     "import/no-absolute-path": 0,
     "import/no-extraneous-dependencies": [
       "off"
@@ -44,10 +60,6 @@
     "react/jsx-indent-props": [
       "error",
       4
-    ],
-    "import/extensions": [
-      "off",
-      "never"
     ]
   }
 }

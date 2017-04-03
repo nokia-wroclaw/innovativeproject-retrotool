@@ -1,4 +1,4 @@
-export { Projects } from './Projects.js';
+export { Projects } from './Projects';
 export {
     createProject,
     removeProject,
@@ -8,5 +8,9 @@ export {
     removeModerator,
     updateProject,
 } from './methods';
-export { ProjectSchema } from './schema.js';
-export { actions } from './actions.js';
+export { ProjectSchema } from './schema';
+export {
+    isProjectModerator,
+    isProjectMember,
+} from './helpers';
+export { actions } from './actions';
