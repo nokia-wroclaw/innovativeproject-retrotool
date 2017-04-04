@@ -1,52 +1,85 @@
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
+import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
-import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { isAdmin } from './methods';
+import { Card, CardTitle } from 'material-ui';
+import React from 'react';
+import { ViewHandler } from './viewHandler.jsx';
 
 
-import {
-    Card,
-    CardActions,
-    CardTitle,
-    RaisedButton,
-} from 'material-ui';
+const isAdmin = () => {
+    const handler = Meteor.subscribe('userData');
+    this.vireChoice = 'user';
 
+    this.styles = {
+        button: {
+            margin: 12,
+        },
+        exampleImageInput: {
+            cursor: 'pointer',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            right: 0,
+            left: 0,
+            width: '100%',
+            opacity: 0,
+        },
+    };
 
-const funk = () => {
-    console.log(Meteor.user().isAdmin);
+    if (handler.ready()) {
+        const admin = Meteor.users.findOne({}).isAdmin;
+        return admin;
+    }
+    return 'loading';
 };
 
+const setChoiceToUserManage = () => {
+    this.vireChoice = 'user';
+    console.log(this.vireChoice);
+};
+
+const setChoiceToProjectManage = () => {
+    this.vireChoice = 'project';
+    console.log(this.vireChoice);
+};
 
 const Panel = () => {
     const admin = isAdmin();
     if (admin !== 'loading') {
-        if (admin) {
-            console.log('is admin', admin);
-        } else {
-            console.log('is not admin', admin);
-            return (
-                browserHistory.push('/hello')
-            );
+        if (!admin) {
+            browserHistory.push('/hello');
         }
-    }
-
-    return (
-        <Card>
-            <CardTitle
-                title="Retro Tool- Admin Panel"
-                subtitle="Admin"
-            />
-
-            <CardActions>
-                <RaisedButton
-                    label="Check if you are admin"
-                    onClick={funk}
-                    fullWidth
+        return (
+            <Card>
+                <CardTitle
+                    title="Retro Tool- Admin Panel"
+                    subtitle="Admin"
                 />
-            </CardActions>
-        </Card>
+                <RaisedButton
+                    onTouchTap={setChoiceToUserManage}
+                    target="_blank"
+                    label="Menage Users"
+                    secondary
+                    style={this.styles.button}
+                    icon={<FontIcon className="muidocs-icon-custom-github" />}
+                />
+                <RaisedButton
+                    onTouchTap={setChoiceToProjectManage}
+                    target="_blank"
+                    label="Menage Projects"
+                    secondary
+                    style={this.styles.button}
+                    icon={<FontIcon className="muidocs-icon-custom-github" />}
+                />
+                <div><ViewHandler vireChoice={this.vireChoice} /></div>
+            </Card>
+        );
+    }
+    return (
+        <CircularProgress size={80} thickness={5} />
     );
 };
-
 
 export default Panel;

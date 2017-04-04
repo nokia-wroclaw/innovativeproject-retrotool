@@ -1,19 +1,23 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
+import {
+    Projects,
+} from '/imports/api/projects';
 
 import Panel from './Panel.jsx';
 
 
 const composer = (props, onData) => {
-    console.log('admin');
-
     const handler = Meteor.subscribe('userData');
+    const projectsHandler = Meteor.subscribe('projectList');
 
-    if (handler.ready()) {
+
+    if (handler.ready() && projectsHandler.ready()) {
         const admin = Meteor.users.findOne({}).isAdmin;
-        console.log('in composer', admin);
+        const projects = Projects.find({}).fetch();
         onData(null, {
             admin,
+            projects,
         });
     }
 
