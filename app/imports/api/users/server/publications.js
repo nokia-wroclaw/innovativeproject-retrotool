@@ -34,3 +34,21 @@ Meteor.publish('userList', function publishUserList(projectId = null) {
 
     return this.ready();
 });
+
+Meteor.publish('extendedUser', function publishExtendedUser() {
+    // @XXX walkaround, temporary solution, change after PR!!
+    const userId = this.userId;
+
+    if (!userId) {
+        this.ready();
+    }
+
+    return Meteor.users.find({
+        _id: userId,
+    }, {
+        fields: {
+            profile: 1,
+            isAdmin: 1,
+        },
+    });
+});
