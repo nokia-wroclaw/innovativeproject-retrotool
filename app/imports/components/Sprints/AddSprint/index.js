@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
+import { FullPageLoader } from '/imports/components/Loaders';
+
 import { actions as sprintActions } from '/imports/api/sprints';
 import { actions as projectActions } from '/imports/api/projects';
 
@@ -22,5 +24,6 @@ const composer = ({ params: { projectId } }, onData) => {
 export default withRouter(
       composeWithTracker(
         composer,
+        FullPageLoader,
     )(AddSprint),
 );
