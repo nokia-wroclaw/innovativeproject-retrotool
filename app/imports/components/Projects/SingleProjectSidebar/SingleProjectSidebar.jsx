@@ -13,15 +13,38 @@ const getProjectListItems = (projects, onTouchTap) =>
         />
     ));
 
+const getSprintListItems = (sprints, goToAddSprint, goToSprint, projectId) => {
+    const listSprints = sprints.map(sprint => (
+        <ListItem
+            key={sprint._id}
+            primaryText={sprint.name}
+            onTouchTap={() => goToSprint(projectId, sprint._id)}
+        />
+    ));
+
+    listSprints.push(
+        <ListItem
+            key="addSprint"
+            primaryText="Add sprint"
+            onTouchTap={() => goToAddSprint(projectId)}
+        />,
+    );
+
+    return listSprints;
+};
+
 const SingleProjectSidebar = (props) => {
     const {
         projectId,
         projects,
-        goToAddSprint,
         goToPosts,
         goToProject,
+        sprints,
+        goToAddSprint,
+        goToSprint,
     } = props;
     // @TODO if sprints ready, remove Posts ListItem
+
     return (
         <List>
             <ListItem
@@ -34,8 +57,7 @@ const SingleProjectSidebar = (props) => {
             />
             <ListItem
                 primaryText="Sprints"
-                nestedItems={[
-                    <ListItem key="addSprint" primaryText="Add sprint" onTouchTap={() => goToAddSprint(projectId)} />]}
+                nestedItems={getSprintListItems(sprints, goToAddSprint, goToSprint, projectId)}
             />
         </List>
     );
@@ -43,15 +65,22 @@ const SingleProjectSidebar = (props) => {
 
 SingleProjectSidebar.propTypes = {
     projectId: PropTypes.string.isRequired,
+    goToProject: PropTypes.func.isRequired,
     projects: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,
+    sprints: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
+    goToSprint: PropTypes.func.isRequired,
     goToAddSprint: PropTypes.func.isRequired,
     goToPosts: PropTypes.func.isRequired,
-    goToProject: PropTypes.func.isRequired,
 };
 
 export default SingleProjectSidebar;

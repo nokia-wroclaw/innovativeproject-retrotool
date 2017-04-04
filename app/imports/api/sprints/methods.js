@@ -18,7 +18,6 @@ export const addSprint = new ValidatedMethod({
         const userId = Meteor.userId();
         const project = Projects.findOne(projectId);
 
-
         if (isProjectModerator(project, userId)) {
             return Sprints.insert({ name, projectId });
         }

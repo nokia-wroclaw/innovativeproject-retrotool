@@ -6,23 +6,32 @@ import {
     Projects,
     actions as projectActions,
 } from '/imports/api/projects';
-import { actions as sprintActions } from '/imports/api/sprints';
-import { actions as postActions } from '/imports/api/posts';
+import {
+    Sprints,
+    actions as sprintActions,
+} from '/imports/api/sprints';
+import {
+    actions as postActions,
+} from '/imports/api/posts';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
 const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectListHandler = Meteor.subscribe('projectList');
+    const sprintListHandler = Meteor.subscribe('sprintList', projectId);
 
-    if (projectListHandler.ready()) {
+    if (projectListHandler.ready() && sprintListHandler.ready()) {
         const projectList = Projects.find({}).fetch();
+        const sprintList = Sprints.find({}).fetch();
 
         onData(null, {
             projectId,
             projects: projectList,
+            sprints: sprintList,
+            goToProject: projectActions.goToProject,
+            goToSprint: sprintActions.goToSprint,
             goToAddSprint: sprintActions.goToAddSprint,
             goToPosts: postActions.goToPosts,
-            goToProject: projectActions.goToProject,
             sprintId,
         });
     }
