@@ -6,7 +6,10 @@ import {
 } from '/imports/api/projects';
 
 import { Sprints } from './Sprints.js';
-import { SprintSchema } from './schema.js';
+import {
+    SprintSchema,
+    CloseSprintSchema,
+ } from './schema.js';
 
 export const addSprint = new ValidatedMethod({
     name: 'sprints.add',
@@ -14,7 +17,7 @@ export const addSprint = new ValidatedMethod({
     run({ name, projectId }) {
         const projects = Projects.findOne(projectId);
         const userId = Meteor.userId();
-        if (isProjectModerator({ projects, userId })) {
+        if (isProjectModerator(projects, userId)) {
             return Sprints.insert({ name, projectId });
         }
         throw new Meteor.Error(
@@ -26,18 +29,20 @@ export const addSprint = new ValidatedMethod({
 
 export const closeSprint = new ValidatedMethod({
     name: 'sprints.close',
-    validate: SprintSchema.validator({ clean: true }),
-    run({ sprintId, projectId }) {
-        const projects = Projects.findOne(projectId);
+    validate: CloseSprintSchema.validator({ clean: true }),
+    run({ sprintId }) {
+        const sprint = Sprints.findOne(sprintId);
+        const projectId = sprint.projectId;
+        const project = Projects.findOne(projectId);
         const userId = Meteor.userId();
-        if (isProjectModerator({ projects, userId })) {
+        if (isProjectModerator({ project, userId })) {
             return Sprints.update(sprintId, {
                 $set: { closed: true },
             });
         }
         throw new Meteor.Error(
             'sprints-only-moderator-can-close',
-            'Only moderator can close new sprint',
+            'Only moderator can close sprint',
         );
     },
 });

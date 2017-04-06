@@ -15,19 +15,17 @@ const SprintSchema = new SimpleSchema({
 
 // Methods schema
 
-
-export const SprintsIdentitySchema = new SimpleSchema({
+export const CloseSprintSchema = new SimpleSchema({
     sprintId: {
         type: String,
     },
 });
 
-export const AddSprintSchema = new SimpleSchema({});
-AddSprintSchema.extend(SprintsIdentitySchema);
-AddSprintSchema.extend(SprintSchema);
-
-export const CloseSprintSchema = new SimpleSchema({
-    project: {
+export const AddSprintSchema = new SimpleSchema({
+    name: {
+        type: String,
+    },
+    projectId: {
         type: String,
     },
 });
