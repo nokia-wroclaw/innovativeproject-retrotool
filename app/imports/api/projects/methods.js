@@ -67,7 +67,7 @@ export const createProject = new ValidatedMethod({
             moderators = [currentUserId];
         }
 
-        members = _.uniq(members.push(moderators));
+        members = _.union(members, moderators);
 
         return Projects.insert({
             name,

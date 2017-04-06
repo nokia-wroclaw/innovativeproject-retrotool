@@ -1,7 +1,10 @@
+import { Meteor } from 'meteor/meteor';
 import React, { PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 import {
     AppBar,
     Drawer,
+    FlatButton,
 } from 'material-ui';
 
 class MainLayout extends React.Component {
@@ -32,6 +35,10 @@ class MainLayout extends React.Component {
                 <AppBar
                     title="Retro Tool"
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
+                    iconElementRight={<FlatButton
+                        onTouchTap={() => Meteor.logout(() => { browserHistory.push('/login'); })}
+                        label="Log out"
+                    />}
                 />
                 <Drawer
                     open={isDrawerOpen}

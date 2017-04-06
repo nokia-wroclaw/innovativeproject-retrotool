@@ -1,31 +1,47 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import {
+    Projects,
+    isProjectMember,
+} from '/imports/api/projects';
 import { Sprints } from './../Sprints.js';
 
-
-const limitQueryToUserSprints = (userId, query) => {
-    const user = Meteor.users.findOne(userId);
-    const { isAdmin } = user;
-    if (!isAdmin && query && !query.members) {
-        query.members = userId;
-    }
-    return query;
-};
 
 Meteor.publish('sprintList', function publishSprintList(projectId) {
     check(projectId, String);
 
-    if (!this.userId) {
-        return this.ready();
+    const project = Projects.findOne(projectId);
+
+    const userId = this.userId;
+    const { isAdmin = false } = Meteor.users.findOne(userId);
+
+    if (isProjectMember(project, userId) || isAdmin) {
+        const query = { projectId };
+
+        const options = {
+            fields: {
+                name: 1,
+            },
+        };
+
+        return Sprints.find(query, options);
     }
-    const query = { projectId };
-    limitQueryToUserSprints(this.userId, query);
 
-    const options = {
-        fields: {
-            name: 1,
-        },
-    };
+    return this.ready;
+});
 
-    return Sprints.find(query, options);
+
+Meteor.publish('singleSprint', function publishSingleSprint(sprintId) {
+    check(sprintId, String);
+    const sprint = Sprints.findOne(sprintId);
+    const { projectId = null } = sprint;
+    const project = Projects.findOne(projectId);
+
+    const userId = this.userId;
+    const { isAdmin = false } = Meteor.users.findOne(userId);
+
+    if (isProjectMember(project, userId) || isAdmin) {
+        return Sprints.find(sprintId);
+    }
+    return this.ready;
 });

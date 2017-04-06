@@ -8,13 +8,15 @@ import MainLayout from '/imports/components/layout/MainLayout.jsx';
 import Login from '/imports/components/Users/Login';
 import SingleProject from '/imports/components/Projects/SingleProject';
 
-import Hello from '/imports/components/Hello'; // @todo add some content or replace with something else
+import Hello from '/imports/components/Hello';
+import PostsWall from '/imports/components/Posts/Wall';
 
 import ProjectList from '/imports/components/Projects/ProjectList';
 import SingleProjectSidebar from '/imports/components/Projects/SingleProjectSidebar';
 
 import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
+import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -32,10 +34,27 @@ export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
             <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
-            <Route path="create-project" components={{ main: CreateNewProject, drawerContent: ProjectList }} />
+            <Route
+                path="create"
+                components={{ main: CreateNewProject, drawerContent: ProjectList }}
+            />
             <Route path="project">
-                <Route path=":projectId" components={{ main: SingleProject, drawerContent: SingleProjectSidebar }} />
-                <Route path=":projectId/add-sprint" components={{ main: AddSprint, drawerContent: SingleProjectSidebar }} />
+                <Route
+                    path=":projectId"
+                    components={{ main: SingleProject, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/add-sprint"
+                    components={{ main: AddSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId"
+                    components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/wall"
+                    components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
             </Route>
         </Route>
 

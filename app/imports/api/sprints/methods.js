@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { isProjectModerator } from '/imports/api/projects/helpers.js';
-import { Projects } from '/imports/api/projects';
+import {
+    Projects,
+    isProjectModerator,
+} from '/imports/api/projects';
 
 import { Sprints } from './Sprints.js';
 import { SprintSchema } from './schema.js';
@@ -15,7 +17,10 @@ export const addSprint = new ValidatedMethod({
         if (isProjectModerator({ projects, userId })) {
             return Sprints.insert({ name, projectId });
         }
-        return false;
+        throw new Meteor.Error(
+            'sprints-only-moderator-can-add',
+            'Only moderator can add new sprint',
+        );
     },
 });
 
@@ -30,6 +35,9 @@ export const closeSprint = new ValidatedMethod({
                 $set: { closed: true },
             });
         }
-        return false;
+        throw new Meteor.Error(
+            'sprints-only-moderator-can-close',
+            'Only moderator can close new sprint',
+        );
     },
 });

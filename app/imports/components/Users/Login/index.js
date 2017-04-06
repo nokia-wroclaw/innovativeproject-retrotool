@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
+import { FullPageLoader } from '/imports/components/Loaders';
+
 import Login from './Login.jsx';
 
 const composer = ({ router }, onData) => {
@@ -25,5 +27,6 @@ const composer = ({ router }, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
+        FullPageLoader,
     )(Login),
 );
