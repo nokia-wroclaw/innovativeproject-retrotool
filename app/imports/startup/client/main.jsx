@@ -22,4 +22,6 @@ Meteor.startup(() => {
         <App />,
         document.getElementById('app'),
     );
+    // @XXX walkaround, temporary solution, change after PR!!
+    Meteor.subscribe('extendedUser');
 });
