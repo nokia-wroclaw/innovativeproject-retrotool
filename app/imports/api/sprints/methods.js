@@ -7,17 +7,17 @@ import {
 
 import { Sprints } from './Sprints.js';
 import {
-    SprintSchema,
+    AddSprintSchema,
     CloseSprintSchema,
  } from './schema.js';
 
 export const addSprint = new ValidatedMethod({
     name: 'sprints.add',
-    validate: SprintSchema.validator({ clean: true }),
+    validate: AddSprintSchema.validator({ clean: true }),
     run({ name, projectId }) {
-        const projects = Projects.findOne(projectId);
+        const project = Projects.findOne(projectId);
         const userId = Meteor.userId();
-        if (isProjectModerator(projects, userId)) {
+        if (isProjectModerator(project, userId)) {
             return Sprints.insert({ name, projectId });
         }
         throw new Meteor.Error(
