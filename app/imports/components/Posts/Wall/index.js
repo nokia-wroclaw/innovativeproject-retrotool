@@ -44,6 +44,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             categories,
             posts,
             sprintId,
+            projectId,
         });
     }
 };

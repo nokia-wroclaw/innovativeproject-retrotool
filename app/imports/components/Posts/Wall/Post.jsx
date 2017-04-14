@@ -2,11 +2,11 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import {
     Card,
-    CardActions,
     CardHeader,
     CardText,
-    FlatButton,
 } from 'material-ui';
+
+import PostComments from './PostComments';
 
 const formatDate = date => moment(date).fromNow();
 
@@ -15,30 +15,26 @@ const Post = ({
     author,
     text,
     createdAt,
+    projectId,
 }) => (
     <Card key={id}>
         <CardHeader
             title={author.name}
             avatar={author.avatar}
-            subtitle={`Posted at ${formatDate(createdAt)}`}
+            subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
             {text}
         </CardText>
-        <CardActions>
-            <FlatButton
-                label="Add comment"
-                onTouchTap={() => {}}
-            />
-            <FlatButton
-                label="See comments"
-                onTouchTap={() => {}}
-            />
-        </CardActions>
+        <PostComments
+            postId={id}
+            projectId={projectId}
+        />
     </Card>
 );
 
 Post.propTypes = {
+    projectId: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string.isRequired,

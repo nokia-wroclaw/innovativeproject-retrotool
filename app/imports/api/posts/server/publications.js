@@ -16,6 +16,7 @@ Meteor.publish('sprintPosts', function publishSprintPosts(sprintId) {
 
     const userId = this.userId;
     const sprint = Sprints.findOne(sprintId);
+
     const { projectId = null } = sprint;
     const project = Projects.findOne(projectId);
 
