@@ -5,7 +5,6 @@ import { browserHistory } from 'react-router';
 import { Meteor } from 'meteor/meteor';
 import { Card, CardTitle } from 'material-ui';
 import React from 'react';
-import { ViewHandler } from './viewHandler.jsx';
 
 
 const isAdmin = () => {
@@ -36,12 +35,12 @@ const isAdmin = () => {
 };
 
 const setChoiceToUserManage = () => {
-    this.vireChoice = 'user';
+    browserHistory.push('/admin/users');
     console.log(this.vireChoice);
 };
 
 const setChoiceToProjectManage = () => {
-    this.vireChoice = 'project';
+    browserHistory.push('/admin/projects');
     console.log(this.vireChoice);
 };
 
@@ -73,7 +72,6 @@ const Panel = () => {
                     style={this.styles.button}
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
                 />
-                <div><ViewHandler vireChoice={this.vireChoice} /></div>
             </Card>
         );
     }

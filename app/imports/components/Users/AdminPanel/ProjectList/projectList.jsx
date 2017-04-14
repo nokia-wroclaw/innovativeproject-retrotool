@@ -12,7 +12,7 @@ export class ProjectList extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.projects = Projects.find({});
         this.state = { value: this.projects.count() };
-        this.projName = this.projects.fetch()[this.state.value - 1].name;
+        this.proj = this.projects.fetch()[this.state.value - 1];
         this.items = [];
         for (let i = 1; i <= this.projects.count(); i += 1) {
             this.items.push(
@@ -25,7 +25,7 @@ export class ProjectList extends React.Component {
         console.log('ListOfProjects handleChange', 'index = ', index, 'value = ', _value);
         this.setState({ value: _value });
         this.state.value = _value;
-        this.projName = this.projects.fetch()[this.state.value - 1].name;
+        this.proj = this.projects.fetch()[this.state.value - 1];
     }
     render() {
         return (
@@ -33,7 +33,7 @@ export class ProjectList extends React.Component {
                 <DropDownMenu maxHeight={300} value={this.state.value} onChange={this.handleChange}>
                     {this.items}
                 </DropDownMenu>
-                <SingleProjectView value={this.projName} />
+                <SingleProjectView proj={this.proj} members={this.proj.members[0]} />
             </div>
         );
     }

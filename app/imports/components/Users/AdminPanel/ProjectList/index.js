@@ -5,7 +5,7 @@ import {
     Projects,
 } from '/imports/api/projects';
 
-import { ListOfProjects } from './projectList.jsx';
+import { ProjectList } from './projectList.jsx';
 
 
 const composer = (props, onData) => {
@@ -13,10 +13,11 @@ const composer = (props, onData) => {
 
     if (projectsHandler.ready()) {
         const projects = Projects.find({}).fetch();
+        console.log(projects);
         onData(null, {
             projects,
         });
     }
 };
 
-export default composeWithTracker(composer)(ListOfProjects);
+export default composeWithTracker(composer)(ProjectList);

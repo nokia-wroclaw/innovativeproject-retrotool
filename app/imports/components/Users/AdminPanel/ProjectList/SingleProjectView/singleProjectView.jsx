@@ -10,8 +10,9 @@ export class SingleProjectView extends React.Component {
         this.AddNewModerator = false;
     }
     render() {
-        return (<div><h1>Manage project: {this.props.value}</h1>
-                Tutaj beda rozne opcje do edycji Projektow
+        return (<div><h1>Manage project: {this.props.proj.name}</h1>
+            <div>Project ID: {this.props.proj._id}</div>
+            <div>Project Members: {this.props.members}</div>
             {this.AddNewModerator && <AddNewModerator />}
         </div>);
     }

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+GREEN="\033[32m"
+RED="\033[31m"
+NORMAL="\033[m"
+
+npm test
+TEST_RESULT=$?
+
+if [ $TEST_RESULT -ne 0 ]
+then
+    echo "\n${RED}Tests must pass!${NORMAL}\n"
+else
+    echo "\n${GREEN}Everything OK!${NORMAL}\n"
+fi
+
+exit $TEST_RESULT
