@@ -18,9 +18,9 @@ const addServiceConfiguration = (serviceName) => {
     } = service;
 
     ServiceConfiguration.configurations.upsert({
-        serviceName,
+        service: serviceName,
     }, {
-        serviceName,
+        service: serviceName,
         clientId,
         secret,
         loginStyle: 'redirect',

@@ -1,16 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
-
 import {
-    Projects,
     isProjectMember,
     isProjectModerator,
 } from '/imports/api/projects';
 import {
     Sprints,
 } from '/imports/api/sprints';
-
 import { Posts } from './Posts.js';
 import {
     AddPostSchema,
@@ -26,9 +23,8 @@ export const addPost = new ValidatedMethod({
         const sprint = Sprints.findOne(sprintId);
 
         const { projectId = null } = sprint;
-        const project = Projects.findOne(projectId);
 
-        if (isProjectMember(project, authorId)) {
+        if (isProjectMember(projectId, authorId)) {
             return Posts.insert({
                 sprintId,
                 text,
@@ -55,10 +51,9 @@ export const removePost = new ValidatedMethod({
     run({ postId }) {
         const userId = Meteor.userId();
         const post = Posts.findOne(postId);
-        const { projectId } = post;
-        const project = Projects.findOne(projectId);
+        const { projectId = null } = post;
 
-        if (isProjectModerator(project, userId)) {
+        if (isProjectModerator(projectId, userId)) {
             return Posts.remove({ _id: postId });
         }
 

@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { isAdmin } from '/imports/api/users';
 import { Projects } from './../Projects.js';
 import { isProjectMember } from './../helpers.js';
 
@@ -11,9 +12,8 @@ import { isProjectMember } from './../helpers.js';
  * @return {Object}        Updated mongo query
  */
 const limitQueryToUserProjects = (userId, query) => {
-    const user = Meteor.users.findOne(userId);
-    const { isAdmin } = user;
-    if (!isAdmin && query && !query.members) {
+    const isCurrentUserAdmin = isAdmin(userId);
+    if (!isCurrentUserAdmin && query && !query.members) {
         query.members = userId;
     }
     return query;
@@ -61,10 +61,10 @@ Meteor.publish('projectMembers', function publishProjectMembers(projectId) {
     const project = Projects.findOne(projectId);
     const memberIds = project && project.members;
 
-    const isMember = isProjectMember(project, userId);
-    const { isAdmin } = Meteor.users.findOne(userId);
+    const isMember = isProjectMember(projectId, userId);
+    const isCurrentUserAdmin = isAdmin(userId);
 
-    if (isMember || isAdmin) {
+    if (isMember || isCurrentUserAdmin) {
         return Meteor.users.find({
             _id: {
                 $in: memberIds,

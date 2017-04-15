@@ -1,9 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import _ from 'lodash';
-
 import { isAdmin } from '/imports/api/users';
-
 import { Projects } from './Projects.js';
 import {
     ProjectSchema,
@@ -33,8 +31,8 @@ const throwErrorIfNotAdmin = () => {
     }
 };
 
-const throwErrorIfNotProjectModeratorOrAdmin = (project, userId) => {
-    if (!isAdmin && !isProjectModerator(project, userId)) {
+const throwErrorIfNotProjectModeratorOrAdmin = (projectId, userId) => {
+    if (!isAdmin && !isProjectModerator(projectId, userId)) {
         throw new Meteor.Error(
             'projects.unauthorized.only-moderator-or-admin',
             'No permissions to update!',
@@ -107,7 +105,7 @@ export const addMembers = new ValidatedMethod({
         const userId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId }, { fields: { moderators: 1 } });
 
-        throwErrorIfNotProjectModeratorOrAdmin(project, userId);
+        throwErrorIfNotProjectModeratorOrAdmin(projectId, userId);
         throwErrorIfProjectDoesNotExist(project);
 
         if (members.length === 0) {
@@ -137,7 +135,7 @@ export const removeMember = new ValidatedMethod({
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
 
-        throwErrorIfNotProjectModeratorOrAdmin(project, currentUserId);
+        throwErrorIfNotProjectModeratorOrAdmin(projectId, currentUserId);
         throwErrorIfProjectDoesNotExist(project);
 
         return Projects.update({
@@ -164,7 +162,7 @@ export const addModerators = new ValidatedMethod({
         const userId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
 
-        throwErrorIfNotProjectModeratorOrAdmin(project, userId);
+        throwErrorIfNotProjectModeratorOrAdmin(projectId, userId);
         throwErrorIfProjectDoesNotExist(project);
 
         return Projects.update({ _id: projectId }, {
@@ -189,7 +187,7 @@ export const removeModerator = new ValidatedMethod({
         const currentUserId = Meteor.userId();
         const project = Projects.findOne({ _id: projectId });
 
-        throwErrorIfNotProjectModeratorOrAdmin(project, currentUserId);
+        throwErrorIfNotProjectModeratorOrAdmin(projectId, currentUserId);
         throwErrorIfProjectDoesNotExist(project);
 
         return Projects.update({

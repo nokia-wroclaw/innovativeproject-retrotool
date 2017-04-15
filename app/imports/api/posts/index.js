@@ -5,3 +5,6 @@ export {
     addPost,
     removePost,
 } from './methods.js';
+export {
+    getProjectIdByPostId,
+} from './helpers.js';
