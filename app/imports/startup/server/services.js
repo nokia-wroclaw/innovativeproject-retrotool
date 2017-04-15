@@ -3,36 +3,34 @@ import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import _ from 'lodash';
 
-const addServiceConfiguration = (serviceName) => {
-    const service = _.get(Meteor.settings, `services[${serviceName}]`, null);
-    if (!service) {
+const addGithubConfiguration = () => {
+    const service = 'github';
+    const github = _.get(Meteor.settings, `services[${service}]`, null);
+    if (!github) {
         throw new Meteor.Error(
-            `missing-settings-${serviceName}`,
-            `You've tried to add ${serviceName} configuration, but none was found.`,
+            'missing-settings-github',
+            'You\'ve tried to add github configuration, but none was found.',
         );
     }
 
     const {
         clientId,
         clientSecret: secret,
-    } = service;
+    } = github;
 
     ServiceConfiguration.configurations.upsert({
-        serviceName,
+        service,
     }, {
-        serviceName,
+        service,
         clientId,
         secret,
-        loginStyle: 'redirect',
+        loginStyle: 'popup',
     });
 };
 
 const addServicesConfiguration = () => {
-    const { services } = Meteor.settings;
-    const servicesList = _.keys(services);
-    servicesList.forEach(serviceName =>
-        addServiceConfiguration(serviceName),
-    );
+    // @todo check before add if configuration found
+    addGithubConfiguration();
 };
 
 export default addServicesConfiguration;

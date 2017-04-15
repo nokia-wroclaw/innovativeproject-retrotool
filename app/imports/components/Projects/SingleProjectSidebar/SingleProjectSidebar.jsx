@@ -13,19 +13,11 @@ const getProjectListItems = (projects, onTouchTap) =>
         />
     ));
 
-<<<<<<< HEAD
 const getSprintListItems = (sprints, goToAddSprint, projectId) => {
-=======
-const getSprintListItems = (sprints, goToAddSprint, goToSprint, projectId) => {
->>>>>>> origin/devel
     const listSprints = sprints.map(sprint => (
         <ListItem
             key={sprint._id}
             primaryText={sprint.name}
-<<<<<<< HEAD
-=======
-            onTouchTap={() => goToSprint(projectId, sprint._id)}
->>>>>>> origin/devel
         />
     ));
 
@@ -41,20 +33,7 @@ const getSprintListItems = (sprints, goToAddSprint, goToSprint, projectId) => {
 };
 
 const SingleProjectSidebar = (props) => {
-<<<<<<< HEAD
     const { projects, goToProject, projectId, sprints, goToAddSprint } = props;
-=======
-    const {
-        projectId,
-        projects,
-        goToPosts,
-        goToProject,
-        sprints,
-        goToAddSprint,
-        goToSprint,
-    } = props;
-    // @TODO if sprints ready, remove Posts ListItem
->>>>>>> origin/devel
 
     return (
         <List>
@@ -62,31 +41,16 @@ const SingleProjectSidebar = (props) => {
                 primaryText="Projects"
                 nestedItems={getProjectListItems(projects, goToProject)}
             />
-<<<<<<< HEAD
             <ListItem primaryText="Posts" />
             <ListItem
                 primaryText="Sprints"
                 nestedItems={getSprintListItems(sprints, goToAddSprint, projectId)}
-=======
-            <ListItem
-                primaryText="Posts"
-                onTouchTap={() => goToPosts(projectId)}
-            />
-            <ListItem
-                primaryText="Sprints"
-                nestedItems={getSprintListItems(sprints, goToAddSprint, goToSprint, projectId)}
->>>>>>> origin/devel
             />
         </List>
     );
 };
 
 SingleProjectSidebar.propTypes = {
-<<<<<<< HEAD
-=======
-    projectId: PropTypes.string.isRequired,
-    goToProject: PropTypes.func.isRequired,
->>>>>>> origin/devel
     projects: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -99,15 +63,9 @@ SingleProjectSidebar.propTypes = {
             name: PropTypes.string.isRequired,
         }),
     ).isRequired,
-<<<<<<< HEAD
     goToProject: PropTypes.func.isRequired,
     projectId: PropTypes.string.isRequired,
     goToAddSprint: PropTypes.func.isRequired,
-=======
-    goToSprint: PropTypes.func.isRequired,
-    goToAddSprint: PropTypes.func.isRequired,
-    goToPosts: PropTypes.func.isRequired,
->>>>>>> origin/devel
 };
 
 export default SingleProjectSidebar;

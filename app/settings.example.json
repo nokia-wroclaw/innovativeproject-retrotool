@@ -1,5 +1,4 @@
 {
-  "skipSeeds": false,
   "services": {
     "github": {
       "clientId": "YOUR_CLIENT_ID",

@@ -15,7 +15,7 @@ export class UsersList extends React.Component {
         this.items = [];
         for (let i = 1; i <= this.users.count(); i += 1) {
             this.items.push(
-                <MenuItem value={i} key={i} primaryText={this.users.fetch()[i - 1]._id} />,
+                <MenuItem value={i} key={i} primaryText={this.users.fetch()[i - 1].services.github.username} />,
                 );
         }
     }

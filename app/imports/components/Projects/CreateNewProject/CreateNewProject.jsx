@@ -13,17 +13,10 @@ class CreateNewProject extends Component {
         this.addModerator = this.addModerator.bind(this);
         this.state = {
             isResult: false,
-<<<<<<< HEAD
             moderators: [],
             members: [],
             inputError: false,
             memberError: false,
-=======
-            moderatorText: '',
-            memberText: '',
-            moderators: [],
-            members: [],
->>>>>>> origin/devel
             error: {
                 type: '',
                 message: '',
@@ -33,16 +26,11 @@ class CreateNewProject extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-<<<<<<< HEAD
         const { createNewProject, userList } = this.props;
-=======
-        const { createNewProject } = this.props;
->>>>>>> origin/devel
         const { moderators, members } = this.state;
 
         const name = this.area.input.value;
 
-<<<<<<< HEAD
         const moderatorsId = [];
         let user = '';
 
@@ -56,16 +44,11 @@ class CreateNewProject extends Component {
             user = userList.find(obj => obj.services.github.username === member);
             membersId.push(user._id);
         });
-=======
-        const moderatorsId = moderators.map(modarator => modarator._id);
-        const membersId = members.map(member => member._id);
->>>>>>> origin/devel
 
         const result = createNewProject(name, moderatorsId, membersId);
 
         if (result) {
             this.setState({
-<<<<<<< HEAD
                 error: {
                     type: '',
                     message: '',
@@ -142,104 +125,6 @@ class CreateNewProject extends Component {
         }
 
         this.memberInput.setState({ searchText: '' });
-=======
-                isResult: true,
-            });
-            this.clearError();
-        } else if (!result && name) {
-            this.setState({
-                isResult: false,
-            });
-            this.setError('project', 'You have no permission');
-        } else {
-            this.setState({
-                isResult: false,
-            });
-            this.setError('project', 'This field is required');
-        }
-    }
-
-    setError(type, message) {
-        this.setState({
-            error: {
-                type,
-                message,
-            },
-        });
-    }
-
-    setModeratorText(text) {
-        this.setState({
-            moderatorText: text,
-        });
-    }
-
-    setMemberText(text) {
-        this.setState({
-            memberText: text,
-        });
-    }
-
-    addModerator(id) {
-        const chosen = this.state.moderators;
-
-        const isModeratorExists = chosen.find(user =>
-            user._id === id,
-        );
-
-        if (id && !isModeratorExists) {
-            const newUserList = this.props.newUserList;
-
-            const chosenUser = newUserList.find(user =>
-                user._id === id,
-            );
-            chosen.push(chosenUser);
-
-            this.setState({
-                moderators: chosen,
-            });
-            this.clearError();
-        } else if (id && isModeratorExists) {
-            this.setError('moderator', 'User is already chosen');
-        } else {
-            this.setError('moderator', 'There is no user with this name');
-        }
-
-        this.setState({
-            moderatorText: '',
-        });
-        this.moderatorInput.focus();
-    }
-
-    addMember(id) {
-        const chosen = this.state.members;
-
-        const isMemberExists = chosen.find(user =>
-            user._id === id,
-        );
-
-        if (id && !isMemberExists) {
-            const newUserList = this.props.newUserList;
-
-            const chosenUser = newUserList.find(user =>
-                user._id === id,
-            );
-            chosen.push(chosenUser);
-
-            this.setState({
-                members: chosen,
-            });
-            this.clearError();
-        } else if (id && isMemberExists) {
-            this.setError('member', 'User is already chosen');
-        } else {
-            this.setError('member', 'There is no user with this name');
-        }
-
-        this.setState({
-            memberText: '',
-        });
->>>>>>> origin/devel
         this.memberInput.focus();
     }
 
@@ -263,7 +148,6 @@ class CreateNewProject extends Component {
         });
     }
 
-<<<<<<< HEAD
     rendermembers() {
         const chosen = this.state.members;
         return chosen.map((name, index) => <Chip key={`membername${name}`} onRequestDelete={e => this.removeMember(e, index)}>
@@ -340,105 +224,10 @@ class CreateNewProject extends Component {
         }
         return (
             <span>New project has been created!</span>
-=======
-    clearError() {
-        this.setState({
-            error: {
-                type: '',
-                message: '',
-            },
-        });
-    }
-
-    renderMembers() {
-        const chosen = this.state.members;
-        return chosen.map((user, index) => (
-            <Chip
-                key={`membername${user.username}`}
-                onRequestDelete={e => this.removeMember(e, index)}
-            >
-                {user.username}
-            </Chip>
-        ));
-    }
-
-    renderModerators() {
-        const chosen = this.state.moderators;
-        return chosen.map((user, index) => (
-            <Chip
-                key={`modname${user.username}`}
-                onRequestDelete={e => this.removeModerator(e, index)}
-            >
-                {user.username}
-            </Chip>
-        ));
-    }
-
-    renderMemberForm() {
-        const { error, memberText } = this.state;
-        const users = this.props.newUserList;
-
-        const dataSourceConfig = {
-            text: 'username',
-            value: '_id',
-        };
-
-        return (
-            <AutoComplete
-                floatingLabelText="Members - optional"
-                filter={AutoComplete.fuzzyFilter}
-                dataSource={users}
-                dataSourceConfig={dataSourceConfig}
-                maxSearchResults={5}
-                onNewRequest={value => this.addMember(value._id)}
-                errorText={error.type === 'member' ? error.message : ''}
-                onUpdateInput={text => this.setMemberText(text)}
-                searchText={memberText}
-                ref={input => (this.memberInput = input)}
-            />
-        );
-    }
-
-    renderModeratorForm() {
-        const { error, moderatorText } = this.state;
-        const users = this.props.newUserList;
-
-        const dataSourceConfig = {
-            text: 'username',
-            value: '_id',
-        };
-
-        return (
-            <AutoComplete
-                floatingLabelText="Moderators - optional"
-                filter={AutoComplete.fuzzyFilter}
-                dataSource={users}
-                dataSourceConfig={dataSourceConfig}
-                maxSearchResults={5}
-                onNewRequest={value => this.addModerator(value._id)}
-                errorText={error.type === 'moderator' ? error.message : ''}
-                onUpdateInput={text => this.setModeratorText(text)}
-                searchText={moderatorText}
-                ref={input => (this.moderatorInput = input)}
-            />
-        );
-    }
-
-    renderProjectNameForm() {
-        const { error } = this.state;
-
-        return (
-            <TextField
-                ref={ref => (this.area = ref)}
-                hintText="New project name"
-                errorText={error.type === 'project' ? error.message : ''}
-            />
->>>>>>> origin/devel
         );
     }
 
     render() {
-<<<<<<< HEAD
         return (<div>
             <h2>Here you can create a new project!</h2>
             {this.renderProjectNameForm()}
@@ -451,25 +240,6 @@ class CreateNewProject extends Component {
             <div>
                 {this.rendermembers()}
                 <RaisedButton onTouchTap={e => this.onSubmit(e)} label="Create project" type="submit" primary />
-=======
-        const { isResult } = this.state;
-
-        return (<div>
-            <h2>Here you can create a new project!</h2>
-            {isResult ? <h3>New project has been created!</h3> :
-            <div>
-                {this.renderProjectNameForm()}
-                {this.renderModeratorForm()}
-                {this.renderModerators()}
-                {this.renderMemberForm()}
-                {this.renderMembers()}
-                <RaisedButton
-                    onTouchTap={this.onSubmit}
-                    label="Create project"
-                    type="submit"
-                    primary
-                />
->>>>>>> origin/devel
             </div>
             }
         </div>
@@ -479,11 +249,7 @@ class CreateNewProject extends Component {
 
 CreateNewProject.propTypes = {
     createNewProject: PropTypes.func.isRequired,
-<<<<<<< HEAD
     userList: PropTypes.arrayOf(
-=======
-    newUserList: PropTypes.arrayOf(
->>>>>>> origin/devel
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
         }),

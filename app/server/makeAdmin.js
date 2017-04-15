@@ -18,26 +18,33 @@ Accounts.onCreateUser((options, user) => {
 
 Meteor.methods({
     setAdmin(userId, adminId) {
-        if (Meteor.users.findOne({ _id: adminId }).isAdmin) {
-            console.log('set admin:', Meteor.users.find({ _id: userId }).fetch());
+        const admin = Meteor.users.findOne({ _id: adminId });
+        const user = Meteor.users.findOne({ _id: userId });
+
+        if (admin.isAdmin) {
+            console.log('set admin: ', user.services.github.username);
             const doc = Meteor.users.findOne({ _id: userId });
-            console.log(doc._id);
             if (Meteor.isServer) { Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: true } }); }
-            console.log('update user', Meteor.users.find({ _id: userId }).fetch());
+            console.log('update user ', user.services.github.username);
         } else {
             console.log(adminId, 'Tried to get acces to the admin, Calling Police');
         }
     },
     remAdmin(userId, adminId) {
-        if (Meteor.users.findOne({ _id: adminId }).isAdmin) {
-            console.log('rem admin:', Meteor.users.find({ _id: userId }).fetch());
+        const admin = Meteor.users.findOne({ _id: adminId });
+        const user = Meteor.users.findOne({ _id: userId });
+
+        if (admin.isAdmin) {
+            console.log('rem admin: ', user.services.github.username);
             const doc = Meteor.users.findOne({ _id: userId });
-            console.log(doc._id);
-            if (Meteor.isServer) { Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: false } }); console.log('update user', Meteor.users.find({ _id: userId }).fetch()); }
+            if (Meteor.isServer) {
+                Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: false } });
+                console.log('update user ', user.services.github.username);
+            }
         } else {
             console.log(adminId, 'Tried to get acces to the admin, Calling Police');
         }
     },
 });
 
-Meteor.publish('userData', () => Meteor.users.find({}));
+Meteor.publish('userData', () => Meteor.users.find({}, { fields: { isAdmin: 1, 'services.github.username': 1 } }));
