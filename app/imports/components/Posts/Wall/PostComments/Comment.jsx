@@ -6,12 +6,15 @@ import {
     CardText,
 } from 'material-ui';
 
+const formatDate = date => `Commented ${moment(date).fromNow()}`;
+
+
 const Comment = ({ author, createdAt, text }) =>
     <Card>
         <CardHeader
             title={author.name}
             avatar={author.avatar}
-            subtitle={moment(createdAt).fromNow()}
+            subtitle={formatDate(createdAt)}
         />
         <CardText>
             {text}

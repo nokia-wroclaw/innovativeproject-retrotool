@@ -9,55 +9,68 @@ import {
 
 import PostComments from './PostComments.jsx';
 
+const getUsers = () => Meteor.users.find({}, {
+    fields: {
+        'profile.name': 1,
+        'profile.avatar': 1,
+    },
+}).fetch();
+
+const getComments = (postId) => {
+    const users = getUsers();
+
+    return Comments.find({ postId }).map((comment) => {
+        const {
+            _id: id,
+            text,
+            createdAt,
+            showAuthor,
+        } = comment;
+
+        const user = showAuthor && _.find(users, { _id: comment.authorId });
+        const author = {
+            name: _.get(user, 'profile.name', 'Anonymous user'),
+            avatar: _.get(user, 'profile.avatar', ''),
+        };
+
+        return ({ id, text, createdAt, author });
+    });
+};
+
+const wrappedOnData = (handler1, handler2, postId, onData, data) => {
+    if (handler1.ready() && handler1.ready()) {
+        const comments = getComments(postId);
+
+        onData(null, {
+            comments,
+            ...data,
+        });
+    }
+};
+
 const composer = (props, onData) => {
     const {
         postId,
         projectId,
      } = props;
-    const commentsHandler = Meteor.subscribe('postComments', postId);
+
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
+    const commentsHandler = Meteor.subscribe('postComments', postId);
 
-    if (commentsHandler.ready() && usersHandler.ready()) {
-        const users = Meteor.users.find({}, {
-            fields: {
-                'profile.name': 1,
-                'profile.avatar': 1,
-            },
-        }).fetch();
-
-        const comments = Comments.find({ postId }).map((comment) => {
-            const {
-                _id: id,
-                text,
-                createdAt,
-                showAuthor,
-            } = comment;
-
-            const user = showAuthor ?
-                    _.find(users, { _id: comment.authorId })
-                :
-                    { profile: { name: 'Anonymous user', avatar: '' } }
-                ;
-
-            const author = {
-                name: _.get(user, 'profile.name', ''),
-                avatar: _.get(user, 'profile.avatar', ''),
-            };
-
-            return ({
-                id,
-                text,
-                createdAt,
-                author,
+    const addPostComment = async (doc) => {
+        try {
+            await actions.addPostComment({ postId, ...doc });
+        } catch (errorAddPostComment) {
+            wrappedOnData(usersHandler, commentsHandler, postId, onData, {
+                addPostComment,
+                errorAddPostComment,
             });
-        });
+        }
+    };
 
-        onData(null, {
-            comments,
-            postId,
-            addPostComment: actions.addPostComment,
-        });
-    }
+    wrappedOnData(usersHandler, commentsHandler, postId, onData, {
+        addPostComment,
+    });
 };
 
 export default composeWithTracker(

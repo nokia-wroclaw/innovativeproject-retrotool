@@ -6,7 +6,7 @@ import { actions } from '/imports/api/projects';
 
 import CreateNewProject from './CreateNewProject.jsx';
 
-const wrapperOnData = (handler, onData, data) => {
+const wrappedOnData = (handler, onData, data) => {
     if (handler.ready()) {
         const options = Meteor.users.find({}).map(user => ({
             value: user._id,
@@ -29,11 +29,11 @@ const composer = (props, onData) => {
             const projectId = await actions.createNewProject(name, moderators, members);
             actions.goToProject(projectId);
         } catch (error) {
-            wrapperOnData(usersHandler, onData, { onSubmit, error });
+            wrappedOnData(usersHandler, onData, { onSubmit, error });
         }
     };
 
-    wrapperOnData(usersHandler, onData, { onSubmit });
+    wrappedOnData(usersHandler, onData, { onSubmit });
 };
 
 export default withRouter(
