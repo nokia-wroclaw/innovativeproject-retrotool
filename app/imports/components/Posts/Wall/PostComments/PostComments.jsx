@@ -19,8 +19,7 @@ const PostComments = ({ comments, postId, addPostComment }) => (
                 <Comment
                     key={id}
                     text={text}
-                    authorName={author.name}
-                    authorAvatar={author.name}
+                    author={author}
                     createdAt={createdAt}
                 />
             );

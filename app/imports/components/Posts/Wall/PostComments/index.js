@@ -40,8 +40,8 @@ const composer = (props, onData) => {
                 ;
 
             const author = {
-                name: user.profile.name,
-                avatar: user.profile.avatar,
+                name: _.get(user, 'profile.name', ''),
+                avatar: _.get(user, 'profile.avatar', ''),
             };
 
             return ({

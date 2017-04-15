@@ -73,8 +73,8 @@ class AddComment extends React.Component {
                     <Toggle
                         id={`${postId}-showAuthor`}
                         label="Show my name"
-                        value={showAuthor}
-                        onChange={this.changeAuthorVisibility}
+                        defaultToggled={showAuthor}
+                        onToggle={this.changeAuthorVisibility}
                     />
                     <FlatButton
                         label="Add comment"
