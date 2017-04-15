@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-
+import { isAdmin } from '/imports/api/users';
 import {
     Projects,
     isProjectMember,
@@ -19,16 +19,16 @@ Meteor.publish('userList', function publishUserList(projectId = null) {
 
     if (projectId) {
         check(projectId, String);
-        const project = Projects.findOne(projectId);
-        const isMember = project && isProjectMember(project, userId);
+        const isMember = isProjectMember(projectId, userId);
         if (isMember) {
+            const project = Projects.findOne(projectId);
             query._id = { $in: project.members };
             return Meteor.users.find(query, options);
         }
     }
 
-    const { isAdmin } = Meteor.users.findOne(userId);
-    if (isAdmin) {
+    const isCurrentUserAdmin = isAdmin(userId);
+    if (isCurrentUserAdmin) {
         return Meteor.users.find(query, options);
     }
 

@@ -1,13 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import {
-    Projects,
-    isProjectMember,
-} from '/imports/api/projects';
-import {
-    Sprints,
-} from '/imports/api/sprints';
-
+import { isProjectMember } from '/imports/api/projects';
+import { Sprints } from '/imports/api/sprints';
+import { isAdmin } from '/imports/api/users';
 import { Posts } from '../Posts';
 
 
@@ -16,13 +11,13 @@ Meteor.publish('sprintPosts', function publishSprintPosts(sprintId) {
 
     const userId = this.userId;
     const sprint = Sprints.findOne(sprintId);
+
     const { projectId = null } = sprint;
-    const project = Projects.findOne(projectId);
 
-    const isMember = isProjectMember(project, userId);
-    const { isAdmin } = Meteor.users.findOne(userId);
+    const isMember = isProjectMember(projectId, userId);
+    const isCurrentUserAdmin = isAdmin(userId);
 
-    if (isMember || isAdmin) {
+    if (isMember || isCurrentUserAdmin) {
         return Posts.find({ sprintId });
     }
 

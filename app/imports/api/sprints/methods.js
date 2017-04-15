@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import {
-    Projects,
     isProjectModerator,
 } from '/imports/api/projects';
-
 import { Sprints } from './Sprints.js';
 import {
     AddSprintSchema,
@@ -15,9 +13,8 @@ export const addSprint = new ValidatedMethod({
     name: 'sprints.add',
     validate: AddSprintSchema.validator({ clean: true }),
     run({ name, projectId }) {
-        const project = Projects.findOne(projectId);
         const userId = Meteor.userId();
-        if (isProjectModerator(project, userId)) {
+        if (isProjectModerator(projectId, userId)) {
             return Sprints.insert({ name, projectId });
         }
         throw new Meteor.Error(
@@ -33,9 +30,9 @@ export const closeSprint = new ValidatedMethod({
     run({ sprintId }) {
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
-        const project = Projects.findOne(projectId);
         const userId = Meteor.userId();
-        if (isProjectModerator({ project, userId })) {
+
+        if (isProjectModerator(projectId, userId)) {
             return Sprints.update(sprintId, {
                 $set: { closed: true },
             });

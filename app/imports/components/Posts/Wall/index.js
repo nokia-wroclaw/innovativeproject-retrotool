@@ -37,7 +37,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             if (post.showAuthor) {
                 const author = _.find(users, { _id: post.authorId });
                 post.author = {
-                    name: _.get(author, 'profile.name', undefined),
+                    name: _.get(author, 'profile.name', ''),
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
@@ -49,6 +49,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             categories,
             posts,
             sprintId,
+            projectId,
         });
     }
 };

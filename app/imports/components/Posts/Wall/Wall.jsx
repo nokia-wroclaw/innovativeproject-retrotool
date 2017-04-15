@@ -55,6 +55,7 @@ class Wall extends React.Component {
         const {
             categories,
             posts,
+            projectId,
         } = this.props;
 
         return (
@@ -75,6 +76,7 @@ class Wall extends React.Component {
                             author={post.author}
                             text={post.text}
                             createdAt={post.createdAt}
+                            projectId={projectId}
                         />,
                     )
                 }
@@ -111,6 +113,7 @@ Wall.propTypes = {
         }),
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
 };
 
 export default Wall;

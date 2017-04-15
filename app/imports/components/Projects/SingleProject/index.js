@@ -11,7 +11,6 @@ import SingleProject from './SingleProject.jsx';
 
 const composer = ({ params: { projectId } }, onData) => {
     const projectsHandler = Meteor.subscribe('singleProject', projectId);
-    // @TODO add sprints...
     if (projectsHandler.ready()) {
         const project = Projects.findOne({ _id: projectId });
 
