@@ -1,21 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import {
-    Projects,
-    isProjectMember,
-} from '/imports/api/projects';
+import { isAdmin } from '/imports/api/users';
+import { isProjectMember } from '/imports/api/projects';
 import { Sprints } from './../Sprints.js';
-
 
 Meteor.publish('sprintList', function publishSprintList(projectId) {
     check(projectId, String);
 
-    const project = Projects.findOne(projectId);
-
     const userId = this.userId;
-    const { isAdmin = false } = Meteor.users.findOne(userId);
+    const isCurrentUserAdmin = isAdmin(userId);
 
-    if (isProjectMember(project, userId) || isAdmin) {
+    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
         const query = { projectId };
 
         const options = {
@@ -27,21 +22,20 @@ Meteor.publish('sprintList', function publishSprintList(projectId) {
         return Sprints.find(query, options);
     }
 
-    return this.ready;
+    return this.ready();
 });
 
 
 Meteor.publish('singleSprint', function publishSingleSprint(sprintId) {
     check(sprintId, String);
     const sprint = Sprints.findOne(sprintId);
-    const { projectId = null } = sprint;
-    const project = Projects.findOne(projectId);
+    const projectId = sprint && sprint.projectId;
 
     const userId = this.userId;
-    const { isAdmin = false } = Meteor.users.findOne(userId);
+    const isCurrentUserAdmin = isAdmin(userId);
 
-    if (isProjectMember(project, userId) || isAdmin) {
+    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
         return Sprints.find(sprintId);
     }
-    return this.ready;
+    return this.ready();
 });
