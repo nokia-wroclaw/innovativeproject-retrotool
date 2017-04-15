@@ -18,9 +18,9 @@ const CategorySelect = ({
     >
         {categories.map(category =>
             <MenuItem
-                key={category._id}
-                value={category._id}
-                primaryText={category.name}
+                key={category.value}
+                value={category.value}
+                primaryText={category.label}
             />,
         )}
         {selectedCategoryId ?
@@ -38,8 +38,8 @@ CategorySelect.propTypes = {
     selectedCategoryId: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }),
     ).isRequired,
     handleChangeSelectedCategory: PropTypes.func.isRequired,

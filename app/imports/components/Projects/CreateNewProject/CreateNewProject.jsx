@@ -31,7 +31,9 @@ const CreateNewProject = ({
             name="members"
             options={options}
         />
-        <SubmitField />
+        <SubmitField
+            primary
+        />
     </AutoForm>
 ;
 
