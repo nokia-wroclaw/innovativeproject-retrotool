@@ -2,23 +2,26 @@ import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
-import isAdmin from '/imports/api/users';
+import { FullPageLoader } from '/imports/components/Loaders';
+
 import { actions as projectActions } from '/imports/api/projects';
 
 import CreateNewProject from './CreateNewProject.jsx';
 
 const composer = (props, onData) => {
     const projectsHandler = Meteor.subscribe('userList');
-    const user = Meteor.user();
 
-    if (user && projectsHandler.ready()) {
-        const userList = Meteor.users.find({}).fetch();
+    if (projectsHandler.ready()) {
+        const newUserList = Meteor.users.find({})
+            .map(user => ({
+                _id: user._id,
+                username: user.profile.name,
+            }));
+
         onData(null, {
             createNewProject: projectActions.createNewProject,
             goToProject: projectActions.goToProject,
-            user,
-            isAdmin,
-            userList,
+            newUserList,
         });
     }
 };
@@ -26,5 +29,6 @@ const composer = (props, onData) => {
 export default withRouter(
       composeWithTracker(
         composer,
+        FullPageLoader,
     )(CreateNewProject),
 );
