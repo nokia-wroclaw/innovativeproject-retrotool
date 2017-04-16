@@ -4,6 +4,8 @@ import { withRouter } from 'react-router';
 import _ from 'lodash';
 
 import { FullPageLoader } from '/imports/components/Loaders';
+import { isAdmin } from '/imports/api/users';
+import { isProjectModerator } from '/imports/api/projects';
 import {
     Posts,
     actions,
@@ -44,12 +46,17 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             return post;
         });
 
+        const userId = Meteor.userId();
+        const isProjectModeratorOrAdmin = isAdmin() || isProjectModerator(projectId, userId);
+
         onData(null, {
             addPost: actions.addPost,
+            removePost: actions.removePost,
             categories,
             posts,
             sprintId,
             projectId,
+            isProjectModeratorOrAdmin,
         });
     }
 };

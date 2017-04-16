@@ -5,9 +5,8 @@ import {
     isProjectMember,
     isProjectModerator,
 } from '/imports/api/projects';
-import {
-    Sprints,
-} from '/imports/api/sprints';
+import { Sprints } from '/imports/api/sprints';
+import { isAdmin } from '/imports/api/users';
 import { Posts } from './Posts.js';
 import {
     AddPostSchema,
@@ -53,7 +52,7 @@ export const removePost = new ValidatedMethod({
         const post = Posts.findOne(postId);
         const { projectId = null } = post;
 
-        if (isProjectModerator(projectId, userId)) {
+        if (isProjectModerator(projectId, userId) || isAdmin()) {
             return Posts.remove({ _id: postId });
         }
 
