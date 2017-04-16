@@ -15,13 +15,15 @@ class Wall extends React.Component {
         super(props);
 
         this.handleChangeSelectedCategory = this.handleChangeSelectedCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
-        this.handleChangeSort = this.handleChangeSort.bind(this);
+        this.addPost = this.addPost.bind(this);
 
         this.state = {
-            showAddPostModal: false,
             selectedSortId: getDefaultOptionValue(),
+            showAddPostModal: false,
+            addPostError: null,
         };
     }
 
@@ -38,20 +40,33 @@ class Wall extends React.Component {
     }
 
     hideAddPostModal() {
-        this.setState({ showAddPostModal: false });
+        this.setState({
+            showAddPostModal: false,
+            addPostError: null,
+        });
+    }
+
+    addPost(doc) {
+        const { sprintId } = this.props;
+        this.props.addPost({ sprintId, ...doc }, (error) => {
+            if (error) {
+                this.setState({ addPostError: new Error(error.reason || error) });
+                return;
+            }
+            this.hideAddPostModal();
+        });
     }
 
     render() {
         const {
+            addPostError,
             selectedCategoryId,
             showAddPostModal,
             selectedSortId,
         } = this.state;
 
         const {
-            addPost,
             categories,
-            sprintId,
             projectId,
         } = this.props;
 
@@ -84,11 +99,11 @@ class Wall extends React.Component {
                 }
 
                 <AddPost
-                    sprintId={sprintId}
-                    addPost={addPost}
-                    open={showAddPostModal}
-                    onClose={this.hideAddPostModal}
                     categories={categories}
+                    open={showAddPostModal}
+                    onSubmit={this.addPost}
+                    error={addPostError}
+                    onClose={this.hideAddPostModal}
                 />
             </div>
         );
@@ -99,8 +114,8 @@ Wall.propTypes = {
     addPost: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }),
     ).isRequired,
     posts: PropTypes.arrayOf(

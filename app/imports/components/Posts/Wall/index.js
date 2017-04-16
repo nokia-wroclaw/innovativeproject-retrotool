@@ -27,7 +27,12 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         usersHandler.ready()
     ) {
         const users = Meteor.users.find().fetch();
-        const categories = Categories.find({}).fetch();
+        const categories = Categories.find({}).map(category =>
+            ({
+                value: category._id,
+                label: category.name,
+            }),
+        );
         const posts = Posts.find({}).map((post) => {
             if (post.showAuthor) {
                 const author = _.find(users, { _id: post.authorId });

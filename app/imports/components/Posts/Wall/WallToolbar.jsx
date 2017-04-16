@@ -46,8 +46,8 @@ WallToolbar.propTypes = {
     selectedCategoryId: PropTypes.string,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }),
     ).isRequired,
     handleChangeSort: PropTypes.func.isRequired,
