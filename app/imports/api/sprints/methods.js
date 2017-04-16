@@ -24,17 +24,18 @@ export const addSprint = new ValidatedMethod({
     },
 });
 
-export const closeSprint = new ValidatedMethod({
+export const closeSprintToggle = new ValidatedMethod({
     name: 'sprints.close',
     validate: CloseSprintSchema.validator({ clean: true }),
     run({ sprintId }) {
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
         const userId = Meteor.userId();
+        const closed = sprint.closed;
 
         if (isProjectModerator(projectId, userId)) {
             return Sprints.update(sprintId, {
-                $set: { closed: true },
+                $set: { closed: !closed },
             });
         }
         throw new Meteor.Error(
