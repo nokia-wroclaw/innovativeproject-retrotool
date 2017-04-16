@@ -4,16 +4,24 @@ import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
+
 class Wall extends React.Component {
     constructor(props) {
         super(props);
 
         this.handleChangeSelectedCategory = this.handleChangeSelectedCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
         this.addPost = this.addPost.bind(this);
 
         this.state = {
+            selectedSortId: getDefaultOptionValue(),
             showAddPostModal: false,
             addPostError: null,
         };
@@ -21,6 +29,10 @@ class Wall extends React.Component {
 
     handleChangeSelectedCategory(event, index, value) {
         this.setState({ selectedCategoryId: value });
+    }
+
+    handleChangeSort(event, index, value) {
+        this.setState({ selectedSortId: value });
     }
 
     showAddPostModal() {
@@ -50,13 +62,15 @@ class Wall extends React.Component {
             addPostError,
             selectedCategoryId,
             showAddPostModal,
+            selectedSortId,
         } = this.state;
 
         const {
             categories,
-            posts,
             projectId,
         } = this.props;
+
+        const posts = sort(this.props.posts, selectedSortId);
 
         return (
             <div>
@@ -65,6 +79,9 @@ class Wall extends React.Component {
                     categories={categories}
                     addPost={this.showAddPostModal}
                     handleChangeSelectedCategory={this.handleChangeSelectedCategory}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
+                    sortOptions={sortOptions}
                 />
 
                 {posts
