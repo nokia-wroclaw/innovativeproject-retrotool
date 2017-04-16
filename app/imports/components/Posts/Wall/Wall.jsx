@@ -68,6 +68,8 @@ class Wall extends React.Component {
         const {
             categories,
             projectId,
+            isProjectModeratorOrAdmin,
+            removePost,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -94,6 +96,8 @@ class Wall extends React.Component {
                             text={post.text}
                             createdAt={post.createdAt}
                             projectId={projectId}
+                            canRemove={isProjectModeratorOrAdmin}
+                            removePost={removePost}
                         />,
                     )
                 }
@@ -131,6 +135,12 @@ Wall.propTypes = {
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
     projectId: PropTypes.string.isRequired,
+    isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
+    removePost: PropTypes.func.isRequired,
+};
+
+Wall.defaultProps = {
+    isProjectModeratorOrAdmin: false,
 };
 
 export default Wall;

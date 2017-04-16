@@ -2,8 +2,10 @@ import React, { PropTypes } from 'react';
 import moment from 'moment';
 import {
     Card,
+    CardActions,
     CardHeader,
     CardText,
+    RaisedButton,
 } from 'material-ui';
 
 import PostComments from './PostComments';
@@ -16,6 +18,8 @@ const Post = ({
     text,
     createdAt,
     projectId,
+    canRemove,
+    removePost,
 }) => (
     <Card key={id}>
         <CardHeader
@@ -26,6 +30,14 @@ const Post = ({
         <CardText>
             {text}
         </CardText>
+        {canRemove &&
+            <CardActions>
+                <RaisedButton
+                    label="Remove Post"
+                    onTouchTap={() => removePost(id)}
+                />
+            </CardActions>
+        }
         <PostComments
             postId={id}
             projectId={projectId}
@@ -42,6 +54,8 @@ Post.propTypes = {
     }),
     text: PropTypes.string.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
+    canRemove: PropTypes.bool.isRequired,
+    removePost: PropTypes.func.isRequired,
 };
 
 Post.defaultProps = {
@@ -49,6 +63,7 @@ Post.defaultProps = {
         name: 'Anonymous user',
         avatar: '',
     },
+    canRemove: false,
 };
 
 export default Post;
