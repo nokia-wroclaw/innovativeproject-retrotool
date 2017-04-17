@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router';
-import { addSprint } from './methods.js';
+import { addSprint, closeOrReopenSprint } from './methods.js';
 
 const goToSprint = (projectId, sprintId) =>
     browserHistory.push(`/project/${projectId}/sprint/${sprintId}`);
@@ -16,10 +16,15 @@ const addNewSprint = (name, projectId) => new Promise((resolve, reject) => {
     });
 });
 
+const toggleSprint = (sprintId, callback = () => {}) =>
+    closeOrReopenSprint.call({ sprintId }, callback);
+
+
 const actions = {
     goToSprint,
     goToAddSprint,
     addNewSprint,
+    toggleSprint,
 };
 
 
