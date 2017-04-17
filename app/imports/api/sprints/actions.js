@@ -12,7 +12,9 @@ const addNewSprint = (name, projectId) => addSprint.call({ name, projectId }, (e
     return res;
 });
 
-const toggleSprint = sprintId => closeOrReopenSprint.call({ sprintId });
+const toggleSprint = (sprintId, callback = () => {}) =>
+    closeOrReopenSprint.call({ sprintId }, callback);
+
 
 const actions = {
     goToSprint,

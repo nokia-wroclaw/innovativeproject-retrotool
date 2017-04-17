@@ -23,14 +23,16 @@ export default class CloseDialog extends React.Component {
             onClose,
         } = this.props;
 
-        try {
-            toggleSprint(sprintId);
-            onClose();
-        } catch (error) {
-            this.setState({
-                errorMessage: error.reason,
-            });
-        }
+
+        toggleSprint(sprintId, (err) => {
+            if (err) {
+                this.setState({
+                    errorMessage: err.reason,
+                });
+            } else {
+                onClose();
+            }
+        });
     }
 
     render() {
