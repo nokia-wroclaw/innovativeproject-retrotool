@@ -27,10 +27,12 @@ const composer = ({ params: { sprintId } }, onData) => {
             const project = Projects.findOne({ _id: projectId });
             const userId = Meteor.userId();
 
+            const canClose = isProjectModerator(project, userId);
+
             onData(null, {
                 sprint,
                 toggleSprint: sprintActions.toggleSprint,
-                isProjectModerator,
+                canClose,
                 userId,
                 project,
             });

@@ -8,16 +8,16 @@ import {
 const SprintToolbar = ({
 sprint,
 closeSprint,
-isModerator,
+canClose,
 }) =>
     <Toolbar>
         <ToolbarGroup>
             {sprint.name} {sprint.closed ? ' - closed' : ''}
         </ToolbarGroup>
 
-        {isModerator ? <ToolbarGroup>
+        {canClose ? <ToolbarGroup>
             <RaisedButton
-                label={!sprint.closed ? 'Close sprint' : 'Open sprint'}
+                label={!sprint.closed ? 'Close sprint' : 'Reopen sprint'}
                 onTouchTap={closeSprint}
                 primary={!sprint.closed}
             />
@@ -31,7 +31,7 @@ SprintToolbar.propTypes = {
         name: PropTypes.string.isRequired,
     }).isRequired,
     closeSprint: PropTypes.func.isRequired,
-    isModerator: PropTypes.bool.isRequired,
+    canClose: PropTypes.bool.isRequired,
 };
 
 export default SprintToolbar;

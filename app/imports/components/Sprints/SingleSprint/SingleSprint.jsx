@@ -5,6 +5,9 @@ import CloseDialog from './CloseDialog.jsx';
 class SingleSprint extends React.Component {
     constructor(props) {
         super(props);
+        this.showCloseDialog = this.showCloseDialog.bind(this);
+        this.hideCloseDialog = this.hideCloseDialog.bind(this);
+
         this.state = {
             showCloseDialog: false,
         };
@@ -23,28 +26,24 @@ class SingleSprint extends React.Component {
 
         const {
             sprint,
-            project,
             toggleSprint,
-            isProjectModerator,
-            userId,
+            canClose,
         } = this.props;
-
-        const isModerator = isProjectModerator(project, userId);
 
         return (
             <div>
                 <SprintToolbar
                     sprint={sprint}
-                    closeSprint={() => this.showCloseDialog()}
-                    isModerator={isModerator}
+                    closeSprint={this.showCloseDialog}
+                    canClose={canClose}
                 />
 
                 <CloseDialog
                     sprint={sprint}
                     toggleSprint={toggleSprint}
-                    isModerator={isModerator}
+                    canClose={canClose}
                     open={showCloseDialog}
-                    onClose={() => this.hideCloseDialog()}
+                    onClose={this.hideCloseDialog}
                 />
             </div>
         );
@@ -57,13 +56,8 @@ SingleSprint.propTypes = {
         _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
     }).isRequired,
-    project: PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-    }).isRequired,
     toggleSprint: PropTypes.func.isRequired,
-    isProjectModerator: PropTypes.func.isRequired,
-    userId: PropTypes.string.isRequired,
+    canClose: PropTypes.bool.isRequired,
 };
 
 export default SingleSprint;

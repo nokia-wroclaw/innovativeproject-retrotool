@@ -2,20 +2,35 @@ import React, { PropTypes } from 'react';
 import {
     FlatButton,
     Dialog,
+    CardText,
 } from 'material-ui';
 
 
 export default class CloseDialog extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            errorMessage: '',
+        };
+    }
+
     onSubmit(e, sprintId) {
         e.preventDefault();
 
         const {
-        toggleSprint,
-        onClose,
+            toggleSprint,
+            onClose,
         } = this.props;
 
-        toggleSprint(sprintId);
-        onClose();
+        try {
+            toggleSprint(sprintId);
+            onClose();
+        } catch (error) {
+            this.setState({
+                errorMessage: error.reason,
+            });
+        }
     }
 
     render() {
@@ -25,10 +40,11 @@ export default class CloseDialog extends React.Component {
             onClose,
         } = this.props;
 
+        const { errorMessage } = this.state;
+
         const actions = [
             <FlatButton
                 label="Cancel"
-                primary
                 onTouchTap={onClose}
             />,
             <FlatButton
@@ -38,20 +54,35 @@ export default class CloseDialog extends React.Component {
             />,
         ];
 
+        const title = sprint.closed ?
+           'Are you sure you want to open this sprint?'
+           :
+           'Are you sure you want to close this sprint?'
+        ;
+
         return (
             <div>
                 <Dialog
-                    title={!sprint.closed ? 'Are you sure you want to close this sprint?' :
-                    'Are you sure you want to open this sprint?'}
+                    title={title}
                     actions={actions}
                     open={open}
-                />
+                >
+                    {errorMessage ?
+                        <CardText
+                            color="red"
+                        >
+                            {errorMessage}
+                        </CardText>
+                        :
+                        ''
+                    }
+                </Dialog>
             </div>
         );
     }
 }
 
-CloseDialog.defaultPropTypes = {
+CloseDialog.defaultProps = {
     open: false,
 };
 
