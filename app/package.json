@@ -1,5 +1,5 @@
 {
-  "name": "retro-tool",
+  "name": "retrotool-webapp",
   "private": true,
   "scripts": {
     "start": "meteor run --settings=settings.json",
@@ -10,11 +10,15 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.17.0",
     "meteor-node-stubs": "~0.2.0",
+    "moment": "^2.18.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-komposer": "^1.13.1",
     "react-router": "^3.0.2",
-    "react-tap-event-plugin": "^2.0.1"
+    "react-tap-event-plugin": "^2.0.1",
+    "simpl-schema": "^0.2.3",
+    "uniforms": "^1.17.2",
+    "uniforms-material": "^1.17.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
@@ -25,49 +29,5 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-meteor": "^4.0.1",
     "eslint-plugin-react": "^6.10.0"
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "allowImportExportEverywhere": true
-    },
-    "plugins": [
-      "meteor"
-    ],
-    "env": {
-      "browser": true
-    },
-    "extends": [
-      "airbnb",
-      "plugin:meteor/recommended"
-    ],
-    "settings": {
-      "import/resolver": "meteor"
-    },
-    "rules": {
-      "indent": [
-        "error",
-        4
-      ],
-      "no-unused-vars": [
-        "error"
-      ],
-      "import/no-absolute-path": 0,
-      "import/no-extraneous-dependencies": [
-        "off"
-      ],
-      "react/jsx-indent": [
-        "error",
-        4
-      ],
-      "react/jsx-indent-props": [
-        "error",
-        4
-      ],
-      "import/extensions": [
-        "off",
-        "never"
-      ]
-    }
   }
 }
