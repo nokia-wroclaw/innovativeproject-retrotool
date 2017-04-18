@@ -1,6 +1,4 @@
-import { AddNewModerator } from './addNewModerator.jsx';
-import React from 'react';
-
+import React, { PropTypes } from 'react';
 
 export class SingleProjectView extends React.Component {
 
@@ -13,7 +11,11 @@ export class SingleProjectView extends React.Component {
         return (<div><h1>Manage project: {this.props.proj.name}</h1>
             <div>Project ID: {this.props.proj._id}</div>
             <div>Project Members: {this.props.members}</div>
-            {this.AddNewModerator && <AddNewModerator />}
         </div>);
     }
 }
+
+SingleProjectView.propTypes = {
+    proj: PropTypes.element.isRequired,
+    members: PropTypes.string.isRequired,
+};

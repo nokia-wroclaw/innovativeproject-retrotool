@@ -5,8 +5,10 @@ import {
     CardActions,
     CardHeader,
     CardText,
-    FlatButton,
+    RaisedButton,
 } from 'material-ui';
+
+import PostComments from './PostComments';
 
 const formatDate = date => moment(date).fromNow();
 
@@ -15,30 +17,36 @@ const Post = ({
     author,
     text,
     createdAt,
+    projectId,
+    canRemove,
+    removePost,
 }) => (
     <Card key={id}>
         <CardHeader
             title={author.name}
             avatar={author.avatar}
-            subtitle={`Posted at ${formatDate(createdAt)}`}
+            subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
             {text}
         </CardText>
-        <CardActions>
-            <FlatButton
-                label="Add comment"
-                onTouchTap={() => {}}
-            />
-            <FlatButton
-                label="See comments"
-                onTouchTap={() => {}}
-            />
-        </CardActions>
+        {canRemove &&
+            <CardActions>
+                <RaisedButton
+                    label="Remove Post"
+                    onTouchTap={() => removePost(id)}
+                />
+            </CardActions>
+        }
+        <PostComments
+            postId={id}
+            projectId={projectId}
+        />
     </Card>
 );
 
 Post.propTypes = {
+    projectId: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     author: PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -46,6 +54,8 @@ Post.propTypes = {
     }),
     text: PropTypes.string.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
+    canRemove: PropTypes.bool.isRequired,
+    removePost: PropTypes.func.isRequired,
 };
 
 Post.defaultProps = {
@@ -53,6 +63,7 @@ Post.defaultProps = {
         name: 'Anonymous user',
         avatar: '',
     },
+    canRemove: false,
 };
 
 export default Post;

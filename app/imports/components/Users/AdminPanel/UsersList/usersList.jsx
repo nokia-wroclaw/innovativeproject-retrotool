@@ -1,8 +1,9 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { SingleUserView } from './SingleUserView/singleUserView.jsx';
-import { Meteor } from 'meteor/meteor';
+
 
 export class UsersList extends React.Component {
 
@@ -15,7 +16,11 @@ export class UsersList extends React.Component {
         this.items = [];
         for (let i = 1; i <= this.users.count(); i += 1) {
             this.items.push(
-                <MenuItem value={i} key={i} primaryText={this.users.fetch()[i - 1].services.github.username} />,
+                <MenuItem
+                    value={i}
+                    key={i}
+                    primaryText={this.users.fetch()[i - 1].services.github.username}
+                />,
                 );
         }
     }

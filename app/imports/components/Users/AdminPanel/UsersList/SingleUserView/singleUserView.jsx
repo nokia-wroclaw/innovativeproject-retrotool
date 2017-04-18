@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Toggle from 'material-ui/Toggle';
 import { Meteor } from 'meteor/meteor';
 
@@ -76,3 +76,7 @@ export class SingleUserView extends React.Component {
         </div>);
     }
 }
+
+SingleUserView.propTypes = {
+    user: PropTypes.element.isRequired,
+};

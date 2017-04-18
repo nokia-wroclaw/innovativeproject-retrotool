@@ -6,15 +6,24 @@ import {
 } from 'material-ui';
 
 import CategorySelect from './CategorySelect.jsx';
+import SortSelect from './SortSelect.jsx';
 
 const WallToolbar = ({
     addPost,
     handleChangeSelectedCategory,
     selectedCategoryId,
     categories,
+    handleChangeSort,
+    selectedSortId,
+    sortOptions,
 }) =>
     <Toolbar>
         <ToolbarGroup>
+            <SortSelect
+                onChange={handleChangeSort}
+                selectedId={selectedSortId}
+                options={sortOptions}
+            />
             <CategorySelect
                 categories={categories}
                 selectedCategoryId={selectedCategoryId}
@@ -37,14 +46,23 @@ WallToolbar.propTypes = {
     selectedCategoryId: PropTypes.string,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
+    handleChangeSort: PropTypes.func.isRequired,
+    selectedSortId: PropTypes.string.isRequired,
+    sortOptions: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }),
     ).isRequired,
 };
 
 WallToolbar.defaultProps = {
     selectedCategoryId: '',
+    selectedSortId: '',
 };
 
 export default WallToolbar;

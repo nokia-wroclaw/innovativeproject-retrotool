@@ -18,6 +18,11 @@ import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
+import Panel from '/imports/components/Users/AdminPanel';
+import UsersManagement from '/imports/components/Users/AdminPanel/UsersManagement.jsx';
+import ProjectsManagement from '/imports/components/Users/AdminPanel/ProjectsManagement.jsx';
+
+
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
         replace('/login');
@@ -38,6 +43,17 @@ export default (
                 path="create"
                 components={{ main: CreateNewProject, drawerContent: ProjectList }}
             />
+            <Route path="admin">
+                <Route path="main" component={{ main: Panel, drawerContent: ProjectList }} />
+                <Route
+                    path="users"
+                    component={{ main: UsersManagement, drawerContent: ProjectList }}
+                />
+                <Route
+                    path="projects"
+                    component={{ main: ProjectsManagement, drawerContent: ProjectList }}
+                />
+            </Route>
             <Route path="project">
                 <Route
                     path=":projectId"
