@@ -49,8 +49,8 @@ export const removePost = new ValidatedMethod({
     }).validator({ clean: true }),
     run({ postId }) {
         const userId = Meteor.userId();
-        const post = Posts.findOne(postId);
-        const { projectId = null } = post;
+        const { sprintId = null } = Posts.findOne(postId);
+        const { projectId = null } = Sprints.findOne(sprintId);
 
         if (isProjectModerator(projectId, userId) || isAdmin()) {
             return Posts.remove({ _id: postId });
