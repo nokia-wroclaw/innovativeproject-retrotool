@@ -6,9 +6,9 @@ import {
 } from 'material-ui';
 
 const SprintToolbar = ({
-sprint,
-closeSprint,
-canClose,
+    sprint,
+    closeSprint,
+    canClose,
 }) =>
     <Toolbar>
         <ToolbarGroup>

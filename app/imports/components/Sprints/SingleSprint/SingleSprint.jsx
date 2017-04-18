@@ -60,4 +60,8 @@ SingleSprint.propTypes = {
     canClose: PropTypes.bool.isRequired,
 };
 
+SingleSprint.defaultProps = {
+    canClose: false,
+};
+
 export default SingleSprint;
