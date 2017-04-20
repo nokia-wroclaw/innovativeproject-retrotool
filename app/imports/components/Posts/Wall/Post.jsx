@@ -19,6 +19,7 @@ const Post = ({
     createdAt,
     projectId,
     canRemove,
+    likePost,
     removePost,
 }) => (
     <Card key={id}>
@@ -30,14 +31,18 @@ const Post = ({
         <CardText>
             {text}
         </CardText>
-        {canRemove &&
-            <CardActions>
+        <CardActions>
+            <RaisedButton
+                label="Like It"
+                onTouchTap={() => likePost(id)}
+            />
+            {canRemove &&
                 <RaisedButton
                     label="Remove Post"
                     onTouchTap={() => removePost(id)}
                 />
-            </CardActions>
-        }
+            }
+        </CardActions>
         <PostComments
             postId={id}
             projectId={projectId}
@@ -56,6 +61,7 @@ Post.propTypes = {
     createdAt: PropTypes.instanceOf(Date).isRequired,
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
+    likePost: PropTypes.func.isRequired,
 };
 
 Post.defaultProps = {

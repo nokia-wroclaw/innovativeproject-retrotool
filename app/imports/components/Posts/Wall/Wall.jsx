@@ -70,6 +70,7 @@ class Wall extends React.Component {
             projectId,
             isProjectModeratorOrAdmin,
             removePost,
+            likePost,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -98,6 +99,7 @@ class Wall extends React.Component {
                             projectId={projectId}
                             canRemove={isProjectModeratorOrAdmin}
                             removePost={removePost}
+                            likePost={likePost}
                         />,
                     )
                 }
@@ -137,6 +139,7 @@ Wall.propTypes = {
     projectId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
+    likePost: PropTypes.func.isRequired,
 };
 
 Wall.defaultProps = {

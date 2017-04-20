@@ -52,6 +52,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         onData(null, {
             addPost: actions.addPost,
             removePost: actions.removePost,
+            likePost: actions.likePost,
             categories,
             posts,
             sprintId,

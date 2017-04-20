@@ -21,6 +21,13 @@ export const PostSchema = new SimpleSchema({
     categoryId: {
         type: String,
     },
+    likes: {
+        type: Array,
+        defaultValue: [],
+    },
+    'likes.$': {
+        type: String,
+    },
 });
 
 
@@ -37,6 +44,12 @@ export const AddPostSchema = new SimpleSchema({
         type: String,
     },
     categoryId: {
+        type: String,
+    },
+});
+
+export const LikePostSchema = new SimpleSchema({
+    postId: {
         type: String,
     },
 });
