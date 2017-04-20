@@ -1,27 +1,13 @@
 import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
-import { Meteor } from 'meteor/meteor';
 import { Card, CardTitle } from 'material-ui';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { ProjectList } from './ProjectList/projectList.jsx';
 
 
-const isAdmin = () => {
-    const handler = Meteor.subscribe('userData');
-    const handler2 = Meteor.subscribe('projectsList');
-    this.vireChoice = 'user';
-
-
-    if (handler.ready() && handler2.ready()) {
-        const admin = Meteor.users.findOne({}).isAdmin;
-        return admin;
-    }
-    return 'loading';
-};
-
-const UsersManagement = () => {
-    const admin = isAdmin();
-    if (admin !== 'loading') {
+const ProjectsManagement = (props) => {
+    const admin = props.admin;
+    if (admin) {
         if (!admin) {
             browserHistory.push('/hello');
         }
@@ -40,4 +26,8 @@ const UsersManagement = () => {
     );
 };
 
-export default UsersManagement;
+export default ProjectsManagement;
+
+ProjectsManagement.propTypes = {
+    admin: PropTypes.bool.isRequired,
+};

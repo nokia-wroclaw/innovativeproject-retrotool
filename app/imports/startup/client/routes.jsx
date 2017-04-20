@@ -19,7 +19,7 @@ import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 import Panel from '/imports/components/Users/AdminPanel';
-import UsersManagement from '/imports/components/Users/AdminPanel/UsersManagement.jsx';
+import UsersManagement from '/imports/components/Users/AdminPanel/UsersManagement';
 import ProjectsManagement from '/imports/components/Users/AdminPanel/ProjectsManagement.jsx';
 
 

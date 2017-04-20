@@ -2,15 +2,19 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
-import { Meteor } from 'meteor/meteor';
 import { Card, CardTitle } from 'material-ui';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 
-const isAdmin = () => {
-    const handler = Meteor.subscribe('userData');
-    this.vireChoice = 'user';
+const setChoiceToUserManage = () => {
+    browserHistory.push('/admin/users');
+};
 
+const setChoiceToProjectManage = () => {
+    browserHistory.push('/admin/projects');
+};
+
+const Panel = (props) => {
     this.styles = {
         button: {
             margin: 12,
@@ -27,26 +31,11 @@ const isAdmin = () => {
         },
     };
 
-    if (handler.ready()) {
-        const admin = Meteor.users.findOne({}).isAdmin;
-        return admin;
-    }
-    return 'loading';
-};
+    const admin = props.admin;
 
-const setChoiceToUserManage = () => {
-    browserHistory.push('/admin/users');
-    console.log(this.vireChoice);
-};
+    console.log('In Panel ', admin);
 
-const setChoiceToProjectManage = () => {
-    browserHistory.push('/admin/projects');
-    console.log(this.vireChoice);
-};
-
-const Panel = () => {
-    const admin = isAdmin();
-    if (admin !== 'loading') {
+    if (admin) {
         if (!admin) {
             browserHistory.push('/hello');
         }
@@ -81,3 +70,7 @@ const Panel = () => {
 };
 
 export default Panel;
+
+Panel.propTypes = {
+    admin: PropTypes.bool.isRequired,
+};
