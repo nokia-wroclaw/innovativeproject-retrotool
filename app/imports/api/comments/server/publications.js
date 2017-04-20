@@ -1,12 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { isProjectMember } from '/imports/api/projects';
-import { Sprints } from '/imports/api/sprints';
-import { isAdmin } from '/imports/api/users';
+import { getProjectIdByPostId } from '/imports/api/posts';
 import {
     collectionName,
-    Posts,
-} from './../Posts';
+    Comments,
+} from './../Comments.js';
 
 const transforDoc = (doc) => {
     if (!doc.showAuthor) {
@@ -15,20 +14,14 @@ const transforDoc = (doc) => {
     return doc;
 };
 
-Meteor.publish('sprintPosts', function publishSprintPosts(sprintId) {
-    check(sprintId, String);
+Meteor.publish('postComments', function publishPostComments(postId) {
+    check(postId, String);
     const self = this;
-
     const userId = self.userId;
-    const sprint = Sprints.findOne(sprintId);
+    const projectId = getProjectIdByPostId(postId);
 
-    const { projectId = null } = sprint;
-
-    const isMember = isProjectMember(projectId, userId);
-    const isCurrentUserAdmin = isAdmin(userId);
-
-    if (isMember || isCurrentUserAdmin) {
-        const cursor = Posts.find({ sprintId });
+    if (isProjectMember(projectId, userId)) {
+        const cursor = Comments.find({ postId });
 
         cursor.observe({
             added(newDoc) {

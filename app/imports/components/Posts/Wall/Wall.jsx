@@ -4,16 +4,26 @@ import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
 
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
+
 class Wall extends React.Component {
     constructor(props) {
         super(props);
 
         this.handleChangeSelectedCategory = this.handleChangeSelectedCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
+        this.addPost = this.addPost.bind(this);
 
         this.state = {
+            selectedSortId: getDefaultOptionValue(),
             showAddPostModal: false,
+            addPostError: null,
         };
     }
 
@@ -21,26 +31,48 @@ class Wall extends React.Component {
         this.setState({ selectedCategoryId: value });
     }
 
+    handleChangeSort(event, index, value) {
+        this.setState({ selectedSortId: value });
+    }
+
     showAddPostModal() {
         this.setState({ showAddPostModal: true });
     }
 
     hideAddPostModal() {
-        this.setState({ showAddPostModal: false });
+        this.setState({
+            showAddPostModal: false,
+            addPostError: null,
+        });
+    }
+
+    addPost(doc) {
+        const { sprintId } = this.props;
+        this.props.addPost({ sprintId, ...doc }, (error) => {
+            if (error) {
+                this.setState({ addPostError: new Error(error.reason || error) });
+                return;
+            }
+            this.hideAddPostModal();
+        });
     }
 
     render() {
         const {
+            addPostError,
             selectedCategoryId,
             showAddPostModal,
+            selectedSortId,
         } = this.state;
 
         const {
-            addPost,
             categories,
-            posts,
-            sprintId,
+            projectId,
+            isProjectModeratorOrAdmin,
+            removePost,
         } = this.props;
+
+        const posts = sort(this.props.posts, selectedSortId);
 
         return (
             <div>
@@ -49,6 +81,9 @@ class Wall extends React.Component {
                     categories={categories}
                     addPost={this.showAddPostModal}
                     handleChangeSelectedCategory={this.handleChangeSelectedCategory}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
+                    sortOptions={sortOptions}
                 />
 
                 {posts
@@ -60,16 +95,19 @@ class Wall extends React.Component {
                             author={post.author}
                             text={post.text}
                             createdAt={post.createdAt}
+                            projectId={projectId}
+                            canRemove={isProjectModeratorOrAdmin}
+                            removePost={removePost}
                         />,
                     )
                 }
 
                 <AddPost
-                    sprintId={sprintId}
-                    addPost={addPost}
-                    open={showAddPostModal}
-                    onClose={this.hideAddPostModal}
                     categories={categories}
+                    open={showAddPostModal}
+                    onSubmit={this.addPost}
+                    error={addPostError}
+                    onClose={this.hideAddPostModal}
                 />
             </div>
         );
@@ -80,8 +118,8 @@ Wall.propTypes = {
     addPost: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }),
     ).isRequired,
     posts: PropTypes.arrayOf(
@@ -96,6 +134,13 @@ Wall.propTypes = {
         }),
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
+    isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
+    removePost: PropTypes.func.isRequired,
+};
+
+Wall.defaultProps = {
+    isProjectModeratorOrAdmin: false,
 };
 
 export default Wall;

@@ -2,7 +2,8 @@ import { Mongo } from 'meteor/mongo';
 
 import { PostSchema } from './schema.js';
 
-const Posts = new Mongo.Collection('posts');
+export const collectionName = 'posts';
+const Posts = new Mongo.Collection(collectionName);
 
 Posts.attachSchema(PostSchema);
 

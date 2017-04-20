@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
-
 import {
     Projects,
     actions as projectActions,
+    isProjectModerator,
 } from '/imports/api/projects';
 import {
     Sprints,
@@ -13,26 +13,32 @@ import {
 import {
     actions as postActions,
 } from '/imports/api/posts';
+import { isAdmin } from '/imports/api/users';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
-const composer = ({ params: { projectId, sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) => {
     const projectListHandler = Meteor.subscribe('projectList');
     const sprintListHandler = Meteor.subscribe('sprintList', projectId);
+    const userId = Meteor.userId();
 
     if (projectListHandler.ready() && sprintListHandler.ready()) {
         const projectList = Projects.find({}).fetch();
         const sprintList = Sprints.find({}).fetch();
 
+        const canAddNewSprint = isProjectModerator(projectId, userId) || isAdmin();
+
         onData(null, {
             projectId,
             projects: projectList,
             sprints: sprintList,
-            goToProject: projectActions.goToProject,
-            goToSprint: sprintActions.goToSprint,
+            goToAddProject: projectActions.goToAddProject,
             goToAddSprint: sprintActions.goToAddSprint,
             goToPosts: postActions.goToPosts,
-            sprintId,
+            goToProject: projectActions.goToProject,
+            goToSprint: sprintActions.goToSprint,
+            currentSprintId,
+            showAddSprint: canAddNewSprint,
         });
     }
 };
