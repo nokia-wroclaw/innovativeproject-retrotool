@@ -1,12 +1,11 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { browserHistory } from 'react-router';
 import {
     AppBar,
     Drawer,
-    FlatButton,
 } from 'material-ui';
+import { onLogOut } from '/imports/api/users';
+import Navigation from './Navigation.jsx';
 
 class MainLayout extends React.Component {
     constructor(props) {
@@ -27,8 +26,12 @@ class MainLayout extends React.Component {
     }
 
     render() {
-        const { drawerContent, main } = this.props;
-
+        const {
+            drawerContent,
+            main,
+            isLoggedInUser,
+            isCurrentUserAdmin,
+        } = this.props;
         const { isDrawerOpen } = this.state;
 
         return (
@@ -36,10 +39,20 @@ class MainLayout extends React.Component {
                 <AppBar
                     title="Retro Tool"
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
-                    iconElementRight={<FlatButton
-                        onTouchTap={() => Meteor.logout(() => { browserHistory.push('/login'); })}
-                        label="Log out"
-                    />}
+                    iconElementRight={
+                        <Navigation
+                            goToWall={() => {}}
+                            goToProfile={() => {}}
+                            goToAdminPanel={() => {}}
+                            onLogOut={onLogOut}
+                            showButtons={{
+                                wall: isLoggedInUser,
+                                profile: isLoggedInUser,
+                                adminPanel: isCurrentUserAdmin,
+                                logout: isLoggedInUser,
+                            }}
+                        />
+                    }
                 />
                 <Drawer
                     open={isDrawerOpen}
@@ -56,6 +69,13 @@ class MainLayout extends React.Component {
 MainLayout.propTypes = {
     main: PropTypes.node.isRequired,
     drawerContent: PropTypes.node.isRequired,
+    isLoggedInUser: PropTypes.bool.isRequired,
+    isCurrentUserAdmin: PropTypes.bool.isRequired,
+};
+
+MainLayout.defaultProps = {
+    isLoggedInUser: false,
+    isCurrentUserAdmin: false,
 };
 
 export default MainLayout;
