@@ -36,7 +36,6 @@ Meteor.publish('userList', function publishUserList(projectId = null) {
 });
 
 Meteor.publish('extendedUser', function publishExtendedUser() {
-    // @XXX walkaround, temporary solution, change after PR!!
     const userId = this.userId;
 
     if (!userId) {
