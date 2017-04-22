@@ -26,7 +26,8 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
         const projectList = Projects.find({}).fetch();
         const sprintList = Sprints.find({}).fetch();
 
-        const canAddNewSprint = isProjectModerator(projectId, userId) || isAdmin();
+        const isCurrentUserAdmin = isAdmin();
+        const canAddNewSprint = isProjectModerator(projectId, userId) || isCurrentUserAdmin;
 
         onData(null, {
             projectId,
@@ -39,6 +40,7 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToSprint: sprintActions.goToSprint,
             currentSprintId,
             showAddSprint: canAddNewSprint,
+            showCreateLink: isCurrentUserAdmin,
         });
     }
 };
