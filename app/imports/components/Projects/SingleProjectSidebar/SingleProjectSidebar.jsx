@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     List,
     ListItem,
@@ -81,6 +82,7 @@ const SingleProjectSidebar = (props) => {
         goToWorkingAgreements,
         currentSprintId,
         showAddSprint,
+        showCreateLink,
     } = props;
 
     const sprintActions = {
@@ -94,7 +96,9 @@ const SingleProjectSidebar = (props) => {
         <List>
             <ListItem
                 primaryText="Projects"
-                nestedItems={renderProjectListItems(projects, goToProject, true, goToAddProject)}
+                nestedItems={
+                    renderProjectListItems(projects, goToProject, showCreateLink, goToAddProject)
+                }
             />
             {currentSprintId && renderSprintLinks(projectId, currentSprintId, sprintActions)}
             <ListItem
@@ -123,6 +127,7 @@ SingleProjectSidebar.propTypes = {
         }),
     ).isRequired,
     showAddSprint: PropTypes.bool.isRequired,
+    showCreateLink: PropTypes.bool.isRequired,
     goToActionItems: PropTypes.func.isRequired,
     goToAddProject: PropTypes.func.isRequired,
     goToAddSprint: PropTypes.func.isRequired,

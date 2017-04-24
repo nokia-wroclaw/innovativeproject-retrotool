@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
-import MainLayout from '/imports/components/layout/MainLayout.jsx';
+import MainLayout from '/imports/components/layout';
 
 import Login from '/imports/components/Users/Login';
 import SingleProject from '/imports/components/Projects/SingleProject';
