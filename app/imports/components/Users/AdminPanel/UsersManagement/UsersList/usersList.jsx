@@ -1,27 +1,49 @@
+import React, { PropTypes } from 'react';
+import Avatar from 'material-ui/Avatar';
+import Subheader from 'material-ui/Subheader';
 import { Meteor } from 'meteor/meteor';
-import React from 'react';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
-import { SingleUserView } from './SingleUserView/singleUserView.jsx';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 
 
-export class UsersList extends React.Component {
+export default class UsersList extends React.Component {
 
     constructor(props) {
         super(props);
+        this.SelectableList = makeSelectable(List);
+        this.setAdmin = this.setAdmin.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.users = Meteor.users.find({});
+        this.users = props.users;
         this.state = { value: this.users.count() };
         this.user = this.users.fetch()[this.state.value - 1];
         this.items = [];
         for (let i = 1; i <= this.users.count(); i += 1) {
             this.items.push(
-                <MenuItem
-                    value={i}
-                    key={i}
+                <ListItem
+                    value={1}
                     primaryText={this.users.fetch()[i - 1].services.github.username}
+                    leftAvatar={<Avatar
+                        src="http://www.clker.com/cliparts/3/V/U/m/W/U/admin-button-icon-md.png"
+                    />}
+                    nestedItems={[
+                        <ListItem
+                            value={2}
+                            primaryText="Set admin"
+                            leftAvatar={<i>xD</i>}
+                            onClick={() => this.setAdmin(this.users.fetch()[i - 1])}
+                        />,
+                    ]}
                 />,
                 );
+        }
+    }
+
+
+    setAdmin(x) {
+        this.console.log('setAdmin');
+        if (!x.isAdmin) {
+            Meteor.call('setAdmin', x._id, Meteor.userId());
+        } else {
+            Meteor.call('remAdmin', x._id, Meteor.userId());
         }
     }
 
@@ -35,11 +57,15 @@ export class UsersList extends React.Component {
     render() {
         return (
             <div>
-                <DropDownMenu maxHeight={300} value={this.state.value} onChange={this.handleChange}>
+                <this.SelectableList defaultValue={3}>
+                    <Subheader>Users</Subheader>
                     {this.items}
-                </DropDownMenu>
-                <SingleUserView user={this.user} />
+                </this.SelectableList>
             </div>
         );
     }
 }
+
+UsersList.propTypes = {
+    users: PropTypes.arrayOf(Array).isRequired,
+};

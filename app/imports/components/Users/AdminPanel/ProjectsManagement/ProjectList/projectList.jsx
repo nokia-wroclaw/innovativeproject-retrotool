@@ -1,14 +1,15 @@
 import { Projects } from '/imports/api/projects';
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import { SingleProjectView } from './SingleProjectView/singleProjectView.jsx';
 
 
 export class ProjectList extends React.Component {
 
     constructor(props) {
         super(props);
+        Meteor.subscribe('projectList');
         this.handleChange = this.handleChange.bind(this);
         this.projects = Projects.find({});
         this.state = { value: this.projects.count() };
@@ -33,7 +34,6 @@ export class ProjectList extends React.Component {
                 <DropDownMenu maxHeight={300} value={this.state.value} onChange={this.handleChange}>
                     {this.items}
                 </DropDownMenu>
-                <SingleProjectView proj={this.proj} members={this.proj.members[0]} />
             </div>
         );
     }

@@ -5,7 +5,6 @@ import { Meteor } from 'meteor/meteor';
 export class SingleUserView extends React.Component {
 
     constructor(props) {
-        console.log('SingleProjectView Constructor');
         super(props);
         this.setAdmin = this.setAdmin.bind(this);
         this.AddNewAdmin = false;

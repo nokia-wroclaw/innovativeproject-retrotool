@@ -2,11 +2,11 @@ import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
 import React, { PropTypes } from 'react';
-import { UsersList } from './UsersList/usersList.jsx';
+import UsersList from './UsersList';
 
 const UsersManagement = (props) => {
     const admin = props.admin;
-    console.log('UsersManagement', admin);
+
     if (admin) {
         if (!admin) {
             browserHistory.push('/hello');

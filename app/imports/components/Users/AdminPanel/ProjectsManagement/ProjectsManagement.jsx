@@ -2,13 +2,13 @@ import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
 import React, { PropTypes } from 'react';
-import { ProjectList } from './ProjectList/projectList.jsx';
-
+import ProjectList from './ProjectList';
 
 const ProjectsManagement = (props) => {
-    const admin = props.admin;
-    if (admin) {
-        if (!admin) {
+    const isAdmin = props.isAdmin;
+    console.log('ProjectsManagement', isAdmin);
+    if (isAdmin) {
+        if (!isAdmin) {
             browserHistory.push('/hello');
         }
         return (
@@ -29,5 +29,5 @@ const ProjectsManagement = (props) => {
 export default ProjectsManagement;
 
 ProjectsManagement.propTypes = {
-    admin: PropTypes.bool.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
 };

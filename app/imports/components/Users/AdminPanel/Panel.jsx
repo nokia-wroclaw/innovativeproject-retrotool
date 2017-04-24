@@ -31,12 +31,10 @@ const Panel = (props) => {
         },
     };
 
-    const admin = props.admin;
+    const isAdmin = props.isAdmin;
 
-    console.log('In Panel ', admin);
-
-    if (admin) {
-        if (!admin) {
+    if (isAdmin) {
+        if (!isAdmin) {
             browserHistory.push('/hello');
         }
         return (
@@ -72,5 +70,5 @@ const Panel = (props) => {
 export default Panel;
 
 Panel.propTypes = {
-    admin: PropTypes.bool.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
 };

@@ -20,7 +20,7 @@ import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 import Panel from '/imports/components/Users/AdminPanel';
 import UsersManagement from '/imports/components/Users/AdminPanel/UsersManagement';
-import ProjectsManagement from '/imports/components/Users/AdminPanel/ProjectsManagement.jsx';
+import ProjectsManagement from '/imports/components/Users/AdminPanel/ProjectsManagement';
 
 
 const onlyLoggedIn = (nextState, replace) => {
