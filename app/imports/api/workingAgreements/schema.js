@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema';
 
 const WorkingAgreementsSchema = new SimpleSchema({
-    projectId: {
+    sprintId: {
         type: String,
     },
     text: {
