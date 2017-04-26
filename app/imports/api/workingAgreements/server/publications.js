@@ -12,11 +12,3 @@ Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) 
 
     return WorkingAgreements.find(query, options);
 });
-
-
-Meteor.publish('singleWorkingAgreement',
-    function publishSingleWorkingAgreement(workingAgreementId) {
-        check(workingAgreementId, String);
-
-        return WorkingAgreements.find(workingAgreementId);
-    });

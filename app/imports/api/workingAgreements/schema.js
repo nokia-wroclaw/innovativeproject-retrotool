@@ -13,4 +13,10 @@ const WorkingAgreementsSchema = new SimpleSchema({
     },
 });
 
-export { WorkingAgreementsSchema };
+const romoveWorkingAgreementsSchema = new SimpleSchema({
+    workingAgreementId: {
+        type: String,
+    },
+});
+
+export { WorkingAgreementsSchema, romoveWorkingAgreementsSchema };

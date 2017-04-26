@@ -1,5 +1,8 @@
 import { browserHistory } from 'react-router';
-import { addWorkingAgreement } from './methods.js';
+import {
+    addWorkingAgreement,
+    removeWorkingAgreement,
+} from './methods.js';
 
 const goToWorkingAgreement = (projectId, sprintId, workingAgreementId) =>
     browserHistory.push(`/project/${
@@ -21,9 +24,22 @@ const createWorkingAgreement = (sprintId, text, date) => new Promise((resolve, r
     });
 });
 
+const deleteWorkingAgreement = workingAgreementId => new Promise((resolve, reject) => {
+    removeWorkingAgreement.call({
+        workingAgreementId,
+    }, (err, res) => {
+        if (err) {
+            err = err.reason || err;
+            return reject(new Error(err));
+        }
+        return resolve(res);
+    });
+});
+
 const actions = {
     createWorkingAgreement,
     goToWorkingAgreement,
+    deleteWorkingAgreement,
 };
 
 export { actions };
