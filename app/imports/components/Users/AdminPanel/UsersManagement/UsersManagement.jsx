@@ -8,9 +8,6 @@ const UsersManagement = (props) => {
     const admin = props.admin;
 
     if (admin) {
-        if (!admin) {
-            browserHistory.push('/hello');
-        }
         return (
             <Card>
                 <CardTitle
@@ -21,6 +18,10 @@ const UsersManagement = (props) => {
             </Card>
         );
     }
+    if (!admin) {
+        browserHistory.push('/hello');
+    }
+
     return (
         <CircularProgress size={80} thickness={5} />
     );

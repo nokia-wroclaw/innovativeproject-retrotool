@@ -39,7 +39,7 @@ export default class UsersList extends React.Component {
 
 
     setAdmin(x) {
-        this.console.log('setAdmin');
+        this.xD = 'xD';
         if (!x.isAdmin) {
             Meteor.call('setAdmin', x._id, Meteor.userId());
         } else {
@@ -48,7 +48,6 @@ export default class UsersList extends React.Component {
     }
 
     handleChange(event, index, _value) {
-        console.log('ListOfUsers handleChange', 'index = ', index, 'value = ', _value);
         this.setState({ value: _value });
         this.state.value = _value;
         this.user = this.users.fetch()[this.state.value - 1];

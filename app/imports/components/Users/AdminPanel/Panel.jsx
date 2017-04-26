@@ -34,9 +34,6 @@ const Panel = (props) => {
     const isAdmin = props.isAdmin;
 
     if (isAdmin) {
-        if (!isAdmin) {
-            browserHistory.push('/hello');
-        }
         return (
             <Card>
                 <CardTitle
@@ -62,6 +59,7 @@ const Panel = (props) => {
             </Card>
         );
     }
+    if (!isAdmin) { browserHistory.push('/hello'); }
     return (
         <CircularProgress size={80} thickness={5} />
     );

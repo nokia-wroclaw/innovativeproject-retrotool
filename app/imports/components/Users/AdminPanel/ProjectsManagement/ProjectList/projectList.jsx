@@ -1,6 +1,4 @@
-import { Projects } from '/imports/api/projects';
-import { Meteor } from 'meteor/meteor';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -9,9 +7,8 @@ export class ProjectList extends React.Component {
 
     constructor(props) {
         super(props);
-        Meteor.subscribe('projectList');
         this.handleChange = this.handleChange.bind(this);
-        this.projects = Projects.find({});
+        this.projects = props.projects;
         this.state = { value: this.projects.count() };
         this.proj = this.projects.fetch()[this.state.value - 1];
         this.items = [];
@@ -23,7 +20,6 @@ export class ProjectList extends React.Component {
     }
 
     handleChange(event, index, _value) {
-        console.log('ListOfProjects handleChange', 'index = ', index, 'value = ', _value);
         this.setState({ value: _value });
         this.state.value = _value;
         this.proj = this.projects.fetch()[this.state.value - 1];
@@ -39,3 +35,6 @@ export class ProjectList extends React.Component {
     }
 }
 
+ProjectList.propTypes = {
+    projects: PropTypes.arrayOf(Array).isRequired,
+};
