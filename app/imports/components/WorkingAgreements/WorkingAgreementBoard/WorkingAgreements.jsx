@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Snackbar from 'material-ui/Snackbar';
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
-
 import AddWorkingAgreement from '../AddWorkingAgreement';
 
 
@@ -13,10 +13,12 @@ class WorkingAgreements extends React.Component {
         this.showAddWorkingAgreementModal = this.showAddWorkingAgreementModal.bind(this);
         this.hideAddWorkingAgreementModal = this.hideAddWorkingAgreementModal.bind(this);
         this.addWorkingAgreement = this.addWorkingAgreement.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
 
         this.state = {
             showAddWorkingAgreementModal: false,
             addWorkingAgreementError: null,
+            openSnackbar: false,
         };
     }
 
@@ -40,8 +42,20 @@ class WorkingAgreements extends React.Component {
         this.hideAddWorkingAgreementModal();
         createWorkingAgreement(sprintId, doc.text, doc.date, (error) => {
             if (error) {
-                this.setState({ addWorkingAgreementError: new Error(error.reason || error) });
+                this.setState({
+                    addWorkingAgreementError: new Error(error.reason || error),
+                });
+            } else {
+                this.setState({
+                    openSnackbar: true,
+                });
             }
+        });
+    }
+
+    handleRequestClose() {
+        this.setState({
+            openSnackbar: false,
         });
     }
 
@@ -49,6 +63,7 @@ class WorkingAgreements extends React.Component {
         const {
             addWorkingAgreementError,
             showAddWorkingAgreementModal,
+            openSnackbar,
         } = this.state;
 
         const {
@@ -77,6 +92,13 @@ class WorkingAgreements extends React.Component {
                     onSubmit={this.addWorkingAgreement}
                     error={addWorkingAgreementError}
                     onClose={this.hideAddWorkingAgreementModal}
+                />
+
+                <Snackbar
+                    open={openSnackbar}
+                    message="New working agreement has been added!"
+                    autoHideDuration={4000}
+                    onRequestClose={this.handleRequestClose}
                 />
             </div>
         );
