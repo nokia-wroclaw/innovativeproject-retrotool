@@ -58,7 +58,7 @@ export default (
                     components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
                 />
                 <Route
-                    path=":projectId/sprint/:sprintId/workingagreements"
+                    path=":projectId/sprint/:sprintId/working-agreement/:workingagreementId"
                     components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
                 />
             </Route>
