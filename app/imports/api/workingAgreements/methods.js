@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
-import { isProjectMember } from '/imports/api/projects';
+import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 import { WorkingAgreements } from './WorkingAgreements.js';
 import {
@@ -38,12 +38,12 @@ export const removeWorkingAgreement = new ValidatedMethod({
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
 
-        if (isProjectMember(projectId, userId)) {
+        if (isProjectModerator(projectId, userId)) {
             return WorkingAgreements.remove({ _id: workingAgreementId });
         }
         throw new Meteor.Error(
-            'working-agreements-only-members-can-remove',
-            'Only member can remove working agreements',
+            'working-agreements-only-moderator-can-remove',
+            'Only moderator can remove working agreements',
         );
     },
 });

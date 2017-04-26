@@ -1,14 +1,25 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-//  import { isProjectMember } from '/imports/api/projects';
-//  import { isAdmin } from '/imports/api/users';
+import { isProjectMember,  } from '/imports/api/projects';
+import { isAdmin } from '/imports/api/users';
 import { WorkingAgreements } from './../WorkingAgreements.js';
+import { Sprints } from '/imports/api/sprints';
 
 Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) {
     check(sprintId, String);
-    const query = { sprintId };
 
-    const options = {};
+    const userId = this.userId;
+    const isCurrentUserAdmin = isAdmin(userId);
 
-    return WorkingAgreements.find(query, options);
+    const sprint = Sprints.findOne(sprintId);
+    const projectId = sprint.projectId;
+
+    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+        const query = { sprintId };
+
+        const options = {};
+
+        return WorkingAgreements.find(query, options);
+    }
+    return this.ready();
 });

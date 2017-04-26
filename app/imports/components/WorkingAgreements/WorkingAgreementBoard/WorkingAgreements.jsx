@@ -69,6 +69,7 @@ class WorkingAgreements extends React.Component {
             workingAgreements,
             removeWorkingAgreement,
             isMember,
+            isModerator,
             errorRemove,
             idToRemove,
         } = this.props;
@@ -87,7 +88,7 @@ class WorkingAgreements extends React.Component {
                         text={wa.text}
                         date={wa.date}
                         deleteWorkingAgreement={removeWorkingAgreement}
-                        isMember={isMember}
+                        isModerator={isModerator}
                         errorRemove={errorRemove}
                         idToRemove={idToRemove}
                     />,
@@ -128,6 +129,7 @@ WorkingAgreements.propTypes = {
         }),
     ).isRequired,
     isMember: PropTypes.bool.isRequired,
+    isModerator: PropTypes.bool.isRequired,
     errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
 };

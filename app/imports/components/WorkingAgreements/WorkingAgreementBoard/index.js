@@ -7,7 +7,7 @@ import {
     actions as workingAgreementActions,
 } from '/imports/api/workingAgreements';
 
-import { isProjectMember } from '/imports/api/projects';
+import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 
 import WorkingAgreements from './WorkingAgreements.jsx';
@@ -28,6 +28,7 @@ const composer = ({ params: { sprintId } }, onData) => {
 
         if (projectsHandler.ready()) {
             const isMember = isProjectMember(projectId, userId);
+            const isModerator = isProjectModerator(projectId, userId);
 
             const removeWorkingAgreement = (id) => {
                 const idToRemove = id;
@@ -38,6 +39,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                             removeWorkingAgreement,
                             workingAgreements,
                             sprintId,
+                            isModerator,
                             isMember,
                             errorRemove: err.reason,
                             idToRemove,
@@ -51,6 +53,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                 removeWorkingAgreement,
                 workingAgreements,
                 sprintId,
+                isModerator,
                 isMember,
             });
         }
