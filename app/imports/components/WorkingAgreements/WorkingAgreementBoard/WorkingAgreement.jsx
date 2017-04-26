@@ -17,6 +17,7 @@ const WorkingAgreement = ({
     text,
     date,
     deleteWorkingAgreement,
+    isMember,
 }) => (
     <Card key={id}>
         <CardTitle title={formatDate(date)} />
@@ -25,10 +26,10 @@ const WorkingAgreement = ({
         </CardText>
 
         <CardActions>
-            <RaisedButton
+            {isMember ? <RaisedButton
                 label="Remove working agreement"
                 onTouchTap={() => deleteWorkingAgreement(id)}
-            />
+            /> : ''}
         </CardActions>
     </Card>
 );
@@ -38,6 +39,7 @@ WorkingAgreement.propTypes = {
     text: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
     deleteWorkingAgreement: PropTypes.func.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 export default WorkingAgreement;

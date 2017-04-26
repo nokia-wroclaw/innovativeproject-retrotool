@@ -68,12 +68,14 @@ class WorkingAgreements extends React.Component {
         const {
             workingAgreements,
             deleteWorkingAgreement,
+            isMember,
         } = this.props;
 
         return (
             <div>
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
+                    isMember={isMember}
                 />
 
                 {workingAgreements.map(wa =>
@@ -83,6 +85,7 @@ class WorkingAgreements extends React.Component {
                         text={wa.text}
                         date={wa.date}
                         deleteWorkingAgreement={deleteWorkingAgreement}
+                        isMember={isMember}
                     />,
                 )}
 
@@ -115,6 +118,7 @@ WorkingAgreements.propTypes = {
             date: PropTypes.instanceOf(Date).isRequired,
         }),
     ).isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 export default WorkingAgreements;

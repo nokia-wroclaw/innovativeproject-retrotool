@@ -17,25 +17,26 @@ const composer = ({ params: { sprintId } }, onData) => {
     const workingAgreement = Meteor.subscribe('WorkingAgreements', sprintId);
     const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
 
+
     if (workingAgreement.ready() && sprintHandler.ready()) {
         const workingAgreements = workingAgreementCollection.find().fetch();
         const userId = Meteor.userId();
 
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
+        const projectsHandler = Meteor.subscribe('singleProject', projectId);
 
+        if (projectsHandler.ready()) {
+            const isMember = isProjectMember(projectId, userId);
 
-        const isMember = isProjectMember(projectId, userId);
-
-        //  console.log(isMember);
-
-        onData(null, {
-            createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
-            deleteWorkingAgreement: workingAgreementActions.deleteWorkingAgreement,
-            workingAgreements,
-            sprintId,
-            isMember,
-        });
+            onData(null, {
+                createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
+                deleteWorkingAgreement: workingAgreementActions.deleteWorkingAgreement,
+                workingAgreements,
+                sprintId,
+                isMember,
+            });
+        }
     }
 };
 
