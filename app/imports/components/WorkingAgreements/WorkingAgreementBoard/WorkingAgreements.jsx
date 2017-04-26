@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
+import WorkingAgreement from './WorkingAgreement.jsx';
 
 import AddWorkingAgreement from '../AddWorkingAgreement';
 
@@ -31,7 +32,10 @@ class WorkingAgreements extends React.Component {
     }
 
     addWorkingAgreement(doc) {
-        const { createWorkingAgreement, sprintId } = this.props;
+        const {
+            createWorkingAgreement,
+            sprintId,
+        } = this.props;
 
         this.hideAddWorkingAgreementModal();
         createWorkingAgreement(sprintId, doc.text, doc.date, (error) => {
@@ -47,11 +51,22 @@ class WorkingAgreements extends React.Component {
             showAddWorkingAgreementModal,
         } = this.state;
 
+        const { workingAgreements } = this.props;
+
         return (
             <div>
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
                 />
+
+                {workingAgreements.map(wa =>
+                    <WorkingAgreement
+                        key={wa._id}
+                        id={wa._id}
+                        text={wa.text}
+                        date={wa.date}
+                    />,
+                )}
 
                 <AddWorkingAgreement
                     open={showAddWorkingAgreementModal}
@@ -67,6 +82,13 @@ class WorkingAgreements extends React.Component {
 WorkingAgreements.propTypes = {
     createWorkingAgreement: PropTypes.func.isRequired,
     sprintId: PropTypes.string.isRequired,
+    workingAgreements: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            text: PropTypes.string.isRequired,
+            date: PropTypes.instanceOf(Date).isRequired,
+        }),
+    ).isRequired,
 };
 
 export default WorkingAgreements;

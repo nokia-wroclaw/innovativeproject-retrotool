@@ -4,10 +4,13 @@ import { check } from 'meteor/check';
 //  import { isAdmin } from '/imports/api/users';
 import { WorkingAgreements } from './../WorkingAgreements.js';
 
-Meteor.publish('WorkingAgreementsList', function publishWorkingAgreements(sprintId) {
+Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) {
     check(sprintId, String);
+    const query = { sprintId };
 
-    return WorkingAgreements.find(sprintId);
+    const options = {};
+
+    return WorkingAgreements.find(query, options);
 });
 
 

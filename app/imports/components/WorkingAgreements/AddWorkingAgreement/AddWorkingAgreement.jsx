@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Dialog,
+    FlatButton,
 } from 'material-ui';
+
+import {
+    AutoForm,
+    ErrorsField,
+    TextField,
+    SubmitField,
+    DateField,
+} from 'uniforms-material';
 
 import { schema } from './schema.js';
 
@@ -16,7 +25,28 @@ const AddWorkingAgreement = ({
         title="Add working agreement"
         open={open}
     >
-
+        <AutoForm
+            schema={schema}
+            onSubmit={onSubmit}
+            error={error}
+        >
+            <ErrorsField />
+            <TextField
+                name="text"
+                floatingLabelText="Working agreement"
+                fullWidth
+            />
+            <DateField
+                name="date"
+            />
+            <FlatButton
+                label="Close"
+                onTouchTap={onClose}
+            />
+            <SubmitField
+                primary
+            />
+        </AutoForm>
     </Dialog>
 );
 
