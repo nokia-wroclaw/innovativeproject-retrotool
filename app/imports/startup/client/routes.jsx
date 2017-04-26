@@ -18,6 +18,8 @@ import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
+import WorkingAgreements from '/imports/components/WorkingAgreements';
+
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
         replace('/login');
@@ -54,6 +56,10 @@ export default (
                 <Route
                     path=":projectId/sprint/:sprintId/wall"
                     components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/workingagreements"
+                    components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
                 />
             </Route>
         </Route>
