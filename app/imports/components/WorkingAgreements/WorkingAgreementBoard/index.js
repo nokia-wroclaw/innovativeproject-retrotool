@@ -20,6 +20,7 @@ const composer = ({ params: { sprintId } }, onData) => {
 
         onData(null, {
             createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
+            deleteWorkingAgreement: workingAgreementActions.deleteWorkingAgreement,
             workingAgreements,
             sprintId,
         });

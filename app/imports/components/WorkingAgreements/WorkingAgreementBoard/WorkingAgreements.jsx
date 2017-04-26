@@ -51,7 +51,10 @@ class WorkingAgreements extends React.Component {
             showAddWorkingAgreementModal,
         } = this.state;
 
-        const { workingAgreements } = this.props;
+        const {
+            workingAgreements,
+            deleteWorkingAgreement,
+        } = this.props;
 
         return (
             <div>
@@ -65,6 +68,7 @@ class WorkingAgreements extends React.Component {
                         id={wa._id}
                         text={wa.text}
                         date={wa.date}
+                        deleteWorkingAgreement={deleteWorkingAgreement}
                     />,
                 )}
 
@@ -82,6 +86,7 @@ class WorkingAgreements extends React.Component {
 WorkingAgreements.propTypes = {
     createWorkingAgreement: PropTypes.func.isRequired,
     sprintId: PropTypes.string.isRequired,
+    deleteWorkingAgreement: PropTypes.func.isRequired,
     workingAgreements: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
