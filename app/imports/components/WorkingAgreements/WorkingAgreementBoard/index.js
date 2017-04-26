@@ -20,8 +20,9 @@ const composer = ({ params: { sprintId } }, onData) => {
         onData(null, {
             createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
             workingAgreements,
+            sprintId,
         });
-        }
+    }
 };
 
 export default withRouter(

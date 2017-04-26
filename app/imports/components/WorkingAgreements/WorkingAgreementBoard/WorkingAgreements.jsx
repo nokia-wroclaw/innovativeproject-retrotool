@@ -31,7 +31,14 @@ class WorkingAgreements extends React.Component {
     }
 
     addWorkingAgreement(doc) {
-        console.log(doc);
+        const { createWorkingAgreement, sprintId } = this.props;
+
+        this.hideAddWorkingAgreementModal();
+        createWorkingAgreement(sprintId, doc.text, doc.date, (error) => {
+            if (error) {
+                this.setState({ addWorkingAgreementError: new Error(error.reason || error) });
+            }
+        });
     }
 
     render() {
@@ -59,6 +66,7 @@ class WorkingAgreements extends React.Component {
 
 WorkingAgreements.propTypes = {
     createWorkingAgreement: PropTypes.func.isRequired,
+    sprintId: PropTypes.string.isRequired,
 };
 
 export default WorkingAgreements;

@@ -7,7 +7,7 @@ import {
 } from 'material-ui';
 
 const WorkingAgreementsToolbar = ({
-    addWorkingAgreement
+    addWorkingAgreement,
 }) =>
     <Toolbar>
         <ToolbarGroup>

@@ -1,9 +1,6 @@
 import SimpleSchema from 'simpl-schema';
 
 export const schema = new SimpleSchema({
-    sprintId: {
-        type: String,
-    },
     text: {
         type: String,
     },
