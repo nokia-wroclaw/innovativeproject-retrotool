@@ -18,12 +18,18 @@ const WorkingAgreement = ({
     date,
     deleteWorkingAgreement,
     isMember,
+    errorRemove,
+    idToRemove,
 }) => (
     <Card key={id}>
         <CardTitle title={formatDate(date)} />
         <CardText>
             {text}
         </CardText>
+
+        {errorRemove && id === idToRemove ? <CardText color="red">
+            {errorRemove}
+        </CardText> : ''}
 
         <CardActions>
             {isMember ? <RaisedButton
@@ -34,12 +40,19 @@ const WorkingAgreement = ({
     </Card>
 );
 
+WorkingAgreement.defaultProps = {
+    errorRemove: '',
+    idToRemove: '',
+};
+
 WorkingAgreement.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
     deleteWorkingAgreement: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
+    errorRemove: PropTypes.string,
+    idToRemove: PropTypes.string,
 };
 
 export default WorkingAgreement;

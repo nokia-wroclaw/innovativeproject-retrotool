@@ -16,7 +16,7 @@ import WorkingAgreements from './WorkingAgreements.jsx';
 const composer = ({ params: { sprintId } }, onData) => {
     const workingAgreement = Meteor.subscribe('WorkingAgreements', sprintId);
     const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
-
+    const deleteWorkingAgreement = workingAgreementActions.deleteWorkingAgreement;
 
     if (workingAgreement.ready() && sprintHandler.ready()) {
         const workingAgreements = workingAgreementCollection.find().fetch();
@@ -29,9 +29,26 @@ const composer = ({ params: { sprintId } }, onData) => {
         if (projectsHandler.ready()) {
             const isMember = isProjectMember(projectId, userId);
 
+            const removeWorkingAgreement = (id) => {
+                const idToRemove = id;
+                deleteWorkingAgreement(id, (err) => {
+                    if (err) {
+                        onData(null, {
+                            createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
+                            removeWorkingAgreement,
+                            workingAgreements,
+                            sprintId,
+                            isMember,
+                            errorRemove: err.reason,
+                            idToRemove,
+                        });
+                    }
+                });
+            };
+
             onData(null, {
                 createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
-                deleteWorkingAgreement: workingAgreementActions.deleteWorkingAgreement,
+                removeWorkingAgreement,
                 workingAgreements,
                 sprintId,
                 isMember,
