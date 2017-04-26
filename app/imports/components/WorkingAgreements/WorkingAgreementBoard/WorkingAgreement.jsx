@@ -30,7 +30,6 @@ const WorkingAgreement = ({
                 onTouchTap={() => deleteWorkingAgreement(id)}
             />
         </CardActions>
-
     </Card>
 );
 

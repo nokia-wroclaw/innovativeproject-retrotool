@@ -15,9 +15,9 @@ export const addWorkingAgreement = new ValidatedMethod({
 });
 
 export const removeWorkingAgreement = new ValidatedMethod({
-  name: 'workingAgreement.remove',
-  validate: romoveWorkingAgreementsSchema.validator({ clean: true }),
-  run({ workingAgreementId }) {
-    return WorkingAgreements.remove({ _id: workingAgreementId });
-  },
+    name: 'workingAgreement.remove',
+    validate: romoveWorkingAgreementsSchema.validator({ clean: true }),
+    run({ workingAgreementId }) {
+        return WorkingAgreements.remove({ _id: workingAgreementId });
+    },
 });

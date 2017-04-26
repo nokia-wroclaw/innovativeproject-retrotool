@@ -4,11 +4,8 @@ import {
     removeWorkingAgreement,
 } from './methods.js';
 
-const goToWorkingAgreement = (projectId, sprintId, workingAgreementId) =>
-    browserHistory.push(`/project/${
-        projectId}/sprint/${
-            sprintId}/working-agreement/${
-                workingAgreementId}`);
+const goToWorkingAgreements = (projectId, sprintId) =>
+    browserHistory.push(`/project/${projectId}/sprint/${sprintId}/working-agreement`);
 
 const createWorkingAgreement = (sprintId, text, date) => new Promise((resolve, reject) => {
     addWorkingAgreement.call({
@@ -38,7 +35,7 @@ const deleteWorkingAgreement = workingAgreementId => new Promise((resolve, rejec
 
 const actions = {
     createWorkingAgreement,
-    goToWorkingAgreement,
+    goToWorkingAgreements,
     deleteWorkingAgreement,
 };
 

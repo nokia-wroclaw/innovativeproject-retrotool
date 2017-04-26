@@ -7,7 +7,7 @@ import {
     actions as workingAgreementActions,
 } from '/imports/api/workingAgreements';
 
-import { Projects, isProjectModerator } from '/imports/api/projects';
+//  import { Projects, isProjectModerator } from '/imports/api/projects';
 
 import WorkingAgreements from './WorkingAgreements.jsx';
 
