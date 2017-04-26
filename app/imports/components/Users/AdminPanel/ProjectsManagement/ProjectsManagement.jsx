@@ -1,7 +1,8 @@
 import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import ProjectList from './ProjectList';
 
 const ProjectsManagement = (props) => {

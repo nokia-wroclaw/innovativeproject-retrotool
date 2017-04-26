@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
-import { Meteor } from 'meteor/meteor';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
+import { PropTypes } from 'prop-types';
+import { actions } from './actions.js';
 
 
 export default class UsersList extends React.Component {
@@ -10,9 +11,9 @@ export default class UsersList extends React.Component {
     constructor(props) {
         super(props);
         this.SelectableList = makeSelectable(List);
-        this.setAdmin = this.setAdmin.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.users = props.users;
+        this.callMethod = props.callMethod;
         this.state = { value: this.users.count() };
         this.user = this.users.fetch()[this.state.value - 1];
         this.items = [];
@@ -29,7 +30,7 @@ export default class UsersList extends React.Component {
                             value={2}
                             primaryText="Set admin"
                             leftAvatar={<i>xD</i>}
-                            onClick={() => this.setAdmin(this.users.fetch()[i - 1])}
+                            onClick={() => actions.setAdmin(this.users.fetch()[i - 1])}
                         />,
                     ]}
                 />,
@@ -37,15 +38,6 @@ export default class UsersList extends React.Component {
         }
     }
 
-
-    setAdmin(x) {
-        this.xD = 'xD';
-        if (!x.isAdmin) {
-            Meteor.call('setAdmin', x._id, Meteor.userId());
-        } else {
-            Meteor.call('remAdmin', x._id, Meteor.userId());
-        }
-    }
 
     handleChange(event, index, _value) {
         this.setState({ value: _value });
@@ -67,4 +59,5 @@ export default class UsersList extends React.Component {
 
 UsersList.propTypes = {
     users: PropTypes.arrayOf(Array).isRequired,
+    callMethod: PropTypes.func.isRequired,
 };

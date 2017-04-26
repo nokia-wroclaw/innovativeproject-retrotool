@@ -1,8 +1,10 @@
-import CircularProgress from 'material-ui/CircularProgress';
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
-import React, { PropTypes } from 'react';
+import CircularProgress from 'material-ui/CircularProgress';
 import UsersList from './UsersList';
+
 
 const UsersManagement = (props) => {
     const admin = props.admin;

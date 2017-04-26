@@ -18,12 +18,12 @@ Accounts.onCreateUser((options, newUser) => {
 });
 
 Meteor.methods({
-    setAdmin(userId, adminId) {
+    setAdmin(userId) {
         check(userId, String);
-        check(adminId, String);
-        const admin = Meteor.users.findOne({ _id: adminId });
 
-        if (admin.isAdmin) {
+        const admin = Meteor.user().isAdmin;
+
+        if (admin) {
             const doc = Meteor.users.findOne({ _id: userId });
 
             if (Meteor.isServer) {
@@ -31,12 +31,12 @@ Meteor.methods({
             }
         }
     },
-    remAdmin(userId, adminId) {
+    remAdmin(userId) {
         check(userId, String);
-        check(adminId, String);
-        const admin = Meteor.users.findOne({ _id: adminId });
 
-        if (admin.isAdmin) {
+        const admin = Meteor.user().isAdmin;
+
+        if (admin) {
             const doc = Meteor.users.findOne({ _id: userId });
             if (Meteor.isServer) {
                 Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: false } });
