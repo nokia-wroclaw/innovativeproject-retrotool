@@ -32,8 +32,8 @@ const composer = ({ params: { sprintId } }, onData) => {
 
             const removeWorkingAgreement = (id) => {
                 const idToRemove = id;
-                deleteWorkingAgreement(id, (err) => {
-                    if (err) {
+                deleteWorkingAgreement(id, (error) => {
+                    if (error.reason) {
                         onData(null, {
                             createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
                             removeWorkingAgreement,
@@ -41,7 +41,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                             sprintId,
                             isModerator,
                             isMember,
-                            errorRemove: err.reason,
+                            errorRemove: error.reason,
                             idToRemove,
                         });
                     }

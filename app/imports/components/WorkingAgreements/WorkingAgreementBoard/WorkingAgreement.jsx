@@ -5,12 +5,12 @@ import moment from 'moment';
 import {
     Card,
     CardActions,
-    CardTitle,
     CardText,
     RaisedButton,
+    CardHeader,
 } from 'material-ui';
 
-const formatDate = date => moment(date).format('MMMM Do YYYY, h:mm:ss a');
+const formatDate = date => moment(date).fromNow();
 
 const WorkingAgreement = ({
     id,
@@ -22,20 +22,24 @@ const WorkingAgreement = ({
     idToRemove,
 }) => (
     <Card key={id}>
-        <CardTitle title={formatDate(date)} />
-        <CardText>
-            {text}
-        </CardText>
+        <CardHeader
+            title={text}
+            subtitle={formatDate(date)}
+        />
 
         {errorRemove && id === idToRemove ? <CardText color="red">
             {errorRemove}
         </CardText> : ''}
 
         <CardActions>
-            {isModerator ? <RaisedButton
-                label="Remove working agreement"
-                onTouchTap={() => deleteWorkingAgreement(id)}
-            /> : ''}
+            {isModerator ?
+                <RaisedButton
+                    label="Remove working agreement"
+                    onTouchTap={() => deleteWorkingAgreement(id)}
+                />
+                :
+                ''
+            }
         </CardActions>
     </Card>
 );

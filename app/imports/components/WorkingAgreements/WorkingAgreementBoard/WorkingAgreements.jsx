@@ -13,6 +13,7 @@ class WorkingAgreements extends React.Component {
         this.showAddWorkingAgreementModal = this.showAddWorkingAgreementModal.bind(this);
         this.hideAddWorkingAgreementModal = this.hideAddWorkingAgreementModal.bind(this);
         this.addWorkingAgreement = this.addWorkingAgreement.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
 
         this.state = {
             showAddWorkingAgreementModal: false,
@@ -38,10 +39,10 @@ class WorkingAgreements extends React.Component {
             sprintId,
         } = this.props;
 
-        createWorkingAgreement(sprintId, doc.text, doc.date, (err) => {
-            if (err) {
+        createWorkingAgreement(sprintId, doc.text, doc.date, (error) => {
+            if (error) {
                 this.setState({
-                    addWorkingAgreementError: err,
+                    addWorkingAgreementError: error,
                 });
             } else {
                 this.setState({
@@ -105,7 +106,7 @@ class WorkingAgreements extends React.Component {
                     open={openSnackbar}
                     message="New working agreement has been added!"
                     autoHideDuration={4000}
-                    onRequestClose={() => this.handleRequestClose()}
+                    onRequestClose={this.handleRequestClose}
                 />
             </div>
         );
