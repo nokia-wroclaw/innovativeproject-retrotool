@@ -4,6 +4,7 @@ import {
     Dialog,
 } from 'material-ui';
 
+import { schema } from './schema.js';
 
 const AddWorkingAgreement = ({
     error,

@@ -17,10 +17,10 @@ const composer = ({ params: { sprintId } }, onData) => {
 
     if (workingAgreement.ready()) {
         const workingAgreements = workingAgreementCollection.find(sprintId).fetch();
-            onData(null, {
-                createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
-                workingAgreements,
-            });
+        onData(null, {
+            createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
+            workingAgreements,
+        });
         }
 };
 
@@ -29,7 +29,6 @@ export default withRouter(
         composer,
     )(WorkingAgreements),
 );
-
 
 
 /*

@@ -53,7 +53,7 @@ class WorkingAgreements extends React.Component {
                     onClose={this.hideAddWorkingAgreementModal}
                 />
             </div>
-        )
+        );
     }
 }
 
