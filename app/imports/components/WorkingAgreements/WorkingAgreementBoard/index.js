@@ -33,7 +33,7 @@ const composer = ({ params: { sprintId } }, onData) => {
             const removeWorkingAgreement = (id) => {
                 const idToRemove = id;
                 deleteWorkingAgreement(id, (error) => {
-                    if (error.reason) {
+                    if (error) {
                         onData(null, {
                             createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
                             removeWorkingAgreement,
