@@ -39,17 +39,15 @@ class WorkingAgreements extends React.Component {
             sprintId,
         } = this.props;
 
-        createWorkingAgreement(sprintId, doc.text, doc.date, (error) => {
-            if (error) {
-                this.setState({
-                    addWorkingAgreementError: error,
-                });
-            } else {
-                this.setState({
-                    openSnackbar: true,
-                });
-                this.hideAddWorkingAgreementModal();
-            }
+        createWorkingAgreement(sprintId, doc.text, doc.date).then(() => {
+            this.setState({
+                openSnackbar: true,
+            });
+            this.hideAddWorkingAgreementModal();
+        }).catch((error) => {
+            this.setState({
+                addWorkingAgreementError: error,
+            });
         });
     }
 

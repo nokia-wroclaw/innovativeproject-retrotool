@@ -38,7 +38,7 @@ const getComments = (postId) => {
 };
 
 const wrappedOnData = (handler1, handler2, postId, onData, data) => {
-    if (handler1.ready() && handler1.ready()) {
+    if (handler1.ready() && handler2.ready()) {
         const comments = getComments(postId);
 
         onData(null, {

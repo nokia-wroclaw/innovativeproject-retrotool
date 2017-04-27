@@ -32,19 +32,18 @@ const composer = ({ params: { sprintId } }, onData) => {
 
             const removeWorkingAgreement = (id) => {
                 const idToRemove = id;
-                deleteWorkingAgreement(id, (error) => {
-                    if (error) {
-                        onData(null, {
-                            createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
-                            removeWorkingAgreement,
-                            workingAgreements,
-                            sprintId,
-                            isModerator,
-                            isMember,
-                            errorRemove: error.reason,
-                            idToRemove,
-                        });
-                    }
+
+                deleteWorkingAgreement(id).catch((error) => {
+                    onData(null, {
+                        createWorkingAgreement: workingAgreementActions.createWorkingAgreement,
+                        removeWorkingAgreement,
+                        workingAgreements,
+                        sprintId,
+                        isModerator,
+                        isMember,
+                        errorRemove: error.toString(),
+                        idToRemove,
+                    });
                 });
             };
 
