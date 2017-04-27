@@ -9,13 +9,14 @@ import {
 const WorkingAgreementsToolbar = ({
     addWorkingAgreement,
     isMember,
+    isClosed,
 }) =>
     <Toolbar>
         <ToolbarGroup>
             Working agreements
         </ToolbarGroup>
         <ToolbarGroup>
-            {isMember ? <RaisedButton
+            {isMember && !isClosed ? <RaisedButton
                 label="Add working agreement"
                 onTouchTap={addWorkingAgreement}
                 primary
@@ -27,6 +28,7 @@ const WorkingAgreementsToolbar = ({
 WorkingAgreementsToolbar.propTypes = {
     addWorkingAgreement: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
+    isClosed: PropTypes.bool.isRequired,
 };
 
 export default WorkingAgreementsToolbar;

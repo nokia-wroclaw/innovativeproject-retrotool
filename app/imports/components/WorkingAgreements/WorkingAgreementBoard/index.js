@@ -43,6 +43,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                         isMember,
                         errorRemove: error.toString(),
                         idToRemove,
+                        isClosed: sprint.closed,
                     });
                 });
             };
@@ -54,6 +55,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                 sprintId,
                 isModerator,
                 isMember,
+                isClosed: sprint.closed,
             });
         }
     }

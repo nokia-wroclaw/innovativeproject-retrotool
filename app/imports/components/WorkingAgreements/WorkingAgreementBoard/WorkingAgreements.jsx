@@ -71,6 +71,7 @@ class WorkingAgreements extends React.Component {
             isModerator,
             errorRemove,
             idToRemove,
+            isClosed,
         } = this.props;
 
         return (
@@ -78,6 +79,7 @@ class WorkingAgreements extends React.Component {
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
                     isMember={isMember}
+                    isClosed={isClosed}
                 />
 
                 {workingAgreements.map(wa =>
@@ -129,6 +131,7 @@ WorkingAgreements.propTypes = {
     ).isRequired,
     isMember: PropTypes.bool.isRequired,
     isModerator: PropTypes.bool.isRequired,
+    isClosed: PropTypes.bool.isRequired,
     errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
 };

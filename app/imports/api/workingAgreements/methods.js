@@ -15,6 +15,14 @@ export const addWorkingAgreement = new ValidatedMethod({
         const userId = Meteor.userId();
 
         const sprint = Sprints.findOne(sprintId);
+
+        if(sprint.closed === true) {
+            throw new Meteor.Error(
+                'working-agreements-only-open-sprint-add',
+                'You can add new working agreement only in open sprints',
+            );
+        }
+
         const projectId = sprint.projectId;
 
         if (isProjectMember(projectId, userId)) {
