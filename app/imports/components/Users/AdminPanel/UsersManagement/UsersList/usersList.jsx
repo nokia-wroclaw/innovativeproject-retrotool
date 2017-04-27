@@ -3,6 +3,7 @@ import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
+import DialogExampleSimple from './setAdmin.jsx';
 import { actions } from './actions.js';
 
 
