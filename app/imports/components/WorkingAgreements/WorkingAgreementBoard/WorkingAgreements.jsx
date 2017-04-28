@@ -13,13 +13,16 @@ class WorkingAgreements extends React.Component {
         this.showAddWorkingAgreementModal = this.showAddWorkingAgreementModal.bind(this);
         this.hideAddWorkingAgreementModal = this.hideAddWorkingAgreementModal.bind(this);
         this.addWorkingAgreement = this.addWorkingAgreement.bind(this);
-        this.handleRequestClose = this.handleRequestClose.bind(this);
 
         this.state = {
             showAddWorkingAgreementModal: false,
-            addWorkingAgreementError: null,
-            openSnackbar: false,
         };
+    }
+
+    componentWillReceiveProps(props) {
+        if (!props.errorAdd && props.openSnackbar) {
+            this.hideAddWorkingAgreementModal();
+        }
     }
 
     showAddWorkingAgreementModal() {
@@ -29,39 +32,21 @@ class WorkingAgreements extends React.Component {
     hideAddWorkingAgreementModal() {
         this.setState({
             showAddWorkingAgreementModal: false,
-            addWorkingAgreementError: null,
         });
     }
 
     addWorkingAgreement(doc) {
         const {
-            createWorkingAgreement,
+            aaddWorkingAgreement,
             sprintId,
         } = this.props;
 
-        createWorkingAgreement(sprintId, doc.text, doc.date).then(() => {
-            this.setState({
-                openSnackbar: true,
-            });
-            this.hideAddWorkingAgreementModal();
-        }).catch((error) => {
-            this.setState({
-                addWorkingAgreementError: error,
-            });
-        });
-    }
-
-    handleRequestClose() {
-        this.setState({
-            openSnackbar: false,
-        });
+        aaddWorkingAgreement(sprintId, doc.text, doc.date);
     }
 
     render() {
         const {
-            addWorkingAgreementError,
             showAddWorkingAgreementModal,
-            openSnackbar,
         } = this.state;
 
         const {
@@ -72,6 +57,9 @@ class WorkingAgreements extends React.Component {
             errorRemove,
             idToRemove,
             isClosed,
+            errorAdd,
+            openSnackbar,
+            closeSnackBar,
         } = this.props;
 
         return (
@@ -98,7 +86,7 @@ class WorkingAgreements extends React.Component {
                 <AddWorkingAgreement
                     open={showAddWorkingAgreementModal}
                     onSubmit={this.addWorkingAgreement}
-                    error={addWorkingAgreementError}
+                    error={errorAdd}
                     onClose={this.hideAddWorkingAgreementModal}
                 />
 
@@ -106,7 +94,7 @@ class WorkingAgreements extends React.Component {
                     open={openSnackbar}
                     message="New working agreement has been added!"
                     autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose}
+                    onRequestClose={closeSnackBar}
                 />
             </div>
         );
@@ -115,11 +103,14 @@ class WorkingAgreements extends React.Component {
 
 WorkingAgreements.defaultProps = {
     errorRemove: '',
+    errorAdd: null,
     idToRemove: '',
+    openSnackbar: false,
 };
 
 WorkingAgreements.propTypes = {
-    createWorkingAgreement: PropTypes.func.isRequired,
+    aaddWorkingAgreement: PropTypes.func.isRequired,
+    closeSnackBar: PropTypes.func.isRequired,
     sprintId: PropTypes.string.isRequired,
     removeWorkingAgreement: PropTypes.func.isRequired,
     workingAgreements: PropTypes.arrayOf(
@@ -133,7 +124,9 @@ WorkingAgreements.propTypes = {
     isModerator: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
     errorRemove: PropTypes.string,
+    errorAdd: PropTypes.instanceOf(Error),
     idToRemove: PropTypes.string,
+    openSnackbar: PropTypes.bool,
 };
 
 export default WorkingAgreements;
