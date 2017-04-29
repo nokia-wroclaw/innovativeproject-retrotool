@@ -8,6 +8,7 @@ import {
 const goToActionItems = (projectId, sprintId) =>
     browserHistory.push(`/project/${projectId}/sprint/${sprintId}/action-items`);
 
+const createActionItem = (sprintId, startDate, endDate, executorId, text) =>
     new Promise((resolve, reject) => {
         addActionItem.call({ sprintId, startDate, endDate, executorId, text }, (err, res) => {
             if (err) {
@@ -16,6 +17,7 @@ const goToActionItems = (projectId, sprintId) =>
             }
             resolve(res);
         });
+    });
 
 const toggleActionItemState = (actionItemId, closeMessage) => new Promise((resolve, reject) => {
     closeOrReopenActionItem.call({ actionItemId, closeMessage }, (err, res) => {

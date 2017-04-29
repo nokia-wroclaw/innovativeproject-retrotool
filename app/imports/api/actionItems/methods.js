@@ -50,6 +50,8 @@ export const closeOrReopenActionItem = new ValidatedMethod({
         if (isProjectModerator(projectId, userId)) {
             return ActionItems.update(actionItemId, {
                 $set: { open: !open,
+                    closeMessage,
+                },
             });
         }
         throw new Meteor.Error(
