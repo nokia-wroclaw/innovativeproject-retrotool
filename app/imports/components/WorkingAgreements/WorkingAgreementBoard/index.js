@@ -13,8 +13,8 @@ import { Sprints } from '/imports/api/sprints';
 import WorkingAgreements from './WorkingAgreements.jsx';
 
 
-const wrappedData = (handler1, handler2, sprintId, onData, defaultData, data) => {
-    if (handler1.ready() && handler2.ready()) {
+const wrappedData = (handler1, handler2, handler3, onData, defaultData, data) => {
+    if (handler1.ready() && handler2.ready() && handler3.ready()) {
         onData(null, {
             ...defaultData,
             ...data,
@@ -46,38 +46,50 @@ const composer = ({ params: { sprintId } }, onData) => {
 
                 deleteWorkingAgreement(id).catch((error) => {
                     workingAgreements = workingAgreementCollection.find().fetch();
-                    wrappedData(workingAgreement, projectsHandler, sprintId, onData, defaultData, {
-                        errorRemove: error.toString(),
-                        idToRemove,
-                        workingAgreements,
-                    });
+                    wrappedData(workingAgreement,
+                        projectsHandler,
+                        sprintHandler,
+                        onData,
+                        defaultData, {
+                            errorRemove: error.toString(),
+                            idToRemove,
+                            workingAgreements,
+                        });
                 });
             };
 
-            const aaddWorkingAgreement = async (sprintID, text, date) => {
+            const addWorkingAgreement = async (sprintID, text, date) => {
                 try {
                     await workingAgreementActions.createWorkingAgreement(sprintID, text, date);
                     workingAgreements = workingAgreementCollection.find().fetch();
-                    wrappedData(workingAgreement, projectsHandler, sprintId, onData, defaultData, {
-                        openSnackbar: true,
-                        workingAgreements,
-                    });
+                    wrappedData(workingAgreement,
+                        projectsHandler,
+                        sprintHandler,
+                        onData,
+                        defaultData, {
+                            openSnackbar: true,
+                            workingAgreements,
+                        });
                 } catch (error) {
-                    wrappedData(workingAgreement, projectsHandler, sprintId, onData, defaultData, {
-                        errorAdd: error,
-                    });
+                    wrappedData(workingAgreement,
+                        projectsHandler,
+                        sprintHandler,
+                        onData,
+                        defaultData, {
+                            errorAdd: error,
+                        });
                 }
             };
 
             const closeSnackBar = () => {
-                wrappedData(workingAgreement, projectsHandler, sprintId, onData, defaultData, {
+                wrappedData(workingAgreement, projectsHandler, sprintHandler, onData, defaultData, {
                     openSnackbar: false,
                     workingAgreements,
                 });
             };
 
             defaultData = {
-                aaddWorkingAgreement,
+                addWorkingAgreement,
                 removeWorkingAgreement,
                 workingAgreements,
                 sprintId,
@@ -87,7 +99,7 @@ const composer = ({ params: { sprintId } }, onData) => {
                 closeSnackBar,
             };
 
-            wrappedData(workingAgreement, projectsHandler, sprintId, onData, defaultData);
+            wrappedData(workingAgreement, projectsHandler, sprintHandler, onData, defaultData);
         }
     }
 };

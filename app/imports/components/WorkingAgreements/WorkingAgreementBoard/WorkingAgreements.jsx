@@ -37,11 +37,11 @@ class WorkingAgreements extends React.Component {
 
     addWorkingAgreement(doc) {
         const {
-            aaddWorkingAgreement,
+            addWorkingAgreement,
             sprintId,
         } = this.props;
 
-        aaddWorkingAgreement(sprintId, doc.text, doc.date);
+        addWorkingAgreement(sprintId, doc.text, doc.date);
     }
 
     render() {
@@ -109,7 +109,7 @@ WorkingAgreements.defaultProps = {
 };
 
 WorkingAgreements.propTypes = {
-    aaddWorkingAgreement: PropTypes.func.isRequired,
+    addWorkingAgreement: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     sprintId: PropTypes.string.isRequired,
     removeWorkingAgreement: PropTypes.func.isRequired,
