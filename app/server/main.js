@@ -6,6 +6,7 @@ import '/imports/api/posts';
 import '/imports/api/categories';
 import '/imports/api/users';
 import '/imports/api/comments';
+import '/imports/api/actionItems';
 
 // Server modules
 import '/imports/api/projects/server';
@@ -14,6 +15,7 @@ import '/imports/api/users/server';
 import '/imports/api/posts/server';
 import '/imports/api/categories/server';
 import '/imports/api/comments/server';
+import '/imports/api/actionItems/server';
 
 // Startup the server
 import '/imports/startup/server';
