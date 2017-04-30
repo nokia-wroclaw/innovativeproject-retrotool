@@ -13,6 +13,9 @@ import {
 import {
     actions as postActions,
 } from '/imports/api/posts';
+import {
+    actions as actionItemsActions,
+} from '/imports/api/actionItems';
 import { isAdmin } from '/imports/api/users';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
@@ -38,6 +41,7 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToPosts: postActions.goToPosts,
             goToProject: projectActions.goToProject,
             goToSprint: sprintActions.goToSprint,
+            goToActionItems: actionItemsActions.goToActionItems,
             currentSprintId,
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
