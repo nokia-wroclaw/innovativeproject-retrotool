@@ -10,7 +10,7 @@ import {
     CardHeader,
 } from 'material-ui';
 
-const formatDate = date => moment(date).format("MMMM Do YYYY");
+const formatDate = date => moment(date).format('MMMM Do YYYY');
 
 const WorkingAgreement = ({
     id,

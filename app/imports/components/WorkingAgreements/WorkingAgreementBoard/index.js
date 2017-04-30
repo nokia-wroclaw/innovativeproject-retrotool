@@ -40,7 +40,7 @@ const composer = ({ params: { sprintId } }, onData) => {
             const isMember = isProjectMember(projectId, userId);
             const isModerator = isProjectModerator(projectId, userId);
 
-            let defaultData;
+            let defaultData = {};
 
             const removeWorkingAgreement = (id) => {
                 const idToRemove = id;
