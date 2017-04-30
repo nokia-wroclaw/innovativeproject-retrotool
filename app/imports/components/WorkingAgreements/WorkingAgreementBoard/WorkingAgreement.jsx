@@ -10,7 +10,7 @@ import {
     CardHeader,
 } from 'material-ui';
 
-const formatDate = date => moment(date).fromNow();
+const formatDate = date => moment(date).format("MMMM Do YYYY");
 
 const WorkingAgreement = ({
     id,
@@ -28,7 +28,7 @@ const WorkingAgreement = ({
         />
 
         {errorRemove && id === idToRemove ? <CardText color="red">
-            {errorRemove}
+            {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
         </CardText> : ''}
 
         <CardActions>
@@ -45,7 +45,7 @@ const WorkingAgreement = ({
 );
 
 WorkingAgreement.defaultProps = {
-    errorRemove: '',
+    errorRemove: null,
     idToRemove: '',
 };
 
@@ -55,7 +55,7 @@ WorkingAgreement.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
     deleteWorkingAgreement: PropTypes.func.isRequired,
     isModerator: PropTypes.bool.isRequired,
-    errorRemove: PropTypes.string,
+    errorRemove: PropTypes.instanceOf(Error),
     idToRemove: PropTypes.string,
 };
 

@@ -15,7 +15,9 @@ import WorkingAgreements from './WorkingAgreements.jsx';
 
 const wrappedData = (handler1, handler2, handler3, onData, defaultData, data) => {
     if (handler1.ready() && handler2.ready() && handler3.ready()) {
+        const workingAgreements = workingAgreementCollection.find().fetch();
         onData(null, {
+            workingAgreements,
             ...defaultData,
             ...data,
         });
@@ -28,7 +30,6 @@ const composer = ({ params: { sprintId } }, onData) => {
     const deleteWorkingAgreement = workingAgreementActions.deleteWorkingAgreement;
 
     if (workingAgreement.ready() && sprintHandler.ready()) {
-        let workingAgreements = workingAgreementCollection.find().fetch();
         const userId = Meteor.userId();
 
         const sprint = Sprints.findOne(sprintId);
@@ -45,15 +46,13 @@ const composer = ({ params: { sprintId } }, onData) => {
                 const idToRemove = id;
 
                 deleteWorkingAgreement(id).catch((error) => {
-                    workingAgreements = workingAgreementCollection.find().fetch();
                     wrappedData(workingAgreement,
                         projectsHandler,
                         sprintHandler,
                         onData,
                         defaultData, {
-                            errorRemove: error.toString(),
+                            errorRemove: error,
                             idToRemove,
-                            workingAgreements,
                         });
                 });
             };
@@ -61,14 +60,12 @@ const composer = ({ params: { sprintId } }, onData) => {
             const addWorkingAgreement = async (sprintID, text, date) => {
                 try {
                     await workingAgreementActions.createWorkingAgreement(sprintID, text, date);
-                    workingAgreements = workingAgreementCollection.find().fetch();
                     wrappedData(workingAgreement,
                         projectsHandler,
                         sprintHandler,
                         onData,
                         defaultData, {
                             openSnackbar: true,
-                            workingAgreements,
                         });
                 } catch (error) {
                     wrappedData(workingAgreement,
@@ -84,14 +81,12 @@ const composer = ({ params: { sprintId } }, onData) => {
             const closeSnackBar = () => {
                 wrappedData(workingAgreement, projectsHandler, sprintHandler, onData, defaultData, {
                     openSnackbar: false,
-                    workingAgreements,
                 });
             };
 
             defaultData = {
                 addWorkingAgreement,
                 removeWorkingAgreement,
-                workingAgreements,
                 sprintId,
                 isModerator,
                 isMember,

@@ -47,7 +47,7 @@ export const removeWorkingAgreement = new ValidatedMethod({
         const projectId = sprint.projectId;
 
         if (isProjectModerator(projectId, userId)) {
-            return WorkingAgreements.remove({ _id: workingAgreementId });
+            return WorkingAgreements.remove(workingAgreementId);
         }
         throw new Meteor.Error(
             'working-agreements-only-moderator-can-remove',
