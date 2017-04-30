@@ -39,9 +39,12 @@ class WorkingAgreements extends React.Component {
         const {
             addWorkingAgreement,
             sprintId,
+            onData,
+            handlers,
+            wrappedData,
         } = this.props;
 
-        addWorkingAgreement(sprintId, doc.text, doc.date);
+        addWorkingAgreement(sprintId, doc.text, doc.date, onData, handlers, wrappedData);
     }
 
     render() {
@@ -60,6 +63,10 @@ class WorkingAgreements extends React.Component {
             errorAdd,
             openSnackbar,
             closeSnackBar,
+            sprintId,
+            onData,
+            handlers,
+            wrappedData,
         } = this.props;
 
         return (
@@ -80,6 +87,10 @@ class WorkingAgreements extends React.Component {
                         isModerator={isModerator}
                         errorRemove={errorRemove}
                         idToRemove={idToRemove}
+                        sprintId={sprintId}
+                        onData={onData}
+                        handlers={handlers}
+                        wrappedData={wrappedData}
                     />,
                 )}
 
@@ -94,7 +105,7 @@ class WorkingAgreements extends React.Component {
                     open={openSnackbar}
                     message="New working agreement has been added!"
                     autoHideDuration={4000}
-                    onRequestClose={closeSnackBar}
+                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
                 />
             </div>
         );
@@ -102,17 +113,22 @@ class WorkingAgreements extends React.Component {
 }
 
 WorkingAgreements.defaultProps = {
-    errorRemove: null,
+    errorRemove: '',
     errorAdd: null,
     idToRemove: '',
     openSnackbar: false,
 };
 
 WorkingAgreements.propTypes = {
+    sprintId: PropTypes.string.isRequired,
     addWorkingAgreement: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
-    sprintId: PropTypes.string.isRequired,
+    wrappedData: PropTypes.func.isRequired,
+    onData: PropTypes.func.isRequired,
     removeWorkingAgreement: PropTypes.func.isRequired,
+    isMember: PropTypes.bool.isRequired,
+    isModerator: PropTypes.bool.isRequired,
+    isClosed: PropTypes.bool.isRequired,
     workingAgreements: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -120,13 +136,15 @@ WorkingAgreements.propTypes = {
             date: PropTypes.instanceOf(Date).isRequired,
         }),
     ).isRequired,
-    isMember: PropTypes.bool.isRequired,
-    isModerator: PropTypes.bool.isRequired,
-    isClosed: PropTypes.bool.isRequired,
-    errorRemove: PropTypes.instanceOf(Error),
-    errorAdd: PropTypes.instanceOf(Error),
+    handlers: PropTypes.arrayOf(
+        PropTypes.shape({
+            subscriptionId: PropTypes.string.isRequired,
+        }).isRequired,
+    ).isRequired,
+    errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
     openSnackbar: PropTypes.bool,
+    errorAdd: PropTypes.instanceOf(Error),
 };
 
 export default WorkingAgreements;

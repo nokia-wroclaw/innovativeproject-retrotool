@@ -10,7 +10,7 @@ import {
     CardHeader,
 } from 'material-ui';
 
-const formatDate = date => moment(date).format('MMMM Do YYYY');
+const formatDate = date => moment(date).format('Do MMMM YYYY');
 
 const WorkingAgreement = ({
     id,
@@ -20,6 +20,10 @@ const WorkingAgreement = ({
     isModerator,
     errorRemove,
     idToRemove,
+    sprintId,
+    onData,
+    handlers,
+    wrappedData,
 }) => (
     <Card key={id}>
         <CardHeader
@@ -28,14 +32,16 @@ const WorkingAgreement = ({
         />
 
         {errorRemove && id === idToRemove ? <CardText color="red">
-            {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
+            {errorRemove}
         </CardText> : ''}
 
         <CardActions>
             {isModerator ?
                 <RaisedButton
                     label="Remove working agreement"
-                    onTouchTap={() => deleteWorkingAgreement(id)}
+                    onTouchTap={() =>
+                            deleteWorkingAgreement(id, sprintId, onData, handlers, wrappedData,
+                        )}
                 />
                 :
                 ''
@@ -45,17 +51,25 @@ const WorkingAgreement = ({
 );
 
 WorkingAgreement.defaultProps = {
-    errorRemove: null,
+    errorRemove: '',
     idToRemove: '',
 };
 
 WorkingAgreement.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    date: PropTypes.instanceOf(Date).isRequired,
+    sprintId: PropTypes.string.isRequired,
     deleteWorkingAgreement: PropTypes.func.isRequired,
+    wrappedData: PropTypes.func.isRequired,
+    onData: PropTypes.func.isRequired,
     isModerator: PropTypes.bool.isRequired,
-    errorRemove: PropTypes.instanceOf(Error),
+    date: PropTypes.instanceOf(Date).isRequired,
+    handlers: PropTypes.arrayOf(
+        PropTypes.shape({
+            subscriptionId: PropTypes.string.isRequired,
+        }).isRequired,
+    ).isRequired,
+    errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
 };
 
