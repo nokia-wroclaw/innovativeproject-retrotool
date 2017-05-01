@@ -17,7 +17,7 @@ const removeWorkingAgreement = (id, sprintId, onData, handlers, wrappedData) => 
 
     workingAgreementActions.deleteWorkingAgreement(id).catch((error) => {
         wrappedData(onData, sprintId, handlers, {
-            errorRemove: error.toString(),
+            errorRemove: error,
             idToRemove,
         });
     });

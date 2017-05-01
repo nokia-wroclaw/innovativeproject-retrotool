@@ -32,7 +32,7 @@ const WorkingAgreement = ({
         />
 
         {errorRemove && id === idToRemove ? <CardText color="red">
-            {errorRemove}
+            {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
         </CardText> : ''}
 
         <CardActions>
@@ -51,7 +51,7 @@ const WorkingAgreement = ({
 );
 
 WorkingAgreement.defaultProps = {
-    errorRemove: '',
+    errorRemove: null,
     idToRemove: '',
 };
 
@@ -69,8 +69,8 @@ WorkingAgreement.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
-    errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
+    errorRemove: PropTypes.instanceOf(Error),
 };
 
 export default WorkingAgreement;

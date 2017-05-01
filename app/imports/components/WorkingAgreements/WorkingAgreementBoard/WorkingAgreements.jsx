@@ -113,7 +113,7 @@ class WorkingAgreements extends React.Component {
 }
 
 WorkingAgreements.defaultProps = {
-    errorRemove: '',
+    errorRemove: null,
     errorAdd: null,
     idToRemove: '',
     openSnackbar: false,
@@ -141,9 +141,9 @@ WorkingAgreements.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
-    errorRemove: PropTypes.string,
     idToRemove: PropTypes.string,
     openSnackbar: PropTypes.bool,
+    errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
 
