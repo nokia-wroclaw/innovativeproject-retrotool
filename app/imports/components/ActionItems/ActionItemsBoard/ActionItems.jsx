@@ -140,17 +140,17 @@ class ActionItems extends React.Component {
 
                 {actionItems
                     .filter(ai => ai.open.toString() === selectedState || selectedState === 'all')
-                    .map(ai =>
+                    .map(({ _id, text, startDate, endDate, open, assignee, closeMessage }) =>
                         <ActionItem
-                            key={ai._id}
-                            id={ai._id}
-                            text={ai.text}
-                            startDate={ai.startDate}
-                            endDate={ai.endDate}
-                            open={ai.open}
-                            assignee={ai.assignee}
-                            closeMessage={ai.closeMessage}
-                            toggleActionItem={() => this.showToggleActionItemModal(ai._id)}
+                            key={_id}
+                            id={_id}
+                            text={text}
+                            startDate={startDate}
+                            endDate={endDate}
+                            open={open}
+                            assignee={assignee}
+                            closeMessage={closeMessage}
+                            toggleActionItem={() => this.showToggleActionItemModal(_id)}
                             isModerator={isModerator}
                             idToRemove={idToRemove}
                             sprintId={sprintId}

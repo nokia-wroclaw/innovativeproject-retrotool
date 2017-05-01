@@ -43,11 +43,15 @@ const ActionItemsToolbar = ({
                 />
             </ToolbarGroup>
             <ToolbarGroup>
-                {isMember && !isClosed ? <RaisedButton
-                    label="Add action item"
-                    onTouchTap={addActionItem}
-                    primary
-                /> : ''}
+                {isMember && !isClosed ?
+                    <RaisedButton
+                        label="Add action item"
+                        onTouchTap={addActionItem}
+                        primary
+                    />
+                    :
+                    ''
+                }
             </ToolbarGroup>
         </Toolbar>
     );

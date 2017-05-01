@@ -10,11 +10,12 @@ import {
     ErrorsField,
     TextField,
     SubmitField,
-    DateField,
     SelectField,
 } from 'uniforms-material';
 
 import { schema } from './schema.js';
+
+import CustomDatePicker from './CustomDatePicker.jsx';
 
 const AddActionItem = ({
     error,
@@ -43,11 +44,15 @@ const AddActionItem = ({
                 checkboxes={false}
                 options={options}
             />
-            <DateField
+            <CustomDatePicker
                 name="startDate"
+                min={new Date()}
+                placeholder="Start date"
             />
-            <DateField
+            <CustomDatePicker
                 name="endDate"
+                min={new Date()}
+                placeholder="End date"
             />
             <FlatButton
                 label="Close"
