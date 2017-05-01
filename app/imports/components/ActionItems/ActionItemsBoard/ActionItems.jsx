@@ -19,10 +19,13 @@ class ActionItems extends React.Component {
         this.hideToggleActionItemModal = this.hideToggleActionItemModal.bind(this);
         this.toggleModalActionItem = this.toggleModalActionItem.bind(this);
 
+        this.onChangeCategory = this.onChangeCategory.bind(this);
+
         this.state = {
             showAddActionItemModal: false,
             showToggleActionItemModal: false,
             actionItemId: '',
+            selectedState: 'all',
         };
     }
 
@@ -33,6 +36,10 @@ class ActionItems extends React.Component {
         if (!props.errorToggle && props.openToggleSnackbar) {
             this.hideToggleActionItemModal();
         }
+    }
+
+    onChangeCategory(event, index, value) {
+        this.setState({ selectedState: value });
     }
 
     showAddActionItemModal() {
@@ -100,6 +107,7 @@ class ActionItems extends React.Component {
         const {
             showAddActionItemModal,
             showToggleActionItemModal,
+            selectedState,
         } = this.state;
 
         const {
@@ -124,28 +132,32 @@ class ActionItems extends React.Component {
             <div>
                 <ActionItemsToolbar
                     addActionItem={this.showAddActionItemModal}
+                    onChangeCategory={this.onChangeCategory}
+                    selectedState={selectedState}
                     isMember={isMember}
                     isClosed={isClosed}
                 />
 
-                {actionItems.map(ai =>
-                    <ActionItem
-                        key={ai._id}
-                        id={ai._id}
-                        text={ai.text}
-                        startDate={ai.startDate}
-                        endDate={ai.endDate}
-                        open={ai.open}
-                        assignee={ai.assignee}
-                        closeMessage={ai.closeMessage}
-                        toggleActionItem={() => this.showToggleActionItemModal(ai._id)}
-                        isModerator={isModerator}
-                        idToRemove={idToRemove}
-                        sprintId={sprintId}
-                        onData={onData}
-                        handlers={handlers}
-                        wrappedData={wrappedData}
-                    />,
+                {actionItems
+                    .filter(ai => ai.open.toString() === selectedState || selectedState === 'all')
+                    .map(ai =>
+                        <ActionItem
+                            key={ai._id}
+                            id={ai._id}
+                            text={ai.text}
+                            startDate={ai.startDate}
+                            endDate={ai.endDate}
+                            open={ai.open}
+                            assignee={ai.assignee}
+                            closeMessage={ai.closeMessage}
+                            toggleActionItem={() => this.showToggleActionItemModal(ai._id)}
+                            isModerator={isModerator}
+                            idToRemove={idToRemove}
+                            sprintId={sprintId}
+                            onData={onData}
+                            handlers={handlers}
+                            wrappedData={wrappedData}
+                        />,
                 )}
 
                 <AddActionItem
