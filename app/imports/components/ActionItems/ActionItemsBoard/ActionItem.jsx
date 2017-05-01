@@ -18,20 +18,17 @@ const ActionItem = ({
     startDate,
     endDate,
     open,
+    closeMessage,
     assignee,
     toggleActionItem,
     isModerator,
     errorRemove,
     idToRemove,
-    sprintId,
-    onData,
-    handlers,
-    wrappedData,
 }) => (
     <Card key={id}>
         <CardHeader
-            title={assignee.name}
-            subtitle={!open ? '[closed]' : ''}
+            title={!open ? `${assignee.name} [closed]` : assignee.name}
+            subtitle={closeMessage}
             avatar={assignee.avatar}
         />
 
@@ -48,7 +45,9 @@ const ActionItem = ({
         <CardActions>
             {isModerator ?
                 <RaisedButton
-                    label="Close action item"
+                    label={open ? 'Close action item' : 'Reopen action item'}
+                    onTouchTap={toggleActionItem}
+                    secondary={open}
                 />
                 :
                 ''
@@ -60,6 +59,7 @@ const ActionItem = ({
 ActionItem.defaultProps = {
     errorRemove: null,
     idToRemove: '',
+    closeMessage: '',
     assignee: {
         name: 'Member',
         avatar: '',
@@ -69,23 +69,16 @@ ActionItem.defaultProps = {
 ActionItem.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    sprintId: PropTypes.string.isRequired,
     toggleActionItem: PropTypes.func.isRequired,
-    wrappedData: PropTypes.func.isRequired,
-    onData: PropTypes.func.isRequired,
     isModerator: PropTypes.bool.isRequired,
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
     open: PropTypes.bool.isRequired,
-    handlers: PropTypes.arrayOf(
-        PropTypes.shape({
-            subscriptionId: PropTypes.string.isRequired,
-        }).isRequired,
-    ).isRequired,
     assignee: PropTypes.shape({
         name: PropTypes.string,
         avatar: PropTypes.string,
     }).isRequired,
+    closeMessage: PropTypes.string,
     idToRemove: PropTypes.string,
     errorRemove: PropTypes.instanceOf(Error),
 };

@@ -5,8 +5,8 @@ import { FullPageLoader } from '/imports/components/Loaders';
 import AddActionItem from './AddActionItem.jsx';
 
 
-const composer = (props, onData) => {
-    const usersHandler = Meteor.subscribe('userList');
+const composer = ({ params: { projectId } }, onData) => {
+    const usersHandler = Meteor.subscribe('userList', projectId);
 
     if (usersHandler.ready()) {
         const options = Meteor.users.find({}).map(user => ({

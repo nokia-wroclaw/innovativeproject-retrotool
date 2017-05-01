@@ -26,7 +26,17 @@ export const addActionItem = new ValidatedMethod({
 
         if (isProjectMember(projectId, userId)) {
             const open = true;
-            return ActionItems.insert({ sprintId, startDate, endDate, assigneeId, text, open });
+            const closeMessage = '';
+
+            return ActionItems.insert({
+                sprintId,
+                startDate,
+                endDate,
+                assigneeId,
+                text,
+                open,
+                closeMessage,
+            });
         }
         throw new Meteor.Error(
             'action-items-only-members-can-add',

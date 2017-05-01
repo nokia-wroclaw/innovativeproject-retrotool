@@ -22,14 +22,19 @@ const ActionItemsSchema = new SimpleSchema({
         type: Boolean,
         defaultValue: true,
     },
+    closeMessage: {
+        type: String,
+        defaultValue: '',
+    },
 });
 
 const closeOrReopenActionItemsSchema = new SimpleSchema({
-    open: {
-        type: Boolean,
+    actionItemId: {
+        type: String,
     },
     closeMessage: {
         type: String,
+        optional: true,
     },
 });
 

@@ -4,6 +4,7 @@ import Snackbar from 'material-ui/Snackbar';
 import ActionItemsToolbar from './ActionItemsToolbar.jsx';
 import ActionItem from './ActionItem.jsx';
 import AddActionItem from '../AddActionItem';
+import CloseOrReopenActionItem from '../CloseOrReopenActionItem';
 
 
 class ActionItems extends React.Component {
@@ -14,14 +15,23 @@ class ActionItems extends React.Component {
         this.hideAddActionItemModal = this.hideAddActionItemModal.bind(this);
         this.addActionItem = this.addActionItem.bind(this);
 
+        this.showToggleActionItemModal = this.showToggleActionItemModal.bind(this);
+        this.hideToggleActionItemModal = this.hideToggleActionItemModal.bind(this);
+        this.toggleModalActionItem = this.toggleModalActionItem.bind(this);
+
         this.state = {
             showAddActionItemModal: false,
+            showToggleActionItemModal: false,
+            actionItemId: '',
         };
     }
 
     componentWillReceiveProps(props) {
         if (!props.errorAdd && props.openSnackbar) {
             this.hideAddActionItemModal();
+        }
+        if (!props.errorToggle && props.openToggleSnackbar) {
+            this.hideToggleActionItemModal();
         }
     }
 
@@ -30,9 +40,18 @@ class ActionItems extends React.Component {
     }
 
     hideAddActionItemModal() {
+        this.setState({ showAddActionItemModal: false });
+    }
+
+    showToggleActionItemModal(actionItemId) {
         this.setState({
-            showAddActionItemModal: false,
+            showToggleActionItemModal: true,
+            actionItemId,
         });
+    }
+
+    hideToggleActionItemModal() {
+        this.setState({ showToggleActionItemModal: false });
     }
 
     addActionItem(doc) {
@@ -56,22 +75,45 @@ class ActionItems extends React.Component {
         );
     }
 
+    toggleModalActionItem(doc) {
+        const {
+            toggleActionItem,
+            sprintId,
+            onData,
+            handlers,
+            wrappedData,
+        } = this.props;
+
+        const { actionItemId } = this.state;
+
+        toggleActionItem(
+            actionItemId,
+            doc.closeMessage,
+            onData,
+            sprintId,
+            handlers,
+            wrappedData,
+        );
+    }
+
     render() {
         const {
             showAddActionItemModal,
+            showToggleActionItemModal,
         } = this.state;
 
         const {
             actionItems,
-            toggleActionItem,
             isMember,
             isModerator,
-            errorRemove,
+            errorToggle,
             idToRemove,
             isClosed,
             errorAdd,
             openSnackbar,
+            openToggleSnackbar,
             closeSnackBar,
+            projectId,
             sprintId,
             onData,
             handlers,
@@ -95,9 +137,9 @@ class ActionItems extends React.Component {
                         endDate={ai.endDate}
                         open={ai.open}
                         assignee={ai.assignee}
-                        toggleActionItem={toggleActionItem}
+                        closeMessage={ai.closeMessage}
+                        toggleActionItem={() => this.showToggleActionItemModal(ai._id)}
                         isModerator={isModerator}
-                        errorRemove={errorRemove}
                         idToRemove={idToRemove}
                         sprintId={sprintId}
                         onData={onData}
@@ -113,9 +155,24 @@ class ActionItems extends React.Component {
                     onClose={this.hideAddActionItemModal}
                 />
 
+                <CloseOrReopenActionItem
+                    open={showToggleActionItemModal}
+                    onSubmit={this.toggleModalActionItem}
+                    error={errorToggle}
+                    onClose={this.hideToggleActionItemModal}
+                    projectId={projectId}
+                />
+
                 <Snackbar
                     open={openSnackbar}
                     message="New action item has been added!"
+                    autoHideDuration={4000}
+                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                />
+
+                <Snackbar
+                    open={openToggleSnackbar}
+                    message="Changes saved!"
                     autoHideDuration={4000}
                     onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
                 />
@@ -125,14 +182,16 @@ class ActionItems extends React.Component {
 }
 
 ActionItems.defaultProps = {
-    errorRemove: null,
+    errorToggle: null,
     errorAdd: null,
     idToRemove: '',
     openSnackbar: false,
+    openToggleSnackbar: false,
 };
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
@@ -161,7 +220,8 @@ ActionItems.propTypes = {
     ).isRequired,
     idToRemove: PropTypes.string,
     openSnackbar: PropTypes.bool,
-    errorRemove: PropTypes.instanceOf(Error),
+    openToggleSnackbar: PropTypes.bool,
+    errorToggle: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
 

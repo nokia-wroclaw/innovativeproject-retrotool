@@ -12,15 +12,25 @@ import { Sprints } from '/imports/api/sprints';
 
 import ActionItems from './ActionItems.jsx';
 
-const toggleActionItem = (actionItemId, closeMessage, sprintId, onData, handlers, wrappedData) => {
-    const idToRemove = actionItemId;
 
-    actionItemsActions.toggleActionItemState(actionItemId, closeMessage).catch((error) => {
+const toggleActionItem = async (
+    actionItemId,
+    closeMessage,
+    onData,
+    sprintId,
+    handlers,
+    wrappedData,
+) => {
+    try {
+        await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
         wrappedData(onData, sprintId, handlers, {
-            errorRemove: error,
-            idToRemove,
+            openToggleSnackbar: true,
         });
-    });
+    } catch (error) {
+        wrappedData(onData, sprintId, handlers, {
+            errorToggle: error,
+        });
+    }
 };
 
 const addActionItem = async (
@@ -48,6 +58,7 @@ const addActionItem = async (
 const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
     wrappedData(onData, sprintId, handlers, {
         openSnackbar: false,
+        openToggleSnackbar: false,
     });
 };
 
@@ -80,6 +91,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
             closeSnackBar,
             isMember,
             isModerator,
+            projectId,
             sprintId,
             isClosed: sprint.closed,
             ...data,
