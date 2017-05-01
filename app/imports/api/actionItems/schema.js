@@ -12,7 +12,7 @@ const ActionItemsSchema = new SimpleSchema({
         type: Date,
         defaultValue: new Date(),
     },
-    executorId: {
+    assigneeId: {
         type: String,
     },
     text: {

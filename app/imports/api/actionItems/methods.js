@@ -11,7 +11,7 @@ import {
 export const addActionItem = new ValidatedMethod({
     name: 'actionItem.add',
     validate: ActionItemsSchema.validator({ clean: true }),
-    run({ sprintId, startDate, endDate, executorId, text }) {
+    run({ sprintId, startDate, endDate, assigneeId, text }) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
 
@@ -26,7 +26,7 @@ export const addActionItem = new ValidatedMethod({
 
         if (isProjectMember(projectId, userId)) {
             const open = true;
-            return ActionItems.insert({ sprintId, startDate, endDate, executorId, text, open });
+            return ActionItems.insert({ sprintId, startDate, endDate, assigneeId, text, open });
         }
         throw new Meteor.Error(
             'action-items-only-members-can-add',

@@ -8,9 +8,9 @@ import {
 const goToActionItems = (projectId, sprintId) =>
     browserHistory.push(`/project/${projectId}/sprint/${sprintId}/action-items`);
 
-const createActionItem = (sprintId, startDate, endDate, executorId, text) =>
+const createActionItem = (sprintId, startDate, endDate, assigneeId, text) =>
     new Promise((resolve, reject) => {
-        addActionItem.call({ sprintId, startDate, endDate, executorId, text }, (err, res) => {
+        addActionItem.call({ sprintId, startDate, endDate, assigneeId, text }, (err, res) => {
             if (err) {
                 const error = new Error(err.reason || err);
                 reject(error);
