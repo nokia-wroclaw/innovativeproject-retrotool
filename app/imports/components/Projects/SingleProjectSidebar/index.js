@@ -16,6 +16,10 @@ import {
 import {
     actions as actionItemsActions,
 } from '/imports/api/actionItems';
+import {
+    actions as workingAgreementsActions,
+} from '/imports/api/workingAgreements';
+
 import { isAdmin } from '/imports/api/users';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
@@ -42,6 +46,7 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToProject: projectActions.goToProject,
             goToSprint: sprintActions.goToSprint,
             goToActionItems: actionItemsActions.goToActionItems,
+            goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
             currentSprintId,
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
