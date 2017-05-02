@@ -7,7 +7,7 @@ import {
     CardText,
 } from 'material-ui';
 
-const formatDate = date => `Commented ${moment(date).fromNow()}`;
+const formatDate = date => `Commented ${moment.utc(date).fromNow()}`;
 
 
 const Comment = ({ author, createdAt, text }) =>

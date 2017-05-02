@@ -71,6 +71,7 @@ class Wall extends React.Component {
             projectId,
             isProjectModeratorOrAdmin,
             removePost,
+            isSprintOpen,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -85,6 +86,7 @@ class Wall extends React.Component {
                     handleChangeSort={this.handleChangeSort}
                     selectedSortId={selectedSortId}
                     sortOptions={sortOptions}
+                    isSprintOpen={isSprintOpen}
                 />
 
                 {posts
@@ -138,6 +140,7 @@ Wall.propTypes = {
     projectId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
+    isSprintOpen: PropTypes.bool.isRequired,
 };
 
 Wall.defaultProps = {
