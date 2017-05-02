@@ -13,13 +13,12 @@ import { Sprints } from '/imports/api/sprints';
 import WorkingAgreements from './WorkingAgreements.jsx';
 
 const removeWorkingAgreement = (id, sprintId, onData, handlers, wrappedData) => {
-    workingAgreementActions.deleteWorkingAgreement(id).then(() => {
-        wrappedData(onData, sprintId, handlers, {
-            openRemoveSnackbar: true,
-        });
-    }).catch((error) => {
+    const idToRemove = id;
+
+    workingAgreementActions.deleteWorkingAgreement(id).catch((error) => {
         wrappedData(onData, sprintId, handlers, {
             errorRemove: error,
+            idToRemove,
         });
     });
 };
@@ -40,7 +39,6 @@ const addWorkingAgreement = async (sprintId, text, date, onData, handlers, wrapp
 const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
     wrappedData(onData, sprintId, handlers, {
         openSnackbar: false,
-        openRemoveSnackbar: false,
     });
 };
 
