@@ -1,48 +1,48 @@
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-import CircularProgress from 'material-ui/CircularProgress';
 import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import UsersList from './UsersManagement/UsersList';
+import ProjectList from './ProjectsManagement/ProjectList';
 
+export default class Panel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.isAdmin = props.isAdmin;
+        if (!this.isAdmin) { browserHistory.push('/hello'); }
+        this.state = { option: true };
+    }
 
-const redirect = (path) => {
-    browserHistory.push(path);
-};
-
-const Panel = ({ isAdmin }) => {
-    if (isAdmin) {
+    render() {
         return (
-            <Card>
-                <CardTitle
-                    title="Retro Tool- Admin Panel"
-                    subtitle="Admin"
-                />
-                <RaisedButton
-                    onTouchTap={() => redirect('/admin/users')}
-                    target="_blank"
-                    label="Manage Users"
-                    secondary
-                    icon={<FontIcon className="muidocs-icon-custom-github" />}
-                />
-                <RaisedButton
-                    onTouchTap={() => redirect('/admin/projects')}
-                    target="_blank"
-                    label="Manage Projects"
-                    secondary
-                    icon={<FontIcon className="muidocs-icon-custom-github" />}
-                />
-            </Card>
+            <div>
+                <Card>
+                    <CardTitle
+                        title="Retro Tool- Admin Panel"
+                        subtitle="Admin"
+                    />
+                    <RaisedButton
+                        onTouchTap={() => { this.setState({ option: true }); }}
+                        target="_blank"
+                        label="Manage Users"
+                        secondary
+                        icon={<FontIcon className="muidocs-icon-custom-github" />}
+                    />
+                    <RaisedButton
+                        onTouchTap={() => { this.setState({ option: false }); }}
+                        target="_blank"
+                        label="Manage Projects"
+                        secondary
+                        icon={<FontIcon className="muidocs-icon-custom-github" />}
+                    />
+                </Card>
+                { this.state.option ? <UsersList /> : <ProjectList /> }
+            </div>
         );
     }
-    if (!isAdmin) { browserHistory.push('/hello'); }
-    return (
-        <CircularProgress size={80} thickness={5} />
-    );
-};
-
-export default Panel;
+}
 
 Panel.propTypes = {
     isAdmin: PropTypes.bool.isRequired,

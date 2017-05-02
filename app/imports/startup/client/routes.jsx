@@ -19,8 +19,6 @@ import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 import Panel from '/imports/components/Users/AdminPanel';
-import UsersManagement from '/imports/components/Users/AdminPanel/UsersManagement';
-import ProjectsManagement from '/imports/components/Users/AdminPanel/ProjectsManagement';
 
 
 const onlyLoggedIn = (nextState, replace) => {
@@ -45,14 +43,6 @@ export default (
             />
             <Route path="admin">
                 <Route path="main" component={{ main: Panel, drawerContent: ProjectList }} />
-                <Route
-                    path="users"
-                    component={{ main: UsersManagement, drawerContent: ProjectList }}
-                />
-                <Route
-                    path="projects"
-                    component={{ main: ProjectsManagement, drawerContent: ProjectList }}
-                />
             </Route>
             <Route path="project">
                 <Route

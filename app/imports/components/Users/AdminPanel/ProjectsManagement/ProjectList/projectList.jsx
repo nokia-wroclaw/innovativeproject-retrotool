@@ -12,11 +12,6 @@ export class ProjectList extends React.Component {
         this.projects = props.projects;
     }
 
-    handleChange(event, index, _value) {
-        this.setState({ value: _value });
-        this.state.value = _value;
-        this.proj = this.projects.fetch()[this.state.value - 1];
-    }
     render() {
         return (
             <div>
