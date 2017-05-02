@@ -28,6 +28,13 @@ export const PostSchema = new SimpleSchema({
     'likes.$': {
         type: String,
     },
+    dislikes: {
+        type: Array,
+        defaultValue: [],
+    },
+    'dislikes.$': {
+        type: String,
+    },
 });
 
 

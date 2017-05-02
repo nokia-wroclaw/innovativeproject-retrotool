@@ -20,7 +20,9 @@ const Post = ({
     projectId,
     canRemove,
     likePost,
+    dislikePost,
     removePost,
+    likes,
 }) => (
     <Card key={id}>
         <CardHeader
@@ -33,8 +35,16 @@ const Post = ({
         </CardText>
         <CardActions>
             <RaisedButton
+                label={`${likes}`}
+                disabled
+            />
+            <RaisedButton
                 label="Like It"
                 onTouchTap={() => likePost(id)}
+            />
+            <RaisedButton
+                label="Dislike It"
+                onTouchTap={() => dislikePost(id)}
             />
             {canRemove &&
                 <RaisedButton
@@ -62,6 +72,8 @@ Post.propTypes = {
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    dislikePost: PropTypes.func.isRequired,
+    likes: PropTypes.number.isRequired,
 };
 
 Post.defaultProps = {
@@ -70,6 +82,7 @@ Post.defaultProps = {
         avatar: '',
     },
     canRemove: false,
+    likes: 0,
 };
 
 export default Post;
