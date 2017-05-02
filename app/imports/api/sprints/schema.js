@@ -11,6 +11,10 @@ const SprintSchema = new SimpleSchema({
         type: Boolean,
         defaultValue: false,
     },
+    createdAt: {
+        type: Date,
+        defaultValue: new Date(),
+    },
 });
 
 // Methods schema

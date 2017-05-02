@@ -5,6 +5,9 @@ import {
     Toolbar,
     ToolbarGroup,
 } from 'material-ui';
+import Lock from 'material-ui/svg-icons/action/lock';
+import LockOutline from 'material-ui/svg-icons/action/lock-outline';
+import LockOpen from 'material-ui/svg-icons/action/lock-open';
 
 const SprintToolbar = ({
     sprint,
@@ -13,12 +16,13 @@ const SprintToolbar = ({
 }) =>
     <Toolbar>
         <ToolbarGroup>
-            {sprint.name} {sprint.closed ? ' - closed' : ''}
+            {sprint.closed && <Lock />} {sprint.name}
         </ToolbarGroup>
 
         {canClose ? <ToolbarGroup>
             <RaisedButton
-                label={!sprint.closed ? 'Close sprint' : 'Reopen sprint'}
+                icon={sprint.closed ? <LockOutline /> : <LockOpen />}
+                label={sprint.closed ? 'Reopen sprint' : 'Close sprint'}
                 onTouchTap={closeSprint}
                 primary={!sprint.closed}
             />

@@ -12,5 +12,6 @@ export { ProjectSchema } from './schema';
 export {
     isProjectModerator,
     isProjectMember,
+    getProjectName,
 } from './helpers';
 export { actions } from './actions';

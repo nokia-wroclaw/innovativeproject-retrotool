@@ -16,6 +16,9 @@ Meteor.publish('sprintList', function publishSprintList(projectId) {
         const options = {
             fields: {
                 name: 1,
+                projectId: 1,
+                closed: 1,
+                createdAt: 1,
             },
         };
 
