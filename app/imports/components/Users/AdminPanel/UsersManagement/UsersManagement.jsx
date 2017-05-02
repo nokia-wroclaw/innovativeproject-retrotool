@@ -6,10 +6,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import UsersList from './UsersList';
 
 
-const UsersManagement = (props) => {
-    const admin = props.admin;
-
-    if (admin) {
+const UsersManagement = ({ isAdmin }) => {
+    if (isAdmin) {
         return (
             <Card>
                 <CardTitle
@@ -20,7 +18,7 @@ const UsersManagement = (props) => {
             </Card>
         );
     }
-    if (!admin) {
+    if (!isAdmin) {
         browserHistory.push('/hello');
     }
 
@@ -32,5 +30,5 @@ const UsersManagement = (props) => {
 export default UsersManagement;
 
 UsersManagement.propTypes = {
-    admin: PropTypes.bool.isRequired,
+    isAdmin: PropTypes.bool.isRequired,
 };

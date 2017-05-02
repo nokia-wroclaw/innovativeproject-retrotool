@@ -6,12 +6,12 @@ const composer = (props, onData) => {
     const handler = Meteor.subscribe('userData');
 
     if (handler.ready()) {
-        const admin = Meteor.user().isAdmin;
+        const isAdmin = Meteor.user().isAdmin;
         onData(null, {
-            admin,
+            isAdmin,
         });
     }
-    return 0;
+    return undefined;
 };
 
 export default composeWithTracker(composer)(UsersManagement);

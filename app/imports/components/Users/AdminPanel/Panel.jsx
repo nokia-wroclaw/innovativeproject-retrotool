@@ -7,17 +7,11 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 
-const setChoiceToUserManage = () => {
-    browserHistory.push('/admin/users');
+const redirect = (path) => {
+    browserHistory.push(path);
 };
 
-const setChoiceToProjectManage = () => {
-    browserHistory.push('/admin/projects');
-};
-
-const Panel = (props) => {
-    const isAdmin = props.isAdmin;
-
+const Panel = ({ isAdmin }) => {
     if (isAdmin) {
         return (
             <Card>
@@ -26,16 +20,16 @@ const Panel = (props) => {
                     subtitle="Admin"
                 />
                 <RaisedButton
-                    onTouchTap={setChoiceToUserManage}
+                    onTouchTap={() => redirect('/admin/users')}
                     target="_blank"
-                    label="Menage Users"
+                    label="Manage Users"
                     secondary
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
                 />
                 <RaisedButton
-                    onTouchTap={setChoiceToProjectManage}
+                    onTouchTap={() => redirect('/admin/projects')}
                     target="_blank"
-                    label="Menage Projects"
+                    label="Manage Projects"
                     secondary
                     icon={<FontIcon className="muidocs-icon-custom-github" />}
                 />
