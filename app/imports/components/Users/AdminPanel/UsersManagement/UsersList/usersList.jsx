@@ -10,7 +10,7 @@ export default class UsersList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.SelectableList = makeSelectable(List);
+        this.SelectableList = makeSelectable(List); // @TODO Do it like in tutorial
         this.users = props.users;
     }
 

@@ -9,8 +9,8 @@ import { ProjectList } from './projectList.jsx';
 
 
 const composer = (props, onData) => {
-    const handler2 = Meteor.subscribe('userData');
-    const handler = Meteor.subscribe('projectList');
+    const handler = Meteor.subscribe('userData');
+    const handler2 = Meteor.subscribe('projectList');
 
     if (handler.ready() && handler2.ready()) {
         const projects = Projects.find({});

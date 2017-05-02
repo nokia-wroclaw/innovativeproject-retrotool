@@ -1,23 +1,15 @@
 import React from 'react';
+import Subheader from 'material-ui/Subheader';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import MenuItem from 'material-ui/MenuItem';
 
 
 export class ProjectList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
+        this.SelectableList = makeSelectable(List); // @TODO Do it like in tutorial
         this.projects = props.projects;
-        this.state = { value: this.projects.count() };
-        this.proj = this.projects.fetch()[this.state.value - 1];
-        this.items = [];
-        for (let i = 1; i <= this.projects.count(); i += 1) {
-            this.items.push(
-                <MenuItem value={i} key={i} primaryText={this.projects.fetch()[i - 1].name} />,
-                );
-        }
     }
 
     handleChange(event, index, _value) {
@@ -28,9 +20,17 @@ export class ProjectList extends React.Component {
     render() {
         return (
             <div>
-                <DropDownMenu maxHeight={300} value={this.state.value} onChange={this.handleChange}>
-                    {this.items}
-                </DropDownMenu>
+                <this.SelectableList defaultValue={3}>
+                    <Subheader>Projects</Subheader>
+                    {this.projects.map(project => (
+                        <ListItem
+                            value={1}
+                            primaryText={project.name} // @@TODO change field
+                            key={project._id}
+                            leftAvatar={<i>P</i>}
+                        />
+        ))}
+                </this.SelectableList>
             </div>
         );
     }
