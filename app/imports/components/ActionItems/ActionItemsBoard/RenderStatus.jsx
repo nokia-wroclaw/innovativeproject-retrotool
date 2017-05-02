@@ -5,31 +5,31 @@ import {
     MenuItem,
 } from 'material-ui';
 
-const RenderCategories = ({
+const RenderStatus = ({
     selectedState,
     onChangeCategory,
-    categories,
+    status,
 }) => (
     <SelectField
         value={selectedState}
         onChange={onChangeCategory}
-        floatingLabelText="State"
+        floatingLabelText="Status"
         floatingLabelFixed
         hintText="Select filter"
     >
-        {categories.map(category =>
+        {status.map(state =>
             <MenuItem
-                key={category.value}
-                value={category.value}
-                primaryText={category.label}
+                key={state.value}
+                value={state.value}
+                primaryText={state.label}
             />,
         )}
     </SelectField>
 );
 
-RenderCategories.propTypes = {
+RenderStatus.propTypes = {
     selectedState: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(
+    status: PropTypes.arrayOf(
         PropTypes.shape({
             value: PropTypes.string.isRequired,
             label: PropTypes.string.isRequired,
@@ -38,4 +38,4 @@ RenderCategories.propTypes = {
     onChangeCategory: PropTypes.func.isRequired,
 };
 
-export default RenderCategories;
+export default RenderStatus;

@@ -72,11 +72,11 @@ const wrappedData = (onData, sprintId, handlers, data) => {
         const actionItems = ActionItemsCollection.find().fetch();
 
         actionItems.map((actionItem) => {
-            const member = Meteor.users.find(actionItem.assigneeId).fetch();
+            const member = Meteor.users.findOne(actionItem.assigneeId);
 
             actionItem.assignee = {
-                name: member[0].profile.name,
-                avatar: member[0].profile.avatar,
+                name: member.profile.name,
+                avatar: member.profile.avatar,
             };
             return false;
         });

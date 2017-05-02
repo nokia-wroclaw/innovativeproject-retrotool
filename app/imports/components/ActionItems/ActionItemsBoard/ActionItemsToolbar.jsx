@@ -6,7 +6,7 @@ import {
     ToolbarGroup,
 } from 'material-ui';
 
-import RenderCategories from './RenderCategories.jsx';
+import RenderStatus from './RenderStatus.jsx';
 
 const ActionItemsToolbar = ({
     addActionItem,
@@ -15,7 +15,7 @@ const ActionItemsToolbar = ({
     selectedState,
     onChangeCategory,
 }) => {
-    const categories = [
+    const status = [
         {
             value: 'true',
             label: 'Open',
@@ -36,8 +36,8 @@ const ActionItemsToolbar = ({
                 Action items
             </ToolbarGroup>
             <ToolbarGroup>
-                <RenderCategories
-                    categories={categories}
+                <RenderStatus
+                    status={status}
                     selectedState={selectedState}
                     onChangeCategory={onChangeCategory}
                 />

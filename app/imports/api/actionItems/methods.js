@@ -25,17 +25,12 @@ export const addActionItem = new ValidatedMethod({
         const projectId = sprint.projectId;
 
         if (isProjectMember(projectId, userId)) {
-            const open = true;
-            const closeMessage = '';
-
             return ActionItems.insert({
                 sprintId,
                 startDate,
                 endDate,
                 assigneeId,
                 text,
-                open,
-                closeMessage,
             });
         }
         throw new Meteor.Error(
@@ -59,7 +54,8 @@ export const closeOrReopenActionItem = new ValidatedMethod({
 
         if (isProjectModerator(projectId, userId)) {
             return ActionItems.update(actionItemId, {
-                $set: { open: !open,
+                $set: {
+                    open: !open,
                     closeMessage,
                 },
             });
