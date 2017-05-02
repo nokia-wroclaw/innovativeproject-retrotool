@@ -32,7 +32,6 @@ const AddActionItem = ({
             schema={schema}
             onSubmit={onSubmit}
             error={error}
-            disabled={false}
         >
             <ErrorsField />
             <TextField

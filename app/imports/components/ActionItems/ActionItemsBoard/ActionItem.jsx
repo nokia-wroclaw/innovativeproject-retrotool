@@ -61,6 +61,7 @@ ActionItem.defaultProps = {
     idToRemove: '',
     closeMessage: '',
     assignee: {
+        name: 'Not assigned',
         avatar: '',
     },
 };
