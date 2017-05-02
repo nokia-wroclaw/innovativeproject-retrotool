@@ -12,9 +12,9 @@ import {
     SubmitField,
 } from 'uniforms-material';
 
-import { schema } from './schema.js';
+import CustomDatePicker from '/imports/components/ActionItems/AddActionItem/CustomDatePicker.jsx';
 
-import CustomDatePicker from './CustomDatePicker.jsx';
+import { schema } from './schema.js';
 
 const AddWorkingAgreement = ({
     error,
