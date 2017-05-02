@@ -4,6 +4,7 @@ import Snackbar from 'material-ui/Snackbar';
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
 import AddWorkingAgreement from '../AddWorkingAgreement';
+import RemoveWorkingAgreement from '../RemoveWorkingAgreement';
 
 
 class WorkingAgreements extends React.Component {
@@ -14,14 +15,22 @@ class WorkingAgreements extends React.Component {
         this.hideAddWorkingAgreementModal = this.hideAddWorkingAgreementModal.bind(this);
         this.addWorkingAgreement = this.addWorkingAgreement.bind(this);
 
+        this.showRemoveWorkingAgreementModal = this.showRemoveWorkingAgreementModal.bind(this);
+        this.hideRemoveWorkingAgreementModal = this.hideRemoveWorkingAgreementModal.bind(this);
+
         this.state = {
             showAddWorkingAgreementModal: false,
+            showRemoveWorkingAgreementModal: false,
+            workingAgreementId: '',
         };
     }
 
     componentWillReceiveProps(props) {
         if (!props.errorAdd && props.openSnackbar) {
             this.hideAddWorkingAgreementModal();
+        }
+        if (!props.errorRemove && props.openRemoveSnackbar) {
+            this.hideRemoveWorkingAgreementModal();
         }
     }
 
@@ -32,6 +41,19 @@ class WorkingAgreements extends React.Component {
     hideAddWorkingAgreementModal() {
         this.setState({
             showAddWorkingAgreementModal: false,
+        });
+    }
+
+    showRemoveWorkingAgreementModal(workingAgreementId) {
+        this.setState({
+            showRemoveWorkingAgreementModal: true,
+            workingAgreementId,
+        });
+    }
+
+    hideRemoveWorkingAgreementModal() {
+        this.setState({
+            showRemoveWorkingAgreementModal: false,
         });
     }
 
@@ -50,6 +72,8 @@ class WorkingAgreements extends React.Component {
     render() {
         const {
             showAddWorkingAgreementModal,
+            showRemoveWorkingAgreementModal,
+            workingAgreementId,
         } = this.state;
 
         const {
@@ -58,10 +82,10 @@ class WorkingAgreements extends React.Component {
             isMember,
             isModerator,
             errorRemove,
-            idToRemove,
             isClosed,
             errorAdd,
             openSnackbar,
+            openRemoveSnackbar,
             closeSnackBar,
             sprintId,
             onData,
@@ -83,10 +107,8 @@ class WorkingAgreements extends React.Component {
                         id={wa._id}
                         text={wa.text}
                         date={wa.date}
-                        deleteWorkingAgreement={removeWorkingAgreement}
+                        deleteWorkingAgreement={this.showRemoveWorkingAgreementModal}
                         isModerator={isModerator}
-                        errorRemove={errorRemove}
-                        idToRemove={idToRemove}
                         sprintId={sprintId}
                         onData={onData}
                         handlers={handlers}
@@ -101,9 +123,28 @@ class WorkingAgreements extends React.Component {
                     onClose={this.hideAddWorkingAgreementModal}
                 />
 
+                <RemoveWorkingAgreement
+                    open={showRemoveWorkingAgreementModal}
+                    onSubmit={removeWorkingAgreement}
+                    error={errorRemove}
+                    onClose={this.hideRemoveWorkingAgreementModal}
+                    id={workingAgreementId}
+                    sprintId={sprintId}
+                    onData={onData}
+                    handlers={handlers}
+                    wrappedData={wrappedData}
+                />
+
                 <Snackbar
                     open={openSnackbar}
                     message="New working agreement has been added!"
+                    autoHideDuration={4000}
+                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                />
+
+                <Snackbar
+                    open={openRemoveSnackbar}
+                    message="Working agreement has been removed!"
                     autoHideDuration={4000}
                     onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
                 />
@@ -117,6 +158,7 @@ WorkingAgreements.defaultProps = {
     errorAdd: null,
     idToRemove: '',
     openSnackbar: false,
+    openRemoveSnackbar: false,
 };
 
 WorkingAgreements.propTypes = {
@@ -141,8 +183,8 @@ WorkingAgreements.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
-    idToRemove: PropTypes.string,
     openSnackbar: PropTypes.bool,
+    openRemoveSnackbar: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
