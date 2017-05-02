@@ -12,8 +12,6 @@ Accounts.onCreateUser((options, newUser) => {
         newUser.isAdmin = true;
     }
 
-    newUser.isBanned = false;
-
     return newUser;
 });
 

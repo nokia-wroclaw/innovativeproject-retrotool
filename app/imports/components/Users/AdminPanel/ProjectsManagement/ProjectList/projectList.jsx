@@ -37,5 +37,11 @@ export class ProjectList extends React.Component {
 }
 
 ProjectList.propTypes = {
-    projects: PropTypes.arrayOf(Array).isRequired,
+    projects: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 };
+
