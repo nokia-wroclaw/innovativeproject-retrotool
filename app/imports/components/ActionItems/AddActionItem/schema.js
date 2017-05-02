@@ -9,7 +9,7 @@ export const schema = new SimpleSchema({
         defaultValue: new Date(),
         custom() {
             if (this.value < this.field('startDate').value) {
-                return 'End date is bigger than start date';
+                return 'Start date is older than end date';
             }
             return false;
         },
