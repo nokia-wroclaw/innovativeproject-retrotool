@@ -1,6 +1,5 @@
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-import { browserHistory } from 'react-router';
 import { Card, CardTitle } from 'material-ui';
 import React from 'react';
 import { PropTypes } from 'prop-types';
@@ -10,8 +9,6 @@ import ProjectList from './ProjectsManagement/ProjectList';
 export default class Panel extends React.Component {
     constructor(props) {
         super(props);
-        this.isAdmin = props.isAdmin;
-        if (!this.isAdmin) { browserHistory.push('/hello'); }
         this.state = { option: true };
     }
 
