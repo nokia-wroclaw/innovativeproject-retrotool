@@ -1,8 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     List,
     ListItem,
 } from 'material-ui';
+import LibraryAdd from 'material-ui/svg-icons/av/library-add';
 
 export const renderProjectListItems = (
     projects,
@@ -22,7 +24,8 @@ export const renderProjectListItems = (
         projectList.push(
             <ListItem
                 key="createProject"
-                primaryText="Create a new project"
+                leftIcon={<LibraryAdd />}
+                primaryText="Create project"
                 onTouchTap={goToAddProject}
             />,
         );

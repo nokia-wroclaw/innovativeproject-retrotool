@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
     Card,
@@ -6,7 +7,7 @@ import {
     CardText,
 } from 'material-ui';
 
-const formatDate = date => `Commented ${moment(date).fromNow()}`;
+const formatDate = date => `Commented ${moment.utc(date).fromNow()}`;
 
 
 const Comment = ({ author, createdAt, text }) =>

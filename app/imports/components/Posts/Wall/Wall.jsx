@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
@@ -72,6 +73,7 @@ class Wall extends React.Component {
             removePost,
             likePost,
             dislikePost,
+            isSprintOpen,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -86,6 +88,7 @@ class Wall extends React.Component {
                     handleChangeSort={this.handleChangeSort}
                     selectedSortId={selectedSortId}
                     sortOptions={sortOptions}
+                    isSprintOpen={isSprintOpen}
                 />
 
                 {posts
@@ -144,6 +147,7 @@ Wall.propTypes = {
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    isSprintOpen: PropTypes.bool.isRequired,
 };
 
 Wall.defaultProps = {

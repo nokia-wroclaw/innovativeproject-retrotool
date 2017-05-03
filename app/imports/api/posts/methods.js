@@ -5,7 +5,10 @@ import {
     isProjectMember,
     isProjectModerator,
 } from '/imports/api/projects';
-import { Sprints } from '/imports/api/sprints';
+import {
+    isSprintClosed,
+    Sprints,
+} from '/imports/api/sprints';
 import { isAdmin } from '/imports/api/users';
 import { Posts } from './Posts.js';
 import {
@@ -21,6 +24,13 @@ export const addPost = new ValidatedMethod({
     run({ text, showAuthor, sprintId, categoryId }) {
         const authorId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
+
+        if (isSprintClosed(sprintId)) {
+            throw new Meteor.Error(
+                'add-post-sprint-is-closed',
+                'Sprint is closed. You can add new posts only in open sprints',
+            );
+        }
 
         const { projectId = null } = sprint;
 

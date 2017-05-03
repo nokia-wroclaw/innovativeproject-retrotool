@@ -25,6 +25,12 @@
       "error",
       100
     ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
     "no-param-reassign": [
       "off"
     ],

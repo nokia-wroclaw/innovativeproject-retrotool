@@ -5,6 +5,7 @@ import {
     Projects,
     actions as projectActions,
     isProjectModerator,
+    getProjectName,
 } from '/imports/api/projects';
 import {
     Sprints,
@@ -13,6 +14,13 @@ import {
 import {
     actions as postActions,
 } from '/imports/api/posts';
+import {
+    actions as actionItemsActions,
+} from '/imports/api/actionItems';
+import {
+    actions as workingAgreementsActions,
+} from '/imports/api/workingAgreements';
+
 import { isAdmin } from '/imports/api/users';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
@@ -24,9 +32,12 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
     if (projectListHandler.ready() && sprintListHandler.ready()) {
         const projectList = Projects.find({}).fetch();
-        const sprintList = Sprints.find({}).fetch();
+        const sprintList = Sprints.find({ projectId }, { sort: { createdAt: -1 } }).fetch();
 
-        const canAddNewSprint = isProjectModerator(projectId, userId) || isAdmin();
+        const isCurrentUserAdmin = isAdmin();
+        const canAddNewSprint = isProjectModerator(projectId, userId) || isCurrentUserAdmin;
+
+        const selectedProjectTitle = getProjectName(projectId);
 
         onData(null, {
             projectId,
@@ -37,8 +48,12 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToPosts: postActions.goToPosts,
             goToProject: projectActions.goToProject,
             goToSprint: sprintActions.goToSprint,
+            goToActionItems: actionItemsActions.goToActionItems,
+            goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
             currentSprintId,
             showAddSprint: canAddNewSprint,
+            showCreateLink: isCurrentUserAdmin,
+            selectedProjectTitle,
         });
     }
 };
