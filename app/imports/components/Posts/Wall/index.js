@@ -44,6 +44,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
+            post.likes = post.likes.length - post.dislikes.length;
             return post;
         });
 
@@ -54,6 +55,8 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         onData(null, {
             addPost: actions.addPost,
             removePost: actions.removePost,
+            likePost: actions.likePost,
+            dislikePost: actions.dislikePost,
             categories,
             posts,
             sprintId,

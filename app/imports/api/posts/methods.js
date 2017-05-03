@@ -13,6 +13,7 @@ import { isAdmin } from '/imports/api/users';
 import { Posts } from './Posts.js';
 import {
     AddPostSchema,
+    LikePostSchema,
 } from './schema.js';
 
 export const addPost = new ValidatedMethod({
@@ -69,6 +70,56 @@ export const removePost = new ValidatedMethod({
         throw new Meteor.Error(
             'posts-only-moderator-can-remove',
             'Only moderator can remove posts',
+        );
+    },
+});
+
+export const likePost = new ValidatedMethod({
+    name: 'posts.like',
+    validate: LikePostSchema.validator({ clean: true }),
+    run({ postId }) {
+        const userId = Meteor.userId();
+        const { sprintId = null } = Posts.findOne(postId);
+        const { projectId = null } = Sprints.findOne(sprintId);
+        if (isProjectMember(projectId, userId)) {
+            return Posts.update({ _id: postId }, {
+                $pull: {
+                    dislikes: userId,
+                },
+                $addToSet: {
+                    likes: userId,
+                },
+            });
+        }
+
+        throw new Meteor.Error(
+            'posts-only-members-can-like',
+            'Only members can like posts',
+        );
+    },
+});
+
+export const dislikePost = new ValidatedMethod({
+    name: 'posts.dislike',
+    validate: LikePostSchema.validator({ clean: true }),
+    run({ postId }) {
+        const userId = Meteor.userId();
+        const { sprintId = null } = Posts.findOne(postId);
+        const { projectId = null } = Sprints.findOne(sprintId);
+        if (isProjectMember(projectId, userId)) {
+            return Posts.update({ _id: postId }, {
+                $pull: {
+                    likes: userId,
+                },
+                $addToSet: {
+                    dislikes: userId,
+                },
+            });
+        }
+
+        throw new Meteor.Error(
+            'posts-only-members-can-dislike',
+            'Only members can dislike posts',
         );
     },
 });

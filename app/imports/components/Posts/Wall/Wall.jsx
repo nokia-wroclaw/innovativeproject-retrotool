@@ -71,6 +71,8 @@ class Wall extends React.Component {
             projectId,
             isProjectModeratorOrAdmin,
             removePost,
+            likePost,
+            dislikePost,
             isSprintOpen,
         } = this.props;
 
@@ -101,6 +103,9 @@ class Wall extends React.Component {
                             projectId={projectId}
                             canRemove={isProjectModeratorOrAdmin}
                             removePost={removePost}
+                            likePost={likePost}
+                            dislikePost={dislikePost}
+                            likes={post.likes}
                         />,
                     )
                 }
@@ -140,6 +145,8 @@ Wall.propTypes = {
     projectId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
+    likePost: PropTypes.func.isRequired,
+    dislikePost: PropTypes.func.isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
 };
 
