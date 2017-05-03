@@ -5,7 +5,7 @@ import {
     Toolbar,
     ToolbarGroup,
 } from 'material-ui';
-
+import Add from 'material-ui/svg-icons/content/add';
 import CategorySelect from './CategorySelect.jsx';
 import SortSelect from './SortSelect.jsx';
 
@@ -17,6 +17,7 @@ const WallToolbar = ({
     handleChangeSort,
     selectedSortId,
     sortOptions,
+    isSprintOpen,
 }) =>
     <Toolbar>
         <ToolbarGroup>
@@ -31,13 +32,16 @@ const WallToolbar = ({
                 handleChangeSelectedCategory={handleChangeSelectedCategory}
             />
         </ToolbarGroup>
-        <ToolbarGroup>
-            <RaisedButton
-                label="Add Post"
-                onTouchTap={addPost}
-                primary
-            />
-        </ToolbarGroup>
+        {isSprintOpen &&
+            <ToolbarGroup>
+                <RaisedButton
+                    icon={<Add />}
+                    label="Add Post"
+                    onTouchTap={addPost}
+                    primary
+                />
+            </ToolbarGroup>
+        }
     </Toolbar>
 ;
 
@@ -59,11 +63,13 @@ WallToolbar.propTypes = {
             label: PropTypes.string.isRequired,
         }),
     ).isRequired,
+    isSprintOpen: PropTypes.bool.isRequired,
 };
 
 WallToolbar.defaultProps = {
     selectedCategoryId: '',
     selectedSortId: '',
+    isSprintOpen: false,
 };
 
 export default WallToolbar;
