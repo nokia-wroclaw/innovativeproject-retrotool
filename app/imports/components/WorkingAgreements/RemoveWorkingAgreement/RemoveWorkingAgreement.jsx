@@ -18,6 +18,7 @@ const RemoveWorkingAgreement = ({
     wrappedData,
 }) => (
     <Dialog
+        title="Are you sure you want to remove this working agreement?"
         open={open}
     >
         {error ?
