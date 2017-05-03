@@ -10,8 +10,9 @@ import {
     ErrorsField,
     TextField,
     SubmitField,
-    DateField,
 } from 'uniforms-material';
+
+import { CustomDatePicker } from '/imports/components/CustomFormFields';
 
 import { schema } from './schema.js';
 
@@ -36,8 +37,10 @@ const AddWorkingAgreement = ({
                 floatingLabelText="Working agreement"
                 fullWidth
             />
-            <DateField
+            <CustomDatePicker
                 name="date"
+                min={new Date()}
+                placeholder="Start date"
             />
             <FlatButton
                 label="Close"
