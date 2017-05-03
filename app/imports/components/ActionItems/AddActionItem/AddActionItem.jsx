@@ -13,9 +13,9 @@ import {
     SelectField,
 } from 'uniforms-material';
 
-import { schema } from './schema.js';
+import { CustomDatePicker } from '/imports/components/CustomFormFields';
 
-import CustomDatePicker from './CustomDatePicker.jsx';
+import { schema } from './schema.js';
 
 const AddActionItem = ({
     error,
