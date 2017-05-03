@@ -24,6 +24,7 @@ export const addSprint = new ValidatedMethod({
     },
 });
 
+
 export const closeOrReopenSprint = new ValidatedMethod({
     name: 'sprints.closeOrReopen',
     validate: CloseSprintSchema.validator({ clean: true }),

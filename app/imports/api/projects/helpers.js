@@ -12,3 +12,11 @@ export const isProjectMember = (projectId, userId) => {
         isProjectModerator(projectId, userId)
     );
 };
+
+export const getProjectName = (projectId) => {
+    const project = Projects.findOne(projectId);
+    return project ?
+        project && project.name
+        :
+        undefined;
+};

@@ -4,13 +4,17 @@ import {
     isAdmin,
     isLoggedIn,
 } from '/imports/api/users';
+import { getProjectName } from '/imports/api/projects';
 import MainLayout from './MainLayout.jsx';
 
-const composer = (props, onData) => {
+const composer = ({ params: { projectId } }, onData) => {
     const isLoggedInUser = isLoggedIn();
     const isCurrentUserAdmin = isAdmin();
 
+    const title = getProjectName(projectId) || 'Retro Tool';
+
     onData(null, {
+        title,
         isLoggedInUser,
         isCurrentUserAdmin,
     });

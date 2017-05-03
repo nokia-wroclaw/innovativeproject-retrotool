@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { FullPageLoader } from '/imports/components/Loaders';
 import { isAdmin } from '/imports/api/users';
 import { isProjectModerator } from '/imports/api/projects';
+import { isSprintClosed } from '/imports/api/sprints';
 import {
     Posts,
     actions,
@@ -43,20 +44,25 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
+            post.likes = post.likes.length - post.dislikes.length;
             return post;
         });
 
         const userId = Meteor.userId();
         const isProjectModeratorOrAdmin = isAdmin() || isProjectModerator(projectId, userId);
+        const isSprintOpen = !isSprintClosed(sprintId);
 
         onData(null, {
             addPost: actions.addPost,
             removePost: actions.removePost,
+            likePost: actions.likePost,
+            dislikePost: actions.dislikePost,
             categories,
             posts,
             sprintId,
             projectId,
             isProjectModeratorOrAdmin,
+            isSprintOpen,
         });
     }
 };
