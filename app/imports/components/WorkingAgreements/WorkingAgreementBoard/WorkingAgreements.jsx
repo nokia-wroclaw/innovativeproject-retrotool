@@ -171,6 +171,8 @@ WorkingAgreements.propTypes = {
     isMember: PropTypes.bool.isRequired,
     isModerator: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
+    openSnackbar: PropTypes.bool.isRequired,
+    openRemoveSnackbar: PropTypes.bool.isRequired,
     workingAgreements: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -183,8 +185,6 @@ WorkingAgreements.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
-    openSnackbar: PropTypes.bool,
-    openRemoveSnackbar: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
