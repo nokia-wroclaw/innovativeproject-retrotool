@@ -5,6 +5,7 @@ import {
     Projects,
     actions as projectActions,
     isProjectModerator,
+    getProjectName,
 } from '/imports/api/projects';
 import {
     Sprints,
@@ -31,10 +32,12 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
     if (projectListHandler.ready() && sprintListHandler.ready()) {
         const projectList = Projects.find({}).fetch();
-        const sprintList = Sprints.find({}).fetch();
+        const sprintList = Sprints.find({ projectId }, { sort: { createdAt: -1 } }).fetch();
 
         const isCurrentUserAdmin = isAdmin();
         const canAddNewSprint = isProjectModerator(projectId, userId) || isCurrentUserAdmin;
+
+        const selectedProjectTitle = getProjectName(projectId);
 
         onData(null, {
             projectId,
@@ -50,6 +53,7 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             currentSprintId,
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
+            selectedProjectTitle,
         });
     }
 };

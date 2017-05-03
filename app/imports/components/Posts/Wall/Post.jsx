@@ -11,7 +11,7 @@ import {
 
 import PostComments from './PostComments';
 
-const formatDate = date => moment(date).fromNow();
+const formatDate = date => moment.utc(date).fromNow();
 
 const Post = ({
     id,

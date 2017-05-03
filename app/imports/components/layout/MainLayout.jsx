@@ -31,13 +31,14 @@ class MainLayout extends React.Component {
             main,
             isLoggedInUser,
             isCurrentUserAdmin,
+            title,
         } = this.props;
         const { isDrawerOpen } = this.state;
 
         return (
             <div>
                 <AppBar
-                    title="Retro Tool"
+                    title={title}
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
                     iconElementRight={
                         <Navigation
@@ -67,6 +68,7 @@ class MainLayout extends React.Component {
     }
 }
 MainLayout.propTypes = {
+    title: PropTypes.string.isRequired,
     main: PropTypes.node.isRequired,
     drawerContent: PropTypes.node.isRequired,
     isLoggedInUser: PropTypes.bool.isRequired,
