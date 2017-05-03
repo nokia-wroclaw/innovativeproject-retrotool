@@ -18,9 +18,9 @@ export default class SetAdmin extends React.Component {
         this.index = actions.getIndexOfUserById(this.users, this.userId);
         this.newAdmin = this.users[this.index];
         this.isAdmin = this.newAdmin.isAdmin;
-
         this.state = {
             open: false,
+            label: 'Remove admin',
         };
     }
 
@@ -52,7 +52,10 @@ export default class SetAdmin extends React.Component {
 
         return (
             <div>
-                <RaisedButton label="Set Admin" onTouchTap={this.handleOpen} />
+                <RaisedButton
+                    label={this.newAdmin.isAdmin ? 'Remove admin' : 'Set admin'}
+                    onTouchTap={this.handleOpen}
+                />
                 <Dialog
                     title="Are you sure to set admin?"
                     actions={actiones}
