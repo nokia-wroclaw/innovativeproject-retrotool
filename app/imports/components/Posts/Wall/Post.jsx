@@ -11,7 +11,7 @@ import {
 
 import PostComments from './PostComments';
 
-const formatDate = date => moment(date).fromNow();
+const formatDate = date => moment.utc(date).fromNow();
 
 const Post = ({
     id,
@@ -20,7 +20,10 @@ const Post = ({
     createdAt,
     projectId,
     canRemove,
+    likePost,
+    dislikePost,
     removePost,
+    likes,
 }) => (
     <Card key={id}>
         <CardHeader
@@ -31,14 +34,26 @@ const Post = ({
         <CardText>
             {text}
         </CardText>
-        {canRemove &&
-            <CardActions>
+        <CardActions>
+            <RaisedButton
+                label={`${likes}`}
+                disabled
+            />
+            <RaisedButton
+                label="Like It"
+                onTouchTap={() => likePost(id)}
+            />
+            <RaisedButton
+                label="Dislike It"
+                onTouchTap={() => dislikePost(id)}
+            />
+            {canRemove &&
                 <RaisedButton
                     label="Remove Post"
                     onTouchTap={() => removePost(id)}
                 />
-            </CardActions>
-        }
+            }
+        </CardActions>
         <PostComments
             postId={id}
             projectId={projectId}
@@ -57,6 +72,9 @@ Post.propTypes = {
     createdAt: PropTypes.instanceOf(Date).isRequired,
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
+    likePost: PropTypes.func.isRequired,
+    dislikePost: PropTypes.func.isRequired,
+    likes: PropTypes.number.isRequired,
 };
 
 Post.defaultProps = {
@@ -65,6 +83,7 @@ Post.defaultProps = {
         avatar: '',
     },
     canRemove: false,
+    likes: 0,
 };
 
 export default Post;

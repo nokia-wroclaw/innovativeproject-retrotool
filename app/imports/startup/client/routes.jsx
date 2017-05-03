@@ -22,6 +22,8 @@ import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
 import Panel from '/imports/components/Users/AdminPanel';
 
+import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
+import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -36,7 +38,7 @@ const onlyLoggedOut = (nextState, replace) => {
 };
 
 const onlyAdmin = (nextState, replace) => {
-    if (!isAdmin()) {
+    if (isAdmin()) {
         replace('/hello');
     }
 };
@@ -68,6 +70,14 @@ export default (
                 <Route
                     path=":projectId/sprint/:sprintId/wall"
                     components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/action-items"
+                    components={{ main: ActionItems, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/working-agreement"
+                    components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
                 />
             </Route>
         </Route>
