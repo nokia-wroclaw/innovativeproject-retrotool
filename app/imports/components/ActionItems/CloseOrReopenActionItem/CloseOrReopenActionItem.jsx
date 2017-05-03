@@ -12,18 +12,16 @@ import {
     SubmitField,
 } from 'uniforms-material';
 
-import { CustomDatePicker } from '/imports/components/CustomFormFields';
-
 import { schema } from './schema.js';
 
-const AddWorkingAgreement = ({
+const CloseOrReopenActionItem = ({
     error,
     onClose,
     onSubmit,
     open,
 }) => (
     <Dialog
-        title="Add working agreement"
+        title="Add action item"
         open={open}
     >
         <AutoForm
@@ -33,37 +31,32 @@ const AddWorkingAgreement = ({
         >
             <ErrorsField />
             <TextField
-                name="text"
-                floatingLabelText="Working agreement"
+                name="closeMessage"
+                floatingLabelText="Close message - optional"
                 fullWidth
-            />
-            <CustomDatePicker
-                name="date"
-                min={new Date()}
-                placeholder="Start date"
             />
             <FlatButton
                 label="Close"
                 onTouchTap={onClose}
             />
             <SubmitField
+                label="Save"
                 primary
             />
         </AutoForm>
     </Dialog>
 );
 
-
-AddWorkingAgreement.propTypes = {
+CloseOrReopenActionItem.propTypes = {
     error: PropTypes.instanceOf(Error),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
 };
 
-AddWorkingAgreement.defaultProps = {
+CloseOrReopenActionItem.defaultProps = {
     error: null,
     open: false,
 };
 
-export default AddWorkingAgreement;
+export default CloseOrReopenActionItem;

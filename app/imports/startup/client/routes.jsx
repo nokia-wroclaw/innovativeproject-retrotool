@@ -18,6 +18,7 @@ import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
+import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
 const onlyLoggedIn = (nextState, replace) => {
@@ -56,6 +57,10 @@ export default (
                 <Route
                     path=":projectId/sprint/:sprintId/wall"
                     components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/action-items"
+                    components={{ main: ActionItems, drawerContent: SingleProjectSidebar }}
                 />
                 <Route
                     path=":projectId/sprint/:sprintId/working-agreement"

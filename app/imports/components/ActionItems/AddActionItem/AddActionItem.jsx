@@ -10,20 +10,22 @@ import {
     ErrorsField,
     TextField,
     SubmitField,
+    SelectField,
 } from 'uniforms-material';
 
 import { CustomDatePicker } from '/imports/components/CustomFormFields';
 
 import { schema } from './schema.js';
 
-const AddWorkingAgreement = ({
+const AddActionItem = ({
     error,
     onClose,
     onSubmit,
     open,
+    options,
 }) => (
     <Dialog
-        title="Add working agreement"
+        title="Add action item"
         open={open}
     >
         <AutoForm
@@ -34,13 +36,23 @@ const AddWorkingAgreement = ({
             <ErrorsField />
             <TextField
                 name="text"
-                floatingLabelText="Working agreement"
+                floatingLabelText="Action item"
                 fullWidth
             />
+            <SelectField
+                name="assignee"
+                checkboxes={false}
+                options={options}
+            />
             <CustomDatePicker
-                name="date"
+                name="startDate"
                 min={new Date()}
                 placeholder="Start date"
+            />
+            <CustomDatePicker
+                name="endDate"
+                min={new Date()}
+                placeholder="End date"
             />
             <FlatButton
                 label="Close"
@@ -54,16 +66,23 @@ const AddWorkingAgreement = ({
 );
 
 
-AddWorkingAgreement.propTypes = {
+AddActionItem.propTypes = {
     error: PropTypes.instanceOf(Error),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
 };
 
-AddWorkingAgreement.defaultProps = {
+AddActionItem.defaultProps = {
     error: null,
     open: false,
+    options: [],
 };
 
-export default AddWorkingAgreement;
+export default AddActionItem;

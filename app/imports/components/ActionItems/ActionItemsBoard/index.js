@@ -3,30 +3,48 @@ import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
 
 import {
-    WorkingAgreements as workingAgreementCollection,
-    actions as workingAgreementActions,
-} from '/imports/api/workingAgreements';
+    ActionItems as ActionItemsCollection,
+    actions as actionItemsActions,
+} from '/imports/api/actionItems';
 
 import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 
-import WorkingAgreements from './WorkingAgreements.jsx';
+import ActionItems from './ActionItems.jsx';
 
-const removeWorkingAgreement = (id, sprintId, onData, handlers, wrappedData) => {
-    workingAgreementActions.deleteWorkingAgreement(id).then(() => {
+
+const toggleActionItem = async (
+    actionItemId,
+    closeMessage,
+    onData,
+    sprintId,
+    handlers,
+    wrappedData,
+) => {
+    try {
+        await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
         wrappedData(onData, sprintId, handlers, {
-            openRemoveSnackbar: true,
+            openToggleSnackbar: true,
         });
-    }).catch((error) => {
+    } catch (error) {
         wrappedData(onData, sprintId, handlers, {
-            errorRemove: error,
+            errorToggle: error,
         });
-    });
+    }
 };
 
-const addWorkingAgreement = async (sprintId, text, date, onData, handlers, wrappedData) => {
+const addActionItem = async (
+    sprintId,
+    startDate,
+    endDate,
+    assigneeId,
+    text,
+    onData,
+    handlers,
+    wrappedData,
+) => {
     try {
-        await workingAgreementActions.createWorkingAgreement(sprintId, text, date);
+        await actionItemsActions.createActionItem(sprintId, startDate, endDate, assigneeId, text);
         wrappedData(onData, sprintId, handlers, {
             openSnackbar: true,
         });
@@ -40,7 +58,7 @@ const addWorkingAgreement = async (sprintId, text, date, onData, handlers, wrapp
 const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
     wrappedData(onData, sprintId, handlers, {
         openSnackbar: false,
-        openRemoveSnackbar: false,
+        openToggleSnackbar: false,
     });
 };
 
@@ -51,18 +69,29 @@ const wrappedData = (onData, sprintId, handlers, data) => {
         const projectId = sprint.projectId;
         const isMember = isProjectMember(projectId, userId);
         const isModerator = isProjectModerator(projectId, userId);
-        const workingAgreements = workingAgreementCollection.find().fetch();
+        const actionItems = ActionItemsCollection.find().fetch();
+
+        actionItems.map((actionItem) => {
+            const member = Meteor.users.findOne(actionItem.assigneeId);
+
+            actionItem.assignee = {
+                name: member.profile.name,
+                avatar: member.profile.avatar,
+            };
+            return false;
+        });
 
         onData(null, {
             onData,
             handlers,
             wrappedData,
-            workingAgreements,
-            removeWorkingAgreement,
-            addWorkingAgreement,
+            actionItems,
+            toggleActionItem,
+            addActionItem,
             closeSnackBar,
             isMember,
             isModerator,
+            projectId,
             sprintId,
             isClosed: sprint.closed,
             ...data,
@@ -72,7 +101,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
 
 const composer = ({ params: { sprintId } }, onData) => {
     const handlers = [
-        Meteor.subscribe('WorkingAgreements', sprintId),
+        Meteor.subscribe('ActionItems', sprintId),
         Meteor.subscribe('singleSprint', sprintId),
     ];
 
@@ -80,6 +109,7 @@ const composer = ({ params: { sprintId } }, onData) => {
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
         handlers.push(Meteor.subscribe('singleProject', projectId));
+        handlers.push(Meteor.subscribe('projectMembers', projectId));
 
         if (handlers.every(handler => handler.ready())) {
             wrappedData(onData, sprintId, handlers);
@@ -90,5 +120,5 @@ const composer = ({ params: { sprintId } }, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
-    )(WorkingAgreements),
+    )(ActionItems),
 );
