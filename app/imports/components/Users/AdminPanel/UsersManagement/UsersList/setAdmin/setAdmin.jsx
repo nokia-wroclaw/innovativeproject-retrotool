@@ -20,7 +20,6 @@ export default class SetAdmin extends React.Component {
         this.isAdmin = this.newAdmin.isAdmin;
         this.state = {
             open: false,
-            label: 'Remove admin',
         };
     }
 
