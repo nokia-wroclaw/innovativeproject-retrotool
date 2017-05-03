@@ -18,7 +18,6 @@ const RemoveWorkingAgreement = ({
     wrappedData,
 }) => (
     <Dialog
-        title="Add action item"
         open={open}
     >
         {error ?

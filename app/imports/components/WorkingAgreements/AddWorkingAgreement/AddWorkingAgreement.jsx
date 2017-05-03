@@ -12,7 +12,7 @@ import {
     SubmitField,
 } from 'uniforms-material';
 
-import CustomDatePicker from '/imports/components/ActionItems/AddActionItem/CustomDatePicker.jsx';
+import CustomDatePicker from '/imports/components/CustomFormFields/CustomDatePicker.jsx';
 
 import { schema } from './schema.js';
 
