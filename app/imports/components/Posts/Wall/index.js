@@ -4,8 +4,7 @@ import { withRouter } from 'react-router';
 import _ from 'lodash';
 
 import { FullPageLoader } from '/imports/components/Loaders';
-import { isAdmin } from '/imports/api/users';
-import { isProjectModerator } from '/imports/api/projects';
+import { isProjectModeratorOrAdmin } from '/imports/api/projects';
 import { isSprintClosed } from '/imports/api/sprints';
 import {
     Posts,
@@ -56,7 +55,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         });
 
         const userId = Meteor.userId();
-        const isProjectModeratorOrAdmin = isAdmin() || isProjectModerator(projectId, userId);
+        const hasModeratorRights = isProjectModeratorOrAdmin(projectId, userId);
         const isSprintOpen = !isSprintClosed(sprintId);
 
         onData(null, {
@@ -68,7 +67,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             posts,
             sprintId,
             projectId,
-            isProjectModeratorOrAdmin,
+            isProjectModeratorOrAdmin: hasModeratorRights,
             isSprintOpen,
         });
     }

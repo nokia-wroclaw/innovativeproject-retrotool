@@ -3,13 +3,12 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import SimpleSchema from 'simpl-schema';
 import {
     isProjectMember,
-    isProjectModerator,
+    isProjectModeratorOrAdmin,
 } from '/imports/api/projects';
 import {
     isSprintClosed,
     Sprints,
 } from '/imports/api/sprints';
-import { isAdmin } from '/imports/api/users';
 import { Posts } from './Posts.js';
 import {
     AddPostSchema,
@@ -63,7 +62,7 @@ export const removePost = new ValidatedMethod({
         const { sprintId = null } = Posts.findOne(postId);
         const { projectId = null } = Sprints.findOne(sprintId);
 
-        if (isProjectModerator(projectId, userId) || isAdmin()) {
+        if (isProjectModeratorOrAdmin(projectId, userId)) {
             return Posts.remove({ _id: postId });
         }
 
