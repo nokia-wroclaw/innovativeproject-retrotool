@@ -8,6 +8,12 @@ const sorts = {
     dateNewestToOldest({ createdAt: a }, { createdAt: b }) {
         return moment(a).isBefore(b);
     },
+    mostLiked({ likes: a }, { likes: b }) {
+        return a < b;
+    },
+    mostDisliked({ likes: a }, { likes: b }) {
+        return a > b;
+    },
 };
 
 export const getDefaultOptionValue = () => 'dateNewestToOldest';
