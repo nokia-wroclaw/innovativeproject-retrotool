@@ -22,14 +22,12 @@ export default class Panel extends React.Component {
                     />
                     <RaisedButton
                         onTouchTap={() => { this.setState({ option: true }); }}
-                        target="_blank"
                         label="Manage Users"
                         secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                     <RaisedButton
                         onTouchTap={() => { this.setState({ option: false }); }}
-                        target="_blank"
                         label="Manage Projects"
                         secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}

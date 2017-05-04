@@ -6,7 +6,7 @@ const setAdmin = (user) => {
     if (!user.isAdmin) {
         callMethod('setAdmin', user._id);
     } else {
-        callMethod('remAdmin', user._id);
+        callMethod('removeAdmin', user._id);
     }
 };
 

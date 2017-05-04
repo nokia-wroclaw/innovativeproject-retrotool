@@ -9,7 +9,6 @@ export class ProjectList extends React.Component {
     constructor(props) {
         super(props);
         this.SelectableList = makeSelectable(List); // @TODO Do it like in tutorial
-        this.projects = props.projects;
     }
 
     render() {
@@ -17,7 +16,7 @@ export class ProjectList extends React.Component {
             <div>
                 <this.SelectableList defaultValue={3}>
                     <Subheader>Projects</Subheader>
-                    {this.projects.map(project => (
+                    {this.props.projects.map(project => (
                         <ListItem
                             value={1}
                             primaryText={project.name} // @@TODO change field

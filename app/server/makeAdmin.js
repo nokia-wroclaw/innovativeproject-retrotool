@@ -29,7 +29,7 @@ Meteor.methods({
             }
         }
     },
-    remAdmin(userId) {
+    removeAdmin(userId) {
         check(userId, String);
 
         const admin = Meteor.user().isAdmin;

@@ -20,7 +20,7 @@ const composer = (props, onData) => {
             isAdmin,
         });
     }
-    return 0;
+    return undefined;
 };
 
 export default composeWithTracker(composer)(ProjectList);
