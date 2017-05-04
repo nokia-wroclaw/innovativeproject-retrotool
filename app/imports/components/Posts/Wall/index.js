@@ -37,14 +37,21 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             }),
         );
         const posts = Posts.find({}).map((post) => {
-            if (post.showAuthor) {
-                const author = _.find(users, { _id: post.authorId });
+            const {
+                showAuthor,
+                authorId,
+                likes = [],
+                dislikes = [],
+            } = post;
+
+            if (showAuthor) {
+                const author = _.find(users, { _id: authorId });
                 post.author = {
                     name: _.get(author, 'profile.name', ''),
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
-            post.likes = post.likes.length - post.dislikes.length;
+            post.likes = likes.length - dislikes.length;
             return post;
         });
 

@@ -8,6 +8,9 @@ import {
     CardText,
     RaisedButton,
 } from 'material-ui';
+import Delete from 'material-ui/svg-icons/action/delete';
+import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
+import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 import PostComments from './PostComments';
 
@@ -36,19 +39,22 @@ const Post = ({
         </CardText>
         <CardActions>
             <RaisedButton
-                label={`${likes}`}
-                disabled
-            />
-            <RaisedButton
+                icon={<ThumbUp />}
                 label="Like It"
                 onTouchTap={() => likePost(id)}
             />
             <RaisedButton
+                label={`${likes}`}
+                disabled
+            />
+            <RaisedButton
+                icon={<ThumbDown />}
                 label="Dislike It"
                 onTouchTap={() => dislikePost(id)}
             />
             {canRemove &&
                 <RaisedButton
+                    icon={<Delete />}
                     label="Remove Post"
                     onTouchTap={() => removePost(id)}
                 />
