@@ -26,6 +26,7 @@ class ActionItems extends React.Component {
             showToggleActionItemModal: false,
             actionItemId: '',
             selectedState: 'all',
+            isOpen: false,
         };
     }
 
@@ -50,10 +51,11 @@ class ActionItems extends React.Component {
         this.setState({ showAddActionItemModal: false });
     }
 
-    showToggleActionItemModal(actionItemId) {
+    showToggleActionItemModal(actionItemId, isOpen) {
         this.setState({
             showToggleActionItemModal: true,
             actionItemId,
+            isOpen,
         });
     }
 
@@ -108,6 +110,7 @@ class ActionItems extends React.Component {
             showAddActionItemModal,
             showToggleActionItemModal,
             selectedState,
+            isOpen,
         } = this.state;
 
         const {
@@ -121,7 +124,6 @@ class ActionItems extends React.Component {
             openSnackbar,
             openToggleSnackbar,
             closeSnackBar,
-            projectId,
             sprintId,
             onData,
             handlers,
@@ -150,7 +152,7 @@ class ActionItems extends React.Component {
                             open={open}
                             assignee={assignee}
                             closeMessage={closeMessage}
-                            toggleActionItem={() => this.showToggleActionItemModal(_id)}
+                            toggleActionItem={() => this.showToggleActionItemModal(_id, open)}
                             isModerator={isModerator}
                             idToRemove={idToRemove}
                             sprintId={sprintId}
@@ -172,7 +174,7 @@ class ActionItems extends React.Component {
                     onSubmit={this.toggleModalActionItem}
                     error={errorToggle}
                     onClose={this.hideToggleActionItemModal}
-                    projectId={projectId}
+                    isOpen={isOpen}
                 />
 
                 <Snackbar
@@ -203,7 +205,6 @@ ActionItems.defaultProps = {
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
-    projectId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,

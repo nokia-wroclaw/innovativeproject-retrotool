@@ -28,19 +28,36 @@ const ActionItem = ({
     <Card key={id}>
         <CardHeader
             title={!open ? `${assignee.name} [closed]` : assignee.name}
-            subtitle={closeMessage}
             avatar={assignee.avatar}
         />
 
         <CardText>
             {text} <br /> <br />
+            {open && closeMessage ?
+                <span>
+                    <del>Close message: { closeMessage }</del> <br />
+                </span>
+                :
+                ''
+            }
+            {!open && closeMessage ?
+                <span>
+                    Close message: { closeMessage } <br />
+                </span>
+                :
+                ''
+            }
             Deadline: {formatDate(endDate)} <br />
             Start date: {formatDate(startDate)}
         </CardText>
 
-        {errorRemove && id === idToRemove ? <CardText color="red">
-            {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
-        </CardText> : ''}
+        {errorRemove && id === idToRemove ?
+            <CardText color="red">
+                {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
+            </CardText>
+            :
+            ''
+        }
 
         <CardActions>
             {isModerator ?

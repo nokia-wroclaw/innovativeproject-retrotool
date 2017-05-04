@@ -19,39 +19,53 @@ const CloseOrReopenActionItem = ({
     onClose,
     onSubmit,
     open,
-}) => (
-    <Dialog
-        title="Add action item"
-        open={open}
-    >
-        <AutoForm
-            schema={schema}
-            onSubmit={onSubmit}
-            error={error}
+    isOpen,
+}) => {
+    const dialogMessage = isOpen ?
+       'Are you sure you want to close this action item?'
+       :
+       'Are you sure you want to reopen this action item?'
+    ;
+
+    return (
+        <Dialog
+            title={dialogMessage}
+            open={open}
         >
-            <ErrorsField />
-            <TextField
-                name="closeMessage"
-                floatingLabelText="Close message - optional"
-                fullWidth
-            />
-            <FlatButton
-                label="Close"
-                onTouchTap={onClose}
-            />
-            <SubmitField
-                label="Save"
-                primary
-            />
-        </AutoForm>
-    </Dialog>
-);
+            <AutoForm
+                schema={schema}
+                onSubmit={onSubmit}
+                error={error}
+            >
+                <ErrorsField />
+                { isOpen ?
+                    <TextField
+                        name="closeMessage"
+                        floatingLabelText="Close message - optional"
+                        fullWidth
+                    />
+                    :
+                    ''
+                }
+                <FlatButton
+                    label="Close"
+                    onTouchTap={onClose}
+                />
+                <SubmitField
+                    label={isOpen ? 'Close action item' : 'Reopen action item'}
+                    primary
+                />
+            </AutoForm>
+        </Dialog>
+    );
+};
 
 CloseOrReopenActionItem.propTypes = {
     error: PropTypes.instanceOf(Error),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
 };
 
 CloseOrReopenActionItem.defaultProps = {
