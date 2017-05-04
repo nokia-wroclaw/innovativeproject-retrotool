@@ -15,6 +15,7 @@ const formatDate = date => moment(date).format('Do MMMM YYYY');
 const ActionItem = ({
     id,
     text,
+    userId,
     startDate,
     endDate,
     open,
@@ -60,7 +61,7 @@ const ActionItem = ({
         }
 
         <CardActions>
-            {isModerator ?
+            {isModerator || userId === assignee._id ?
                 <RaisedButton
                     label={open ? 'Close action item' : 'Reopen action item'}
                     onTouchTap={toggleActionItem}
@@ -78,6 +79,7 @@ ActionItem.defaultProps = {
     idToRemove: '',
     closeMessage: '',
     assignee: {
+        _id: '',
         name: 'Not assigned',
         avatar: '',
     },
@@ -86,12 +88,14 @@ ActionItem.defaultProps = {
 ActionItem.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     toggleActionItem: PropTypes.func.isRequired,
     isModerator: PropTypes.bool.isRequired,
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
     open: PropTypes.bool.isRequired,
     assignee: PropTypes.shape({
+        _id: PropTypes.string,
         name: PropTypes.string,
         avatar: PropTypes.string,
     }).isRequired,

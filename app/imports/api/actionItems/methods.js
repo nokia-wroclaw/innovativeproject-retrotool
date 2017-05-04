@@ -51,8 +51,9 @@ export const closeOrReopenActionItem = new ValidatedMethod({
         const sprint = Sprints.findOne(sprintId);
         const projectId = sprint.projectId;
         const open = actionItem.open;
+        const assigneeId = actionItem.assigneeId;
 
-        if (isProjectModerator(projectId, userId)) {
+        if (isProjectModerator(projectId, userId) || userId === assigneeId) {
             return ActionItems.update(actionItemId, {
                 $set: {
                     open: !open,
@@ -61,8 +62,8 @@ export const closeOrReopenActionItem = new ValidatedMethod({
             });
         }
         throw new Meteor.Error(
-            'action-items-only-moderator-can-change',
-            'Only moderator can close or reopen action items',
+            'action-items-only-moderator-assignee-can-change',
+            'Only moderator and assignee can close or reopen action items',
         );
     },
 });

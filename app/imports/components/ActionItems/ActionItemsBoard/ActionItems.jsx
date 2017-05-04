@@ -117,6 +117,7 @@ class ActionItems extends React.Component {
             actionItems,
             isMember,
             isModerator,
+            userId,
             errorToggle,
             idToRemove,
             isClosed,
@@ -154,6 +155,7 @@ class ActionItems extends React.Component {
                             closeMessage={closeMessage}
                             toggleActionItem={() => this.showToggleActionItemModal(_id, open)}
                             isModerator={isModerator}
+                            userId={userId}
                             idToRemove={idToRemove}
                             sprintId={sprintId}
                             onData={onData}
@@ -205,6 +207,7 @@ ActionItems.defaultProps = {
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
