@@ -27,6 +27,7 @@ class ActionItems extends React.Component {
             actionItemId: '',
             selectedState: 'all',
             isOpen: false,
+            message: '',
         };
     }
 
@@ -51,11 +52,12 @@ class ActionItems extends React.Component {
         this.setState({ showAddActionItemModal: false });
     }
 
-    showToggleActionItemModal(actionItemId, isOpen) {
+    showToggleActionItemModal(actionItemId, isOpen, closeMessage) {
         this.setState({
             showToggleActionItemModal: true,
             actionItemId,
             isOpen,
+            message: closeMessage,
         });
     }
 
@@ -111,6 +113,7 @@ class ActionItems extends React.Component {
             showToggleActionItemModal,
             selectedState,
             isOpen,
+            message,
         } = this.state;
 
         const {
@@ -153,7 +156,9 @@ class ActionItems extends React.Component {
                             open={open}
                             assignee={assignee}
                             closeMessage={closeMessage}
-                            toggleActionItem={() => this.showToggleActionItemModal(_id, open)}
+                            toggleActionItem={
+                                () => this.showToggleActionItemModal(_id, open, closeMessage)
+                            }
                             isModerator={isModerator}
                             userId={userId}
                             idToRemove={idToRemove}
@@ -177,6 +182,7 @@ class ActionItems extends React.Component {
                     error={errorToggle}
                     onClose={this.hideToggleActionItemModal}
                     isOpen={isOpen}
+                    closeMessage={message}
                 />
 
                 <Snackbar

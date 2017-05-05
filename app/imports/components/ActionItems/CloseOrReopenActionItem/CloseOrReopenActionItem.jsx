@@ -8,9 +8,10 @@ import {
 import {
     AutoForm,
     ErrorsField,
-    TextField,
     SubmitField,
 } from 'uniforms-material';
+
+import { CustomTextField } from '/imports/components/CustomFormFields';
 
 import { schema } from './schema.js';
 
@@ -20,6 +21,7 @@ const CloseOrReopenActionItem = ({
     onSubmit,
     open,
     isOpen,
+    closeMessage,
 }) => {
     const dialogMessage = isOpen ?
        'Are you sure you want to close this action item?'
@@ -39,10 +41,12 @@ const CloseOrReopenActionItem = ({
             >
                 <ErrorsField />
                 { isOpen ?
-                    <TextField
+                    <CustomTextField
                         name="closeMessage"
                         floatingLabelText="Close message - optional"
                         fullWidth
+                        value={closeMessage}
+                        defaultValue={closeMessage}
                     />
                     :
                     ''
@@ -66,11 +70,13 @@ CloseOrReopenActionItem.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    closeMessage: PropTypes.string,
 };
 
 CloseOrReopenActionItem.defaultProps = {
     error: null,
     open: false,
+    closeMessage: '',
 };
 
 export default CloseOrReopenActionItem;

@@ -31,6 +31,7 @@ const ActionItemsSchema = new SimpleSchema({
     closeMessage: {
         type: String,
         defaultValue: '',
+        optional: true,
     },
 });
 

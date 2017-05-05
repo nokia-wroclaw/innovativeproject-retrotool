@@ -54,6 +54,16 @@ export const closeOrReopenActionItem = new ValidatedMethod({
         const assigneeId = actionItem.assigneeId;
 
         if (isProjectModerator(projectId, userId) || userId === assigneeId) {
+            if (!closeMessage && open) {
+                return ActionItems.update(actionItemId, {
+                    $set: {
+                        open: !open,
+                    },
+                    $unset: {
+                        closeMessage: '',
+                    },
+                });
+            }
             return ActionItems.update(actionItemId, {
                 $set: {
                     open: !open,
