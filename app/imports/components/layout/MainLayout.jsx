@@ -62,7 +62,9 @@ class MainLayout extends React.Component {
                 >
                     {drawerContent}
                 </Drawer>
-                {main}
+                <div>
+                    {main}
+                </div>
             </div>
         );
     }

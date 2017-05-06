@@ -20,10 +20,12 @@ const AddSprint = ({
     error,
 }) => (
     <AutoForm
+        className="content-container half"
         schema={schema}
         onSubmit={onSubmit}
         error={error}
     >
+        <h1>Add new sprint</h1>
         <ErrorsField />
         <TextField
             name="name"

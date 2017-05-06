@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Hello = () => (
-    <h1>Hello!</h1>
+    <div className="content-container">
+        <h1>Hello!</h1>
+    </div>
 );
 
 Hello.propTypes = {};

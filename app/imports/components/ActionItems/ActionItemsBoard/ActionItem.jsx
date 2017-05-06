@@ -25,7 +25,7 @@ const ActionItem = ({
     errorRemove,
     idToRemove,
 }) => (
-    <Card key={id}>
+    <Card key={id} className="action-item" >
         <CardHeader
             title={!open ? `${assignee.name} [closed]` : assignee.name}
             subtitle={closeMessage}

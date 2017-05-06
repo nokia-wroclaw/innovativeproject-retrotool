@@ -2,3 +2,19 @@ html, body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
 }
+
+.content-container {
+    margin: 32px;
+}
+
+.half {
+    width: 50%;
+}
+
+.post {
+    margin: 16px;
+}
+
+.post-comment, .working-agreement, .action-item {
+    margin: 8px;
+}
