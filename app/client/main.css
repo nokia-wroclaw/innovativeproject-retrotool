@@ -8,6 +8,7 @@ html, body {
 }
 
 .half {
+    float: left;
     width: 50%;
 }
 
