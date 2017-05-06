@@ -4,7 +4,7 @@ import { Card, CardTitle } from 'material-ui';
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import UsersList from './UsersManagement/UsersList';
-import ProjectList from './ProjectsManagement/ProjectList';
+import ProjectList from './UsersManagement/ProjectList';
 
 export default class Panel extends React.Component {
     constructor(props) {

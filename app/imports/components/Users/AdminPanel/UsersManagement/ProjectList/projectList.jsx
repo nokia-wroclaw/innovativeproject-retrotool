@@ -14,7 +14,7 @@ export class ProjectList extends React.Component {
     render() {
         return (
             <div>
-                <this.SelectableList defaultValue={3}>
+                <this.SelectableList>
                     <Subheader>Projects</Subheader>
                     {this.props.projects.map(project => (
                         <ListItem

@@ -18,7 +18,7 @@ export default class UsersList extends React.Component {
     render() {
         return (
             <div>
-                <this.SelectableList defaultValue={3}>
+                <this.SelectableList>
                     <Subheader>Users</Subheader>
                     {this.users.map(user => (
                         <ListItem
