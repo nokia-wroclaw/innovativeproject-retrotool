@@ -34,8 +34,8 @@ const ActionItem = ({
 
         <CardText>
             {text} <br /> <br />
-            Deadline: {formatDate(endDate)} <br />
-            Start date: {formatDate(startDate)}
+            Start date: {formatDate(startDate)} <br />
+            Deadline: {formatDate(endDate)}
         </CardText>
 
         {errorRemove && id === idToRemove ? <CardText color="red">
