@@ -9,18 +9,17 @@ import { ProjectList } from './projectList.jsx';
 
 
 const composer = (props, onData) => {
-    const handler = Meteor.subscribe('userData');
-    const handler2 = Meteor.subscribe('projectList');
+    const userDataHandler = Meteor.subscribe('userList');
+    const projectDataHandler = Meteor.subscribe('projectList');
 
-    if (handler.ready() && handler2.ready()) {
-        const projects = Projects.find({});
+    if (userDataHandler.ready() && projectDataHandler.ready()) {
+        const projects = Projects.find({}).fetch();
         const isAdmin = Meteor.user().isAdmin;
         onData(null, {
             projects,
             isAdmin,
         });
     }
-    return undefined;
 };
 
 export default composeWithTracker(composer)(ProjectList);

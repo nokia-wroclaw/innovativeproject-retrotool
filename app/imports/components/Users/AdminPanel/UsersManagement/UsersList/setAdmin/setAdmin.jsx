@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { PropTypes } from 'prop-types';
-import { actions } from './actions.js';
+import { actions } from '/imports/api/users/actions.js';
 
 
 export default class SetAdmin extends React.Component {
@@ -26,7 +26,7 @@ export default class SetAdmin extends React.Component {
     }
 
     handleClose(choice) {
-        if (choice) { actions.setAdmin(this.newAdmin); }
+        if (choice) { actions.manageAdmin(this.newAdmin); }
         this.newAdmin.isAdmin = !this.newAdmin.isAdmin;
 
         this.setState({ open: false });

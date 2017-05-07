@@ -1,12 +1,11 @@
-import { Meteor } from 'meteor/meteor';
+import { setAdmin, removeAdmin } from './methods.js';
 
-const callMethod = (nameOfMethod, userId) => Meteor.call(nameOfMethod, userId);
-
-const setAdmin = (user) => {
+const manageAdmin = (user) => {
+    const userId = { userId: user._id };
     if (!user.isAdmin) {
-        callMethod('setAdmin', user._id);
+        setAdmin.call(userId);
     } else {
-        callMethod('removeAdmin', user._id);
+        removeAdmin.call(userId);
     }
 };
 
@@ -18,7 +17,7 @@ const getIndexOfUserById = (collection, id) => {
 };
 
 const actions = {
-    setAdmin,
+    manageAdmin,
     getIndexOfUserById,
 };
 

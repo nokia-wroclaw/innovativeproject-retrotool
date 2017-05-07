@@ -18,10 +18,8 @@ export class ProjectList extends React.Component {
                     <Subheader>Projects</Subheader>
                     {this.props.projects.map(project => (
                         <ListItem
-                            value={1}
                             primaryText={project.name}
                             key={project._id}
-                            leftAvatar={<i>P</i>}
                         />
         ))}
                 </this.SelectableList>
