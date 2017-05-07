@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SimpleSchema from 'simpl-schema';
 import {
     Dialog,
     FlatButton,
@@ -8,55 +9,78 @@ import {
 import {
     AutoForm,
     ErrorsField,
-    TextField,
     SubmitField,
+    TextField,
 } from 'uniforms-material';
-
-import { schema } from './schema.js';
 
 const CloseOrReopenActionItem = ({
     error,
     onClose,
     onSubmit,
     open,
-}) => (
-    <Dialog
-        title="Add action item"
-        open={open}
-    >
-        <AutoForm
-            schema={schema}
-            onSubmit={onSubmit}
-            error={error}
+    isOpen,
+    closeMessage,
+}) => {
+    const dialogMessage = isOpen ?
+       'Are you sure you want to close this action item?'
+       :
+       'Are you sure you want to reopen this action item?'
+    ;
+
+    const schema = new SimpleSchema({
+        closeMessage: {
+            type: String,
+            max: 250,
+            defaultValue: closeMessage,
+        },
+    });
+
+    return (
+        <Dialog
+            title={dialogMessage}
+            open={open}
         >
-            <ErrorsField />
-            <TextField
-                name="closeMessage"
-                floatingLabelText="Close message - optional"
-                fullWidth
-            />
-            <FlatButton
-                label="Close"
-                onTouchTap={onClose}
-            />
-            <SubmitField
-                label="Save"
-                primary
-            />
-        </AutoForm>
-    </Dialog>
-);
+            <AutoForm
+                schema={schema}
+                onSubmit={onSubmit}
+                error={error}
+            >
+                <ErrorsField />
+                { isOpen ?
+                    <TextField
+                        name="closeMessage"
+                        floatingLabelText="Close message - optional"
+                        fullWidth
+                    />
+                    :
+                    ''
+                }
+                <FlatButton
+                    label="Close"
+                    onTouchTap={onClose}
+                />
+                <SubmitField
+                    label={isOpen ? 'Close action item' : 'Reopen action item'}
+                    primary
+                />
+            </AutoForm>
+        </Dialog>
+    );
+};
 
 CloseOrReopenActionItem.propTypes = {
     error: PropTypes.instanceOf(Error),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    closeMessage: PropTypes.string,
 };
 
 CloseOrReopenActionItem.defaultProps = {
     error: null,
     open: false,
+    closeMessage: '',
 };
 
 export default CloseOrReopenActionItem;

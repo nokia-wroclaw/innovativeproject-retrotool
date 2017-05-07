@@ -33,9 +33,6 @@ const ActionItemsToolbar = ({
     return (
         <Toolbar>
             <ToolbarGroup>
-                Action items
-            </ToolbarGroup>
-            <ToolbarGroup>
                 <RenderStatus
                     status={status}
                     selectedState={selectedState}
