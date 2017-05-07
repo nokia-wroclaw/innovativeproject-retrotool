@@ -1,9 +1,10 @@
 import SimpleSchema from 'simpl-schema';
+import moment from 'moment';
 
 export const PostSchema = new SimpleSchema({
     createdAt: {
         type: Date,
-        defaultValue: new Date(),
+        defaultValue: new Date(moment.now()),
     },
     sprintId: {
         type: String,
