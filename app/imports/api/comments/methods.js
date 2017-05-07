@@ -15,6 +15,7 @@ export const addComment = new ValidatedMethod({
         if (isProjectMember(projectId, authorId)) {
             return Comments.insert({
                 text,
+                createdAt: new Date(),
                 showAuthor,
                 authorId,
                 postId,

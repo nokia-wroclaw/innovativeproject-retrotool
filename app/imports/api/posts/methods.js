@@ -37,6 +37,7 @@ export const addPost = new ValidatedMethod({
             return Posts.insert({
                 sprintId,
                 text,
+                createdAt: new Date(),
                 showAuthor,
                 authorId,
                 categoryId,
