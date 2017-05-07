@@ -6,9 +6,9 @@ Meteor.methods({
     setAdmin(userId) {
         check(userId, String);
 
-        const admin = Meteor.user().isAdmin;
+        const user = Meteor.user().isAdmin;
 
-        if (admin) {
+        if (user) {
             const doc = Meteor.users.findOne({ _id: userId });
 
             if (Meteor.isServer) {
@@ -19,9 +19,9 @@ Meteor.methods({
     removeAdmin(userId) {
         check(userId, String);
 
-        const admin = Meteor.user().isAdmin;
+        const user = Meteor.user().isAdmin;
 
-        if (admin) {
+        if (user) {
             const doc = Meteor.users.findOne({ _id: userId });
             if (Meteor.isServer) {
                 Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: false } });

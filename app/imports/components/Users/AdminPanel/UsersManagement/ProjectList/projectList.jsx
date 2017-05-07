@@ -19,7 +19,7 @@ export class ProjectList extends React.Component {
                     {this.props.projects.map(project => (
                         <ListItem
                             value={1}
-                            primaryText={project.name} // @@TODO change field
+                            primaryText={project.name}
                             key={project._id}
                             leftAvatar={<i>P</i>}
                         />
