@@ -4,10 +4,9 @@ import SetAdmin from './setAdmin.jsx';
 
 const composer = (props, onData) => {
     const handler = Meteor.subscribe('userData');
-    let users;
 
     if (handler.ready()) {
-        users = Meteor.users.find({}).fetch();
+        const users = Meteor.users.find({}).fetch();
         onData(null, {
             users,
         });

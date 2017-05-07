@@ -23,17 +23,15 @@ export default class UsersList extends React.Component {
                     {this.users.map(user => (
                         <ListItem
                             value={1}
-                            primaryText={user.services.github.username} // @@TODO change field
+                            primaryText={user.profile.name}
                             key={user._id}
                             leftAvatar={<Avatar
-                                src="
-                                http://www.clker.com/cliparts/3/V/U/m/W/U/admin-button-icon-md.png"
+                                src={user.profile.avatar}
                             />}
                             nestedItems={[
                                 <SetAdmin
                                     value={2}
                                     primaryText="Set admin"
-                                    leftAvatar={<i>xD</i>}
                                     userId={user._id}
                                 />,
                             ]}

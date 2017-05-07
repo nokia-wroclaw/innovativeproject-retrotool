@@ -1,19 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 
-
-Accounts.onCreateUser((options, newUser) => {
-    const anyUser = Meteor.users.find({}).count();
-
-    if (anyUser > 0) {
-        newUser.isAdmin = false;
-    } else {
-        newUser.isAdmin = true;
-    }
-
-    return newUser;
-});
 
 Meteor.methods({
     setAdmin(userId) {
@@ -44,4 +31,4 @@ Meteor.methods({
 });
 
 Meteor.publish('userData',
-() => Meteor.users.find({}, { fields: { isAdmin: 1, 'services.github.username': 1 } }));
+() => Meteor.users.find({}, { fields: { isAdmin: 1, profile: 1 } }));

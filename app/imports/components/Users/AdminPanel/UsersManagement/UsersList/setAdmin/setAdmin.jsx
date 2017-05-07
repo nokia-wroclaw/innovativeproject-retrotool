@@ -13,10 +13,8 @@ export default class SetAdmin extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
-        this.users = props.users;
-        this.userId = props.userId;
-        this.index = actions.getIndexOfUserById(this.users, this.userId);
-        this.newAdmin = this.users[this.index];
+        this.index = actions.getIndexOfUserById(this.props.users, this.props.userId);
+        this.newAdmin = this.props.users[this.index];
         this.isAdmin = this.newAdmin.isAdmin;
         this.state = {
             open: false,
@@ -27,8 +25,8 @@ export default class SetAdmin extends React.Component {
         this.setState({ open: true });
     }
 
-    handleClose(label) {
-        if (label) { actions.setAdmin(this.newAdmin); }
+    handleClose(choice) {
+        if (choice) { actions.setAdmin(this.newAdmin); }
         this.newAdmin.isAdmin = !this.newAdmin.isAdmin;
 
         this.setState({ open: false });
@@ -37,7 +35,7 @@ export default class SetAdmin extends React.Component {
     render() {
         const actiones = [
             <FlatButton
-                label="NO!"
+                label="No"
                 keyboardFocused
                 primary
                 onTouchTap={() => this.handleClose(false)}

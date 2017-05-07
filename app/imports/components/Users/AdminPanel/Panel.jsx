@@ -10,6 +10,11 @@ export default class Panel extends React.Component {
     constructor(props) {
         super(props);
         this.state = { option: true };
+        this.changeOption = this.changeOption.bind(this);
+    }
+
+    changeOption() {
+        this.setState({ option: !this.state.option });
     }
 
     render() {
@@ -21,13 +26,13 @@ export default class Panel extends React.Component {
                         subtitle="Admin"
                     />
                     <RaisedButton
-                        onTouchTap={() => { this.setState({ option: true }); }}
+                        onTouchTap={this.changeOption}
                         label="Manage Users"
                         secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                     <RaisedButton
-                        onTouchTap={() => { this.setState({ option: false }); }}
+                        onTouchTap={this.changeOption}
                         label="Manage Projects"
                         secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}

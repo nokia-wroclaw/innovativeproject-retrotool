@@ -11,7 +11,7 @@ const composer = (props, onData) => {
             users,
         });
     }
-    return 0;
+    return undefined;
 };
 
 export default composeWithTracker(composer)(UsersList);
