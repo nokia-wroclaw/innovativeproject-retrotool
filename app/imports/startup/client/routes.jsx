@@ -3,10 +3,23 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
-import MainLayout from '/imports/components/layout/MainLayout.jsx';
+import MainLayout from '/imports/components/layout';
 
 import Login from '/imports/components/Users/Login';
+import SingleProject from '/imports/components/Projects/SingleProject';
+
 import Hello from '/imports/components/Hello';
+import PostsWall from '/imports/components/Posts/Wall';
+
+import ProjectList from '/imports/components/Projects/ProjectList';
+import SingleProjectSidebar from '/imports/components/Projects/SingleProjectSidebar';
+
+import CreateNewProject from '/imports/components/Projects/CreateNewProject';
+import AddSprint from '/imports/components/Sprints/AddSprint';
+import SingleSprint from '/imports/components/Sprints/SingleSprint';
+
+import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
+import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -16,14 +29,44 @@ const onlyLoggedIn = (nextState, replace) => {
 
 const onlyLoggedOut = (nextState, replace) => {
     if (Meteor.userId()) {
-        replace('/project');
+        replace('/hello');
     }
 };
 
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="project" component={Hello} />
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route
+                path="create"
+                components={{ main: CreateNewProject, drawerContent: ProjectList }}
+            />
+            <Route path="project">
+                <Route
+                    path=":projectId"
+                    components={{ main: SingleProject, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/add-sprint"
+                    components={{ main: AddSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId"
+                    components={{ main: SingleSprint, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/wall"
+                    components={{ main: PostsWall, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/action-items"
+                    components={{ main: ActionItems, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/sprint/:sprintId/working-agreement"
+                    components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
+                />
+            </Route>
         </Route>
 
         <Route component={BasicLayout} onEnter={onlyLoggedOut}>

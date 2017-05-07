@@ -1,7 +1,16 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const BasicLayout = ({ children }) => (
-    <div>
+    <div
+        style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%,-50%)',
+            minWidth: '300px',
+        }}
+    >
         {children}
     </div>
 );

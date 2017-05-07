@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Card,
     CardActions,
@@ -30,8 +31,8 @@ const Login = (props) => {
             }
             <CardActions>
                 <RaisedButton
-                    label="Login with GitHub"
-                    onClick={onGithubLogin}
+                    label="Sign in with GitHub"
+                    onTouchTap={onGithubLogin}
                     fullWidth
                 />
             </CardActions>

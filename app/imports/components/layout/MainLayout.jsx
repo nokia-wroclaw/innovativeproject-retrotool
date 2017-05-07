@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     AppBar,
     Drawer,
-    List,
-    ListItem,
 } from 'material-ui';
+import { onLogOut } from '/imports/api/users';
+import Navigation from './Navigation.jsx';
 
 class MainLayout extends React.Component {
     constructor(props) {
@@ -25,48 +26,60 @@ class MainLayout extends React.Component {
     }
 
     render() {
-        const { children } = this.props;
-
+        const {
+            drawerContent,
+            main,
+            isLoggedInUser,
+            isCurrentUserAdmin,
+            title,
+        } = this.props;
         const { isDrawerOpen } = this.state;
 
         return (
             <div>
                 <AppBar
-                    title="Retro Tool"
+                    title={title}
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
+                    iconElementRight={
+                        <Navigation
+                            goToWall={() => {}}
+                            goToProfile={() => {}}
+                            goToAdminPanel={() => {}}
+                            onLogOut={onLogOut}
+                            showButtons={{
+                                wall: isLoggedInUser,
+                                profile: isLoggedInUser,
+                                adminPanel: isCurrentUserAdmin,
+                                logout: isLoggedInUser,
+                            }}
+                        />
+                    }
                 />
                 <Drawer
                     open={isDrawerOpen}
                     docked={false}
                     onRequestChange={this.closeDrawer}
                 >
-                    <List>
-                        <ListItem primaryText="Posts" />
-                        <ListItem
-                            primaryText="Sprints"
-                            disabled
-                            initiallyOpen
-                            nestedItems={[
-                                <ListItem key={6} primaryText="Sprint #6 (current)" />,
-                                <ListItem key={5} primaryText="Sprint #5" />,
-                                <ListItem key={4} primaryText="Sprint #4" />,
-                                <ListItem key={3} primaryText="Sprint #3" />,
-                                <ListItem key={2} primaryText="Sprint #2" />,
-                                <ListItem key={1} primaryText="Sprint #1" />,
-                            ]}
-                        />
-                    </List>
+                    {drawerContent}
                 </Drawer>
-                {children}
+                <div>
+                    {main}
+                </div>
             </div>
         );
     }
 }
 MainLayout.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.node),
-        PropTypes.node,
-    ]).isRequired,
+    title: PropTypes.string.isRequired,
+    main: PropTypes.node.isRequired,
+    drawerContent: PropTypes.node.isRequired,
+    isLoggedInUser: PropTypes.bool.isRequired,
+    isCurrentUserAdmin: PropTypes.bool.isRequired,
+};
+
+MainLayout.defaultProps = {
+    isLoggedInUser: false,
+    isCurrentUserAdmin: false,
 };
 
 export default MainLayout;

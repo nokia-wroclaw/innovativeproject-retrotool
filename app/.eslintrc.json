@@ -1,0 +1,75 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+    "meteor"
+  ],
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "plugin:meteor/recommended"
+  ],
+  "settings": {
+    "import/resolver": "meteor"
+  },
+  "rules": {
+    "indent": [
+      "error",
+      4
+    ],
+    "max-len": [
+      "error",
+      100
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "no-param-reassign": [
+      "off"
+    ],
+    "no-underscore-dangle": [
+      "off"
+    ],
+    "no-unused-vars": [
+      "error"
+    ],
+    "no-warning-comments": [
+      "warn",
+      {
+        "terms": [
+          "todo",
+          "fixme",
+          "xxx"
+        ],
+        "location": "anywhere"
+      }
+    ],
+    "prefer-arrow-callback": "off",
+    "import/extensions": [
+      "off",
+      "never"
+    ],
+    "import/no-absolute-path": 0,
+    "import/no-extraneous-dependencies": [
+      "off"
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ],
+    "react/jsx-indent": [
+      "error",
+      4
+    ],
+    "react/jsx-indent-props": [
+      "error",
+      4
+    ]
+  }
+}

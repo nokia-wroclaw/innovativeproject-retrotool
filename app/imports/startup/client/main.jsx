@@ -22,4 +22,5 @@ Meteor.startup(() => {
         <App />,
         document.getElementById('app'),
     );
+    Meteor.subscribe('extendedUser');
 });
