@@ -101,20 +101,22 @@ class WorkingAgreements extends React.Component {
                     isClosed={isClosed}
                 />
 
-                {workingAgreements.map(wa =>
-                    <WorkingAgreement
-                        key={wa._id}
-                        id={wa._id}
-                        text={wa.text}
-                        date={wa.date}
-                        deleteWorkingAgreement={this.showRemoveWorkingAgreementModal}
-                        isModerator={isModerator}
-                        sprintId={sprintId}
-                        onData={onData}
-                        handlers={handlers}
-                        wrappedData={wrappedData}
-                    />,
-                )}
+                <div className="content-container">
+                    {workingAgreements.map(wa =>
+                        <WorkingAgreement
+                            key={wa._id}
+                            id={wa._id}
+                            text={wa.text}
+                            date={wa.date}
+                            deleteWorkingAgreement={this.showRemoveWorkingAgreementModal}
+                            isModerator={isModerator}
+                            sprintId={sprintId}
+                            onData={onData}
+                            handlers={handlers}
+                            wrappedData={wrappedData}
+                        />,
+                    )}
+                </div>
 
                 <AddWorkingAgreement
                     open={showAddWorkingAgreementModal}

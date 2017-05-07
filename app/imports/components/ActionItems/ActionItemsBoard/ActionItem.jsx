@@ -28,7 +28,7 @@ const ActionItem = ({
     errorRemove,
     idToRemove,
 }) => (
-    <Card key={id}>
+    <Card key={id} className="action-item" >
         <CardHeader
             title={!open ? `${assignee.name} [closed]` : assignee.name}
             avatar={assignee.avatar}
@@ -36,19 +36,22 @@ const ActionItem = ({
 
         <CardText>
             <p>{text}</p>
+
             {open && closeMessage ?
                 <p><del>Close message: { closeMessage }</del></p>
                 :
                 ''
             }
+
             {!open && closeMessage ?
                 <p>Close message: { closeMessage }</p>
                 :
                 ''
             }
+
             <p>
-                <span>Deadline: {formatDate(endDate)}</span>
                 <span>Start date: {formatDate(startDate)}</span>
+                <span>Deadline: {formatDate(endDate)}</span>
             </p>
         </CardText>
 

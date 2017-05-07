@@ -16,10 +16,12 @@ const CreateNewProject = ({
     error,
 }) =>
     <AutoForm
+        className="content-container half"
         schema={schema}
         onSubmit={onSubmit}
         error={error}
     >
+        <h1>Create new project</h1>
         <ErrorsField />
         <TextField
             name="name"

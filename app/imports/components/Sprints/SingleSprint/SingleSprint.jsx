@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ActionItemsBoard from '/imports/components/ActionItems/ActionItemsBoard';
+import WorkingAgreementBoard from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 import SprintToolbar from './SprintToolbar.jsx';
 import CloseDialog from './CloseDialog.jsx';
 
@@ -38,6 +40,13 @@ class SingleSprint extends React.Component {
                     closeSprint={this.showCloseDialog}
                     canClose={canClose}
                 />
+
+                <div className="half">
+                    <ActionItemsBoard />
+                </div>
+                <div className="half">
+                    <WorkingAgreementBoard />
+                </div>
 
                 <CloseDialog
                     sprint={sprint}

@@ -17,7 +17,7 @@ const AddComment = ({
     onSubmit,
     error,
 }) => (
-    <Card>
+    <Card className="post-comment">
         <CardText>
             <AutoForm
                 schema={schema}

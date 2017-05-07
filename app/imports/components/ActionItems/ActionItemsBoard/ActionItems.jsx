@@ -6,6 +6,8 @@ import ActionItem from './ActionItem.jsx';
 import AddActionItem from '../AddActionItem';
 import CloseOrReopenActionItem from '../CloseOrReopenActionItem';
 
+const isSelected = (ai, selectedState) =>
+    ai.open.toString() === selectedState || selectedState === 'all';
 
 class ActionItems extends React.Component {
     constructor(props) {
@@ -144,30 +146,32 @@ class ActionItems extends React.Component {
                     isClosed={isClosed}
                 />
 
-                {actionItems
-                    .filter(ai => ai.open.toString() === selectedState || selectedState === 'all')
-                    .map(({ _id, text, startDate, endDate, open, assignee, closeMessage }) =>
-                        <ActionItem
-                            key={_id}
-                            id={_id}
-                            text={text}
-                            startDate={startDate}
-                            endDate={endDate}
-                            open={open}
-                            assignee={assignee}
-                            closeMessage={closeMessage}
-                            toggleActionItem={
-                                () => this.showToggleActionItemModal(_id, open, closeMessage)
-                            }
-                            isModerator={isModerator}
-                            userId={userId}
-                            idToRemove={idToRemove}
-                            sprintId={sprintId}
-                            onData={onData}
-                            handlers={handlers}
-                            wrappedData={wrappedData}
-                        />,
-                )}
+                <div className="content-container">
+                    {actionItems
+                        .filter(ai => isSelected(ai, selectedState))
+                        .map(({ _id, text, startDate, endDate, open, assignee, closeMessage }) =>
+                            <ActionItem
+                                key={_id}
+                                id={_id}
+                                text={text}
+                                startDate={startDate}
+                                endDate={endDate}
+                                open={open}
+                                assignee={assignee}
+                                closeMessage={closeMessage}
+                                toggleActionItem={
+                                    () => this.showToggleActionItemModal(_id, open, closeMessage)
+                                }
+                                isModerator={isModerator}
+                                userId={userId}
+                                idToRemove={idToRemove}
+                                sprintId={sprintId}
+                                onData={onData}
+                                handlers={handlers}
+                                wrappedData={wrappedData}
+                            />,
+                    )}
+                </div>
 
                 <AddActionItem
                     open={showAddActionItemModal}

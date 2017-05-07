@@ -11,7 +11,7 @@ const formatDate = date => `Commented ${moment.utc(date).fromNow()}`;
 
 
 const Comment = ({ author, createdAt, text }) =>
-    <Card>
+    <Card className="post-comment">
         <CardHeader
             title={author.name}
             avatar={author.avatar}

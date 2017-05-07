@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SingleProject = ({ name }) => (
-    <div>
+    <div className="content-container">
         <h1>{name}</h1>
     </div>
 );
