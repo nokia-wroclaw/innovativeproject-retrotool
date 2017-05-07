@@ -76,6 +76,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
             const member = Meteor.users.findOne(actionItem.assigneeId);
 
             actionItem.assignee = {
+                _id: member._id,
                 name: member.profile.name,
                 avatar: member.profile.avatar,
             };
@@ -95,6 +96,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
             projectId,
             sprintId,
             isClosed: sprint.closed,
+            userId,
             ...data,
         });
     }

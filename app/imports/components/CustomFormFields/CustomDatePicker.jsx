@@ -7,7 +7,7 @@ import { DatePicker } from 'material-ui';
 const CustomDatePicker = props => (
     <DatePicker
         name={props.name}
-        onChange={(a, date) => props.onChange(date)}
+        onChange={(e, date) => props.onChange(date)}
         hintText={props.placeholder}
         minDate={props.min}
     />

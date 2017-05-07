@@ -10,11 +10,14 @@ import {
     CardHeader,
 } from 'material-ui';
 
+import '../Style/ActionItems.css';
+
 const formatDate = date => moment(date).format('Do MMMM YYYY');
 
 const ActionItem = ({
     id,
     text,
+    userId,
     startDate,
     endDate,
     open,
@@ -28,22 +31,40 @@ const ActionItem = ({
     <Card key={id} className="action-item" >
         <CardHeader
             title={!open ? `${assignee.name} [closed]` : assignee.name}
-            subtitle={closeMessage}
             avatar={assignee.avatar}
         />
 
         <CardText>
-            {text} <br /> <br />
-            Start date: {formatDate(startDate)} <br />
-            Deadline: {formatDate(endDate)}
+            <p>{text}</p>
+
+            {open && closeMessage ?
+                <p><del>Close message: { closeMessage }</del></p>
+                :
+                ''
+            }
+
+            {!open && closeMessage ?
+                <p>Close message: { closeMessage }</p>
+                :
+                ''
+            }
+
+            <p>
+                <span>Start date: {formatDate(startDate)}</span>
+                <span>Deadline: {formatDate(endDate)}</span>
+            </p>
         </CardText>
 
-        {errorRemove && id === idToRemove ? <CardText color="red">
-            {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
-        </CardText> : ''}
+        {errorRemove && id === idToRemove ?
+            <CardText color="red">
+                {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
+            </CardText>
+            :
+            ''
+        }
 
         <CardActions>
-            {isModerator ?
+            {isModerator || userId === assignee._id ?
                 <RaisedButton
                     label={open ? 'Close action item' : 'Reopen action item'}
                     onTouchTap={toggleActionItem}
@@ -61,6 +82,7 @@ ActionItem.defaultProps = {
     idToRemove: '',
     closeMessage: '',
     assignee: {
+        _id: '',
         name: 'Not assigned',
         avatar: '',
     },
@@ -69,12 +91,14 @@ ActionItem.defaultProps = {
 ActionItem.propTypes = {
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     toggleActionItem: PropTypes.func.isRequired,
     isModerator: PropTypes.bool.isRequired,
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
     open: PropTypes.bool.isRequired,
     assignee: PropTypes.shape({
+        _id: PropTypes.string,
         name: PropTypes.string,
         avatar: PropTypes.string,
     }).isRequired,

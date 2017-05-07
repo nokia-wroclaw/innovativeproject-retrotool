@@ -28,6 +28,8 @@ class ActionItems extends React.Component {
             showToggleActionItemModal: false,
             actionItemId: '',
             selectedState: 'all',
+            isOpen: false,
+            message: '',
         };
     }
 
@@ -52,10 +54,12 @@ class ActionItems extends React.Component {
         this.setState({ showAddActionItemModal: false });
     }
 
-    showToggleActionItemModal(actionItemId) {
+    showToggleActionItemModal(actionItemId, isOpen, closeMessage) {
         this.setState({
             showToggleActionItemModal: true,
             actionItemId,
+            isOpen,
+            message: closeMessage,
         });
     }
 
@@ -110,12 +114,15 @@ class ActionItems extends React.Component {
             showAddActionItemModal,
             showToggleActionItemModal,
             selectedState,
+            isOpen,
+            message,
         } = this.state;
 
         const {
             actionItems,
             isMember,
             isModerator,
+            userId,
             errorToggle,
             idToRemove,
             isClosed,
@@ -123,7 +130,6 @@ class ActionItems extends React.Component {
             openSnackbar,
             openToggleSnackbar,
             closeSnackBar,
-            projectId,
             sprintId,
             onData,
             handlers,
@@ -153,8 +159,11 @@ class ActionItems extends React.Component {
                                 open={open}
                                 assignee={assignee}
                                 closeMessage={closeMessage}
-                                toggleActionItem={() => this.showToggleActionItemModal(_id)}
+                                toggleActionItem={
+                                    () => this.showToggleActionItemModal(_id, open, closeMessage)
+                                }
                                 isModerator={isModerator}
+                                userId={userId}
                                 idToRemove={idToRemove}
                                 sprintId={sprintId}
                                 onData={onData}
@@ -176,7 +185,8 @@ class ActionItems extends React.Component {
                     onSubmit={this.toggleModalActionItem}
                     error={errorToggle}
                     onClose={this.hideToggleActionItemModal}
-                    projectId={projectId}
+                    isOpen={isOpen}
+                    closeMessage={message}
                 />
 
                 <Snackbar
@@ -207,7 +217,7 @@ ActionItems.defaultProps = {
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
-    projectId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
