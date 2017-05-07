@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SimpleSchema from 'simpl-schema';
 import {
     Dialog,
     FlatButton,
@@ -9,11 +10,8 @@ import {
     AutoForm,
     ErrorsField,
     SubmitField,
+    TextField,
 } from 'uniforms-material';
-
-import { CustomTextField } from '/imports/components/CustomFormFields';
-
-import { schema } from './schema.js';
 
 const CloseOrReopenActionItem = ({
     error,
@@ -29,6 +27,14 @@ const CloseOrReopenActionItem = ({
        'Are you sure you want to reopen this action item?'
     ;
 
+    const schema = new SimpleSchema({
+        closeMessage: {
+            type: String,
+            max: 250,
+            defaultValue: closeMessage,
+        },
+    });
+
     return (
         <Dialog
             title={dialogMessage}
@@ -41,12 +47,10 @@ const CloseOrReopenActionItem = ({
             >
                 <ErrorsField />
                 { isOpen ?
-                    <CustomTextField
+                    <TextField
                         name="closeMessage"
                         floatingLabelText="Close message - optional"
                         fullWidth
-                        value={closeMessage}
-                        defaultValue={closeMessage}
                     />
                     :
                     ''
