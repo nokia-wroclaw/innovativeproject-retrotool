@@ -10,6 +10,8 @@ import {
     CardHeader,
 } from 'material-ui';
 
+import '../Style/ActionItems.css';
+
 const formatDate = date => moment(date).format('Do MMMM YYYY');
 
 const ActionItem = ({
@@ -33,23 +35,21 @@ const ActionItem = ({
         />
 
         <CardText>
-            {text} <br /> <br />
+            <p>{text}</p>
             {open && closeMessage ?
-                <span>
-                    <del>Close message: { closeMessage }</del> <br />
-                </span>
+                <p><del>Close message: { closeMessage }</del></p>
                 :
                 ''
             }
             {!open && closeMessage ?
-                <span>
-                    Close message: { closeMessage } <br />
-                </span>
+                <p>Close message: { closeMessage }</p>
                 :
                 ''
             }
-            Deadline: {formatDate(endDate)} <br />
-            Start date: {formatDate(startDate)}
+            <p>
+                <span>Deadline: {formatDate(endDate)}</span>
+                <span>Start date: {formatDate(startDate)}</span>
+            </p>
         </CardText>
 
         {errorRemove && id === idToRemove ?
