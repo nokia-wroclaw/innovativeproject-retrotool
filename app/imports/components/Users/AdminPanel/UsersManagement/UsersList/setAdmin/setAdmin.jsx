@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { PropTypes } from 'prop-types';
 import { actions } from '/imports/api/users/actions.js';
-
+import _ from 'lodash';
 
 export default class SetAdmin extends React.Component {
 
@@ -13,9 +13,8 @@ export default class SetAdmin extends React.Component {
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
 
-        this.index = actions.getIndexOfUserById(this.props.users, this.props.userId);
-        this.newAdmin = this.props.users[this.index];
-        this.isAdmin = this.newAdmin.isAdmin;
+        this.newAdmin = _.find(this.props.users, o => o._id === this.props.userId);
+
         this.state = {
             open: false,
         };
