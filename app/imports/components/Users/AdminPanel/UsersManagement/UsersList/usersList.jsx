@@ -11,7 +11,6 @@ export default class UsersList extends React.Component {
     constructor(props) {
         super(props);
         this.SelectableList = makeSelectable(List); // @TODO Do it like in tutorial
-        this.users = props.users;
     }
 
 
@@ -20,7 +19,7 @@ export default class UsersList extends React.Component {
             <div>
                 <this.SelectableList>
                     <Subheader>Users</Subheader>
-                    {this.users.map(user => (
+                    {this.props.users.map(user => (
                         <ListItem
                             value={1}
                             primaryText={user.profile.name}
@@ -32,7 +31,7 @@ export default class UsersList extends React.Component {
                                 <SetAdmin
                                     value={2}
                                     primaryText="Set admin"
-                                    userId={user._id}
+                                    user={user}
                                 />,
                             ]}
                         />

@@ -4,7 +4,6 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { PropTypes } from 'prop-types';
 import { actions } from '/imports/api/users/actions.js';
-import _ from 'lodash';
 
 export default class SetAdmin extends React.Component {
 
@@ -12,9 +11,6 @@ export default class SetAdmin extends React.Component {
         super(props);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
-
-        this.newAdmin = _.find(this.props.users, o => o._id === this.props.userId);
-
         this.state = {
             open: false,
         };
@@ -25,8 +21,8 @@ export default class SetAdmin extends React.Component {
     }
 
     handleClose(choice) {
-        if (choice) { actions.manageAdmin(this.newAdmin); }
-        this.newAdmin.isAdmin = !this.newAdmin.isAdmin;
+        if (choice) { actions.manageAdmin(this.props.user); }
+        this.props.user.isAdmin = !this.props.user.isAdmin;
 
         this.setState({ open: false });
     }
@@ -49,7 +45,7 @@ export default class SetAdmin extends React.Component {
         return (
             <div>
                 <RaisedButton
-                    label={this.newAdmin.isAdmin ? 'Remove admin' : 'Set admin'}
+                    label={this.props.user.isAdmin ? 'Remove admin' : 'Set admin'}
                     onTouchTap={this.handleOpen}
                 />
                 <Dialog
@@ -64,9 +60,8 @@ export default class SetAdmin extends React.Component {
     }
 }
 SetAdmin.propTypes = {
-    users: PropTypes.arrayOf(PropTypes.shape({
+    user: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
     })).isRequired,
-    userId: PropTypes.string.isRequired,
 };
