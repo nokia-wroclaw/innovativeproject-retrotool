@@ -23,3 +23,18 @@ Meteor.publish('actionItems', function publishActionItems(sprintId) {
     }
     return this.ready();
 });
+
+    check(projectId, String);
+
+    const userId = this.userId;
+    const isCurrentUserAdmin = isAdmin(userId);
+
+    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+        const query = { projectId };
+
+        const options = {};
+
+        return ActionItems.find(query, options);
+    }
+    return this.ready();
+});

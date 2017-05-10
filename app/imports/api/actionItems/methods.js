@@ -26,6 +26,7 @@ export const addActionItem = new ValidatedMethod({
 
         if (isProjectMember(projectId, userId)) {
             return ActionItems.insert({
+                projectId,
                 sprintId,
                 startDate,
                 endDate,
