@@ -28,7 +28,10 @@ const Post = ({
     removePost,
     likes,
 }) => (
-    <Card key={id}>
+    <Card
+        className="post"
+        key={id}
+    >
         <CardHeader
             title={author.name}
             avatar={author.avatar}

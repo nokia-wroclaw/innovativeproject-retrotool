@@ -6,21 +6,24 @@ import {
     ToolbarGroup,
 } from 'material-ui';
 
+import '../Style/WorkingAgreements.css';
+
 const WorkingAgreementsToolbar = ({
     addWorkingAgreement,
     isMember,
     isClosed,
 }) =>
-    <Toolbar>
-        <ToolbarGroup>
-            Working agreements
-        </ToolbarGroup>
-        <ToolbarGroup>
-            {isMember && !isClosed ? <RaisedButton
-                label="Add working agreement"
-                onTouchTap={addWorkingAgreement}
-                primary
-            /> : ''}
+    <Toolbar className="WAtoolbar">
+        <ToolbarGroup className="WAtoolbarGroup">
+            {isMember && !isClosed ?
+                <RaisedButton
+                    label="Add working agreement"
+                    onTouchTap={addWorkingAgreement}
+                    primary
+                />
+                :
+                ''
+            }
         </ToolbarGroup>
     </Toolbar>
 ;

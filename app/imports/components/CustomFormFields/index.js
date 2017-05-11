@@ -1,3 +1,5 @@
 import CustomDatePicker from './CustomDatePicker.jsx';
 
-export { CustomDatePicker };
+export {
+    CustomDatePicker,
+};

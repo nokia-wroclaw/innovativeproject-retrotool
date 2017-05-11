@@ -18,7 +18,7 @@ const WorkingAgreement = ({
     deleteWorkingAgreement,
     isModerator,
 }) => (
-    <Card key={id}>
+    <Card key={id} className="working-agreement">
         <CardHeader
             title={text}
             subtitle={formatDate(date)}

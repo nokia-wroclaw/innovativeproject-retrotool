@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
+import { FullPageLoader } from '/imports/components/Loaders';
 
 import {
     Sprints,
@@ -24,9 +25,9 @@ const composer = ({ params: { sprintId } }, onData) => {
 
 
         if (projectsHandler.ready()) {
-            const project = Projects.findOne({ _id: projectId });
+            const project = Projects.findOne(projectId);
             const userId = Meteor.userId();
-            const canClose = isProjectModerator(project, userId);
+            const canClose = isProjectModerator(projectId, userId);
 
             onData(null, {
                 sprint,
@@ -42,5 +43,6 @@ const composer = ({ params: { sprintId } }, onData) => {
 export default withRouter(
     composeWithTracker(
         composer,
+        FullPageLoader,
     )(SingleSprint),
 );

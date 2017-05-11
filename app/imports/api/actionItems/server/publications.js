@@ -5,7 +5,7 @@ import { isAdmin } from '/imports/api/users';
 import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './../ActionItems.js';
 
-Meteor.publish('ActionItems', function publishActionItems(sprintId) {
+Meteor.publish('actionItems', function publishActionItems(sprintId) {
     check(sprintId, String);
 
     const userId = this.userId;

@@ -91,24 +91,28 @@ class Wall extends React.Component {
                     isSprintOpen={isSprintOpen}
                 />
 
-                {posts
-                    .filter(post => !selectedCategoryId || post.categoryId === selectedCategoryId)
-                    .map(post =>
-                        <Post
-                            key={post._id}
-                            id={post._id}
-                            author={post.author}
-                            text={post.text}
-                            createdAt={post.createdAt}
-                            projectId={projectId}
-                            canRemove={isProjectModeratorOrAdmin}
-                            removePost={removePost}
-                            likePost={likePost}
-                            dislikePost={dislikePost}
-                            likes={post.likes}
-                        />,
-                    )
-                }
+                <div className="content-container">
+                    {posts
+                        .filter(
+                            post => !selectedCategoryId || post.categoryId === selectedCategoryId,
+                        )
+                        .map(post =>
+                            <Post
+                                key={post._id}
+                                id={post._id}
+                                author={post.author}
+                                text={post.text}
+                                createdAt={post.createdAt}
+                                projectId={projectId}
+                                canRemove={isProjectModeratorOrAdmin}
+                                removePost={removePost}
+                                likePost={likePost}
+                                dislikePost={dislikePost}
+                                likes={post.likes}
+                            />,
+                        )
+                    }
+                </div>
 
                 <AddPost
                     categories={categories}

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
+import { FullPageLoader } from '/imports/components/Loaders';
 
 import {
     ActionItems as ActionItemsCollection,
@@ -75,6 +76,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
             const member = Meteor.users.findOne(actionItem.assigneeId);
 
             actionItem.assignee = {
+                _id: member._id,
                 name: member.profile.name,
                 avatar: member.profile.avatar,
             };
@@ -94,31 +96,28 @@ const wrappedData = (onData, sprintId, handlers, data) => {
             projectId,
             sprintId,
             isClosed: sprint.closed,
+            userId,
             ...data,
         });
     }
 };
 
-const composer = ({ params: { sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId } }, onData) => {
     const handlers = [
-        Meteor.subscribe('ActionItems', sprintId),
+        Meteor.subscribe('actionItems', sprintId),
         Meteor.subscribe('singleSprint', sprintId),
+        Meteor.subscribe('singleProject', projectId),
+        Meteor.subscribe('projectMembers', projectId),
     ];
 
     if (handlers.every(handler => handler.ready())) {
-        const sprint = Sprints.findOne(sprintId);
-        const projectId = sprint.projectId;
-        handlers.push(Meteor.subscribe('singleProject', projectId));
-        handlers.push(Meteor.subscribe('projectMembers', projectId));
-
-        if (handlers.every(handler => handler.ready())) {
-            wrappedData(onData, sprintId, handlers);
-        }
+        wrappedData(onData, sprintId, handlers);
     }
 };
 
 export default withRouter(
     composeWithTracker(
         composer,
+        FullPageLoader,
     )(ActionItems),
 );

@@ -13,15 +13,18 @@ import {
 } from 'uniforms-material';
 import { schema } from './schema.js';
 
+let formRef;
 const AddComment = ({
     onSubmit,
     error,
 }) => (
-    <Card>
+    <Card className="post-comment">
         <CardText>
             <AutoForm
+                ref={(ref) => { formRef = ref; }}
                 schema={schema}
                 onSubmit={onSubmit}
+                onSubmitSuccess={() => { formRef.reset(); }}
                 error={error}
             >
                 <ErrorsField />

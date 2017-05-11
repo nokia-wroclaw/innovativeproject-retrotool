@@ -6,6 +6,8 @@ import ActionItem from './ActionItem.jsx';
 import AddActionItem from '../AddActionItem';
 import CloseOrReopenActionItem from '../CloseOrReopenActionItem';
 
+const isSelected = (ai, selectedState) =>
+    ai.open.toString() === selectedState || selectedState === 'all';
 
 class ActionItems extends React.Component {
     constructor(props) {
@@ -26,6 +28,8 @@ class ActionItems extends React.Component {
             showToggleActionItemModal: false,
             actionItemId: '',
             selectedState: 'all',
+            isOpen: false,
+            message: '',
         };
     }
 
@@ -50,10 +54,12 @@ class ActionItems extends React.Component {
         this.setState({ showAddActionItemModal: false });
     }
 
-    showToggleActionItemModal(actionItemId) {
+    showToggleActionItemModal(actionItemId, isOpen, closeMessage) {
         this.setState({
             showToggleActionItemModal: true,
             actionItemId,
+            isOpen,
+            message: closeMessage,
         });
     }
 
@@ -108,12 +114,15 @@ class ActionItems extends React.Component {
             showAddActionItemModal,
             showToggleActionItemModal,
             selectedState,
+            isOpen,
+            message,
         } = this.state;
 
         const {
             actionItems,
             isMember,
             isModerator,
+            userId,
             errorToggle,
             idToRemove,
             isClosed,
@@ -121,7 +130,6 @@ class ActionItems extends React.Component {
             openSnackbar,
             openToggleSnackbar,
             closeSnackBar,
-            projectId,
             sprintId,
             onData,
             handlers,
@@ -138,27 +146,32 @@ class ActionItems extends React.Component {
                     isClosed={isClosed}
                 />
 
-                {actionItems
-                    .filter(ai => ai.open.toString() === selectedState || selectedState === 'all')
-                    .map(({ _id, text, startDate, endDate, open, assignee, closeMessage }) =>
-                        <ActionItem
-                            key={_id}
-                            id={_id}
-                            text={text}
-                            startDate={startDate}
-                            endDate={endDate}
-                            open={open}
-                            assignee={assignee}
-                            closeMessage={closeMessage}
-                            toggleActionItem={() => this.showToggleActionItemModal(_id)}
-                            isModerator={isModerator}
-                            idToRemove={idToRemove}
-                            sprintId={sprintId}
-                            onData={onData}
-                            handlers={handlers}
-                            wrappedData={wrappedData}
-                        />,
-                )}
+                <div className="content-container">
+                    {actionItems
+                        .filter(ai => isSelected(ai, selectedState))
+                        .map(({ _id, text, startDate, endDate, open, assignee, closeMessage }) =>
+                            <ActionItem
+                                key={_id}
+                                id={_id}
+                                text={text}
+                                startDate={startDate}
+                                endDate={endDate}
+                                open={open}
+                                assignee={assignee}
+                                closeMessage={closeMessage}
+                                toggleActionItem={
+                                    () => this.showToggleActionItemModal(_id, open, closeMessage)
+                                }
+                                isModerator={isModerator}
+                                userId={userId}
+                                idToRemove={idToRemove}
+                                sprintId={sprintId}
+                                onData={onData}
+                                handlers={handlers}
+                                wrappedData={wrappedData}
+                            />,
+                    )}
+                </div>
 
                 <AddActionItem
                     open={showAddActionItemModal}
@@ -172,7 +185,8 @@ class ActionItems extends React.Component {
                     onSubmit={this.toggleModalActionItem}
                     error={errorToggle}
                     onClose={this.hideToggleActionItemModal}
-                    projectId={projectId}
+                    isOpen={isOpen}
+                    closeMessage={message}
                 />
 
                 <Snackbar
@@ -203,7 +217,7 @@ ActionItems.defaultProps = {
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
-    projectId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
