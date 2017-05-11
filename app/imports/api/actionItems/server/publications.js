@@ -24,6 +24,7 @@ Meteor.publish('actionItems', function publishActionItems(sprintId) {
     return this.ready();
 });
 
+Meteor.publish('projectActionItems', function publishProjectActionItems(projectId) {
     check(projectId, String);
 
     const userId = this.userId;
