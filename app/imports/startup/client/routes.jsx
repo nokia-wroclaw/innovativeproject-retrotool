@@ -21,6 +21,9 @@ import SingleSprint from '/imports/components/Sprints/SingleSprint';
 import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
+import { isAdmin } from '/imports/api/users';
+import Panel from '/imports/components/Users/AdminPanel/Panel.jsx';
+
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
         replace('/login');
@@ -33,6 +36,12 @@ const onlyLoggedOut = (nextState, replace) => {
     }
 };
 
+const onlyAdmin = (nextState, replace) => {
+    if (isAdmin()) {
+        replace('/hello');
+    }
+};
+
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
@@ -41,6 +50,9 @@ export default (
                 path="create"
                 components={{ main: CreateNewProject, drawerContent: ProjectList }}
             />
+            <Route path="admin" onEnter={onlyAdmin}>
+                <Route path="main" component={{ main: Panel, drawerContent: ProjectList }} />
+            </Route>
             <Route path="project">
                 <Route
                     path=":projectId"
