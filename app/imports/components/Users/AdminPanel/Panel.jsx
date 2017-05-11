@@ -28,13 +28,11 @@ export default class Panel extends React.Component {
                     <RaisedButton
                         onTouchTap={this.changeOption}
                         label="Manage Users"
-                        secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                     <RaisedButton
                         onTouchTap={this.changeOption}
                         label="Manage Projects"
-                        secondary
                         icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                 </Card>

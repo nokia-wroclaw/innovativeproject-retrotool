@@ -6,7 +6,7 @@ const composer = (props, onData) => {
     const handler = Meteor.subscribe('userList');
 
     if (handler.ready()) {
-        const users = Meteor.users.find({});
+        const users = Meteor.users.find({}).fetch();
         onData(null, {
             users,
         });

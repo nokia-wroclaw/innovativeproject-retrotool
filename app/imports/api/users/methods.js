@@ -10,12 +10,9 @@ export const setAdmin = new ValidatedMethod({
     name: 'setAdmin',
     validate: setAdminSchema.validator({ clean: true }),
     run({ userId }) {
-        const user = Meteor.user().isAdmin;
-
-        if (user) {
-            const doc = Meteor.users.findOne(userId);
-
-            Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: true } });
+        const { isAdmin } = Meteor.user();
+        if (isAdmin) {
+            Meteor.users.update(userId, { $set: { isAdmin: true } });
         }
     },
 });
@@ -25,10 +22,8 @@ export const removeAdmin = new ValidatedMethod({
     validate: removeAdminSchema.validator({ clean: true }),
     run({ userId }) {
         const user = Meteor.user().isAdmin;
-
         if (user) {
-            const doc = Meteor.users.findOne(userId);
-            Meteor.users.update({ _id: doc._id }, { $set: { isAdmin: false } });
+            Meteor.users.update(userId, { $set: { isAdmin: false } });
         }
     },
 });

@@ -13,6 +13,7 @@ export default class SetAdmin extends React.Component {
         this.handleClose = this.handleClose.bind(this);
         this.state = {
             open: false,
+            isAdmin: this.props.user.isAdmin,
         };
     }
 
@@ -21,14 +22,15 @@ export default class SetAdmin extends React.Component {
     }
 
     handleClose(choice) {
-        if (choice) { actions.manageAdmin(this.props.user); }
-        this.props.user.isAdmin = !this.props.user.isAdmin;
-
+        if (choice) {
+            actions.manageAdmin(this.props.user);
+            this.setState({ isAdmin: !this.state.isAdmin });
+        }
         this.setState({ open: false });
     }
 
     render() {
-        const actiones = [
+        const choice = [
             <FlatButton
                 label="No"
                 keyboardFocused
@@ -37,7 +39,7 @@ export default class SetAdmin extends React.Component {
             />,
             <FlatButton
                 label="Yes"
-                primary
+                secondary
                 onTouchTap={() => this.handleClose(true)}
             />,
         ];
@@ -45,12 +47,12 @@ export default class SetAdmin extends React.Component {
         return (
             <div>
                 <RaisedButton
-                    label={this.props.user.isAdmin ? 'Remove admin' : 'Set admin'}
+                    label={this.state.isAdmin ? 'Remove admin' : 'Set admin'}
                     onTouchTap={this.handleOpen}
                 />
                 <Dialog
                     title="Are you sure to set admin?"
-                    actions={actiones}
+                    actions={choice}
                     modal={false}
                     open={this.state.open}
                     onRequestClose={this.handleClose}

@@ -31,7 +31,7 @@ const setUsernameIfDoesntHave = (options, user) => {
     return user;
 };
 
-const setAdminOn1stUser = (options, user) => {
+const setAdminOnFirstUser = (options, user) => {
     if (Meteor.users.find({}).count() > 0) {
         user.isAdmin = false;
     } else {
@@ -42,7 +42,7 @@ const setAdminOn1stUser = (options, user) => {
 
 Accounts.onCreateUser((options, user) => {
     user = saveUserProfile(options, user);
-    user = setAdminOn1stUser(options, user);
+    user = setAdminOnFirstUser(options, user);
     user = setUsernameIfDoesntHave(options, user);
     user = setAvatar(options, user);
     return user;

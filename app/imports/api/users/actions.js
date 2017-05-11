@@ -1,11 +1,10 @@
 import { setAdmin, removeAdmin } from './methods.js';
 
-const manageAdmin = (user) => {
-    const userId = { userId: user._id };
-    if (!user.isAdmin) {
-        setAdmin.call(userId);
+const manageAdmin = ({ _id: userId, isAdmin }) => {
+    if (!isAdmin) {
+        setAdmin.call({ userId });
     } else {
-        removeAdmin.call(userId);
+        removeAdmin.call({ userId });
     }
 };
 
