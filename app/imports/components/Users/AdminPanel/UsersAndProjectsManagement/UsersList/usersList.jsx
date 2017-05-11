@@ -3,7 +3,7 @@ import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
-import SetAdmin from './setAdmin/setAdmin.jsx';
+import SetAdmin from './setAdmin/SetAdmin.jsx';
 
 
 const UsersList = props => (
@@ -21,6 +21,7 @@ const UsersList = props => (
                         <SetAdmin
                             primaryText="Set admin"
                             user={user}
+                            key={user._id}
                         />,
                     ]}
                 />

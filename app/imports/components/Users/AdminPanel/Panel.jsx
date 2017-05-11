@@ -3,8 +3,8 @@ import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle } from 'material-ui';
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import UsersList from './UsersManagement/UsersList';
-import ProjectList from './UsersManagement/ProjectList';
+import UsersList from './UsersAndProjectsManagement/UsersList';
+import ProjectsList from './UsersAndProjectsManagement/ProjectsList';
 
 export default class Panel extends React.Component {
     constructor(props) {
@@ -36,11 +36,15 @@ export default class Panel extends React.Component {
                         icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                 </Card>
-                { this.state.option ? <UsersList /> : <ProjectList /> }
+                { this.state.option ? <UsersList /> : <ProjectsList /> }
             </div>
         );
     }
 }
+
+Panel.defaultProps = {
+    isAdmin: false,
+};
 
 Panel.propTypes = {
     isAdmin: PropTypes.bool.isRequired,

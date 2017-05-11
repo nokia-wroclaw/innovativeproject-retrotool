@@ -51,7 +51,7 @@ export default class SetAdmin extends React.Component {
                     onTouchTap={this.handleOpen}
                 />
                 <Dialog
-                    title="Are you sure to set admin?"
+                    title="Are you sure?"
                     actions={choice}
                     modal={false}
                     open={this.state.open}
@@ -62,8 +62,8 @@ export default class SetAdmin extends React.Component {
     }
 }
 SetAdmin.propTypes = {
-    user: PropTypes.arrayOf(PropTypes.shape({
+    user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
-    })).isRequired,
+    }).isRequired,
 };
