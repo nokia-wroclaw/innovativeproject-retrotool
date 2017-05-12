@@ -16,15 +16,13 @@ export default class UsersList extends React.Component {
         this.state = {
             filter: '',
         };
-
-        this.users = actions.getUsersNames(this.props.users);
     }
     render() {
         return (
             <div>
                 Search: <AutoComplete
                     hintText="Type anything"
-                    dataSource={this.users}
+                    dataSource={actions.getUsersNames(this.props.users)}
                     menuProps={{ desktop: true, disableAutoFocus: true }}
                     onUpdateInput={inputText => this.setState({ filter: inputText })}
                 />

@@ -13,8 +13,6 @@ export default class ProjectsList extends React.Component {
         this.state = {
             filter: '',
         };
-
-        this.projects = actions.getProjectNames(this.props.projects);
     }
 
     render() {
@@ -22,7 +20,7 @@ export default class ProjectsList extends React.Component {
             <div>
                 Search: <AutoComplete
                     hintText="Type anything"
-                    dataSource={this.projects}
+                    dataSource={actions.getProjectNames(this.props.projects)}
                     menuProps={{ desktop: true, disableAutoFocus: true }}
                     onUpdateInput={inputText => this.setState({ filter: inputText })}
                 />
