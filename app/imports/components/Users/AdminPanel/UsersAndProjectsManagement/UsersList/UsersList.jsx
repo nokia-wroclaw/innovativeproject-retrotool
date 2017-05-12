@@ -8,7 +8,6 @@ import { actions } from '/imports/api/users/actions.js';
 import SetAdmin from './setAdmin/SetAdmin.jsx';
 
 
-
 export default class UsersList extends React.Component {
 
     constructor(props) {
