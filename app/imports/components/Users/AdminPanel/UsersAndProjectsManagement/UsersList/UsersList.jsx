@@ -3,32 +3,36 @@ import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
+import AutoComplete from 'material-ui/AutoComplete';
+import { actions } from '/imports/api/users/actions.js';
 import SetAdmin from './setAdmin/SetAdmin.jsx';
+
+
 
 export default class UsersList extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { filter: '' };
-        this.func = this.func.bind(this);
-        this.checker = this.checker.bind(this);
-    }
 
-    func(e) {
-        this.setState({ filter: e.target.value });
-    }
+        this.state = {
+            filter: '',
+        };
 
-    checker(name) {
-        if (name.search(this.state.filter) >= 0) { return true; } return false;
+        this.users = actions.getUsersNames(this.props.users);
     }
     render() {
         return (
             <div>
-                Find <input onChange={this.func} />
+                Search: <AutoComplete
+                    hintText="Type anything"
+                    dataSource={this.users}
+                    menuProps={{ desktop: true, disableAutoFocus: true }}
+                    onUpdateInput={inputText => this.setState({ filter: inputText })}
+                />
                 <List>
                     <Subheader>Users</Subheader>
                     {this.props.users.map((user) => {
-                        if (this.checker(user.profile.name)) {
+                        if (user.profile.name.search(this.state.filter) >= 0) {
                             return (
                                 <ListItem
                                     primaryText={user.profile.name}
