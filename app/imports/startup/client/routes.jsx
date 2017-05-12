@@ -37,7 +37,7 @@ const onlyLoggedOut = (nextState, replace) => {
 };
 
 const onlyAdmin = (nextState, replace) => {
-    if (isAdmin()) {
+    if (!isAdmin()) {
         replace('/hello');
     }
 };

@@ -4,7 +4,14 @@ import {
     AppBar,
     Drawer,
 } from 'material-ui';
-import { onLogOut } from '/imports/api/users';
+
+import {
+    actions as postActions,
+} from '/imports/api/posts';
+import {
+    onLogOut,
+    actions as usersActions,
+} from '/imports/api/users';
 import Navigation from './Navigation.jsx';
 
 class MainLayout extends React.Component {
@@ -32,7 +39,10 @@ class MainLayout extends React.Component {
             isLoggedInUser,
             isCurrentUserAdmin,
             title,
+            projectId,
+            sprintId,
         } = this.props;
+
         const { isDrawerOpen } = this.state;
 
         return (
@@ -42,12 +52,12 @@ class MainLayout extends React.Component {
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
                     iconElementRight={
                         <Navigation
-                            goToWall={() => {}}
+                            goToWall={() => postActions.goToPosts(projectId, sprintId)}
                             goToProfile={() => {}}
-                            goToAdminPanel={() => {}}
+                            goToAdminPanel={usersActions.goToAdminPanel}
                             onLogOut={onLogOut}
                             showButtons={{
-                                wall: isLoggedInUser,
+                                wall: isLoggedInUser && projectId && !!sprintId,
                                 profile: isLoggedInUser,
                                 adminPanel: isCurrentUserAdmin,
                                 logout: isLoggedInUser,
@@ -75,11 +85,15 @@ MainLayout.propTypes = {
     drawerContent: PropTypes.node.isRequired,
     isLoggedInUser: PropTypes.bool.isRequired,
     isCurrentUserAdmin: PropTypes.bool.isRequired,
+    projectId: PropTypes.string,
+    sprintId: PropTypes.string,
 };
 
 MainLayout.defaultProps = {
     isLoggedInUser: false,
     isCurrentUserAdmin: false,
+    projectId: '',
+    sprintId: '',
 };
 
 export default MainLayout;
