@@ -7,25 +7,34 @@ import {
     ToolbarGroup,
 } from 'material-ui';
 import HardwareKeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
-
-import '../Style/WorkingAgreements.css';
+import NavigationArrowDropDownCircle from 'material-ui/svg-icons/navigation/arrow-drop-down-circle';
 
 class WorkingAgreementsToolbar extends React.Component {
     constructor(props) {
         super(props);
-
         this.hideToolbar = this.hideToolbar.bind(this);
+        this.showToolbar = this.showToolbar.bind(this);
 
         this.state = {
-            toolbarClassName: 'WAtoolbar',
+            toolbarClassName: 'toolbar',
+            showToolbarIconClassName: 'hideToolbarIcon',
         };
     }
 
     hideToolbar() {
         this.setState({
-            toolbarClassName: 'hideWAtoolbar',
+            toolbarClassName: 'hideToolbar',
+            showToolbarIconClassName: 'showToolbarIcon',
         });
-        //  localStorage.toolbarClassName = 'hideWAtoolbar';
+        //  localStorage.toolbarClassName = 'hideToolbar';
+    }
+
+    showToolbar() {
+        this.setState({
+            toolbarClassName: 'toolbar',
+            showToolbarIconClassName: 'hideToolbarIcon',
+        });
+        //  localStorage.toolbarClassName = 'toolbar';
     }
 
     render() {
@@ -35,30 +44,43 @@ class WorkingAgreementsToolbar extends React.Component {
             isClosed,
         } = this.props;
 
-        const { toolbarClassName } = this.state;
+        const {
+            toolbarClassName,
+            showToolbarIconClassName,
+        } = this.state;
 
         return (
-            <Toolbar className={toolbarClassName}>
-                <ToolbarGroup>
-                    {isMember && !isClosed ?
-                        <RaisedButton
-                            label="Add working agreement"
-                            onTouchTap={addWorkingAgreement}
-                            primary
-                        />
-                        :
-                        ''
-                    }
-                </ToolbarGroup>
-                <ToolbarGroup>
+            <div>
+                <Toolbar className={toolbarClassName}>
+                    <ToolbarGroup>
+                        {isMember && !isClosed ?
+                            <RaisedButton
+                                label="Add working agreement"
+                                onTouchTap={addWorkingAgreement}
+                                primary
+                            />
+                            :
+                            ''
+                        }
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <IconButton
+                            tooltip="Hide tootlbar"
+                            onTouchTap={this.hideToolbar}
+                        >
+                            <HardwareKeyboardArrowUp />
+                        </IconButton>
+                    </ToolbarGroup>
+                </Toolbar>
+                <div className={`toolbarIcon ${showToolbarIconClassName}`}>
                     <IconButton
-                        tooltip="Hide tootlbar"
-                        onTouchTap={() => this.hideToolbar()}
+                        tooltip="Show tootlbar"
+                        onTouchTap={this.showToolbar}
                     >
-                        <HardwareKeyboardArrowUp />
+                        <NavigationArrowDropDownCircle className={showToolbarIconClassName} />
                     </IconButton>
-                </ToolbarGroup>
-            </Toolbar>
+                </div>
+            </div>
         );
     }
 }

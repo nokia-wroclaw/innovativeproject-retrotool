@@ -19,3 +19,45 @@ html, body {
 .post-comment, .working-agreement, .action-item {
     margin: 8px;
 }
+
+.toolbar {
+    position: relative;
+    top: 0;
+    height: 56px !important;
+    transition: top 0.5s, opacity 0.5s, height 0.5s, z-index 0s 0.5s;
+    z-index: 0;
+    opacity: 1;
+}
+
+.hideToolbar {
+    position: relative;
+    top: -80px;
+    height: 0 !important;
+    transition: top 0.5s, opacity 0.5s, height 0.5s;
+    z-index: -1;
+    opacity: 0;
+}
+
+.toolbarIcon {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 24px;
+}
+
+.hideToolbarIcon {
+    position: relative;
+    top: -80px;
+    height: 0 !important;
+    transition: top 0.5s, opacity 0.5s, height 0.5s;
+    z-index: -1;
+    opacity: 0;
+}
+
+.showToolbarIcon {
+    position: relative;
+    top: 0;
+    height: 24px !important;
+    transition: top 0.5s, opacity 0.5s, height 0.5s, z-index 0s 0.5s;
+    z-index: 0;
+    opacity: 1;
+}
