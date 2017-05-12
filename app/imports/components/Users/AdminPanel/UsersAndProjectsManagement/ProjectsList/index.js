@@ -5,7 +5,7 @@ import {
     Projects,
 } from '/imports/api/projects';
 
-import ProjectsList from './projectsList.jsx';
+import ProjectsList from './ProjectsList.jsx';
 
 
 const composer = (props, onData) => {
