@@ -11,7 +11,7 @@ import {
 import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 
-import ActionItems from './ActionItems.jsx';
+import ActionItems from './ActionItemsBoard.jsx';
 
 
 const toggleActionItem = async (

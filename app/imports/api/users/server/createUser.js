@@ -1,4 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 
 const saveUserProfile = (options, user) => {
@@ -30,8 +31,18 @@ const setUsernameIfDoesntHave = (options, user) => {
     return user;
 };
 
+const setAdminOnFirstUser = (options, user) => {
+    if (Meteor.users.find({}).count() > 0) {
+        user.isAdmin = false;
+    } else {
+        user.isAdmin = true;
+    }
+    return user;
+};
+
 Accounts.onCreateUser((options, user) => {
     user = saveUserProfile(options, user);
+    user = setAdminOnFirstUser(options, user);
     user = setUsernameIfDoesntHave(options, user);
     user = setAvatar(options, user);
     return user;

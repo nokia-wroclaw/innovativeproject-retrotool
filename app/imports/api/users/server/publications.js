@@ -12,6 +12,7 @@ Meteor.publish('userList', function publishUserList(projectId = null) {
     const query = {};
     const options = {
         fields: {
+            isAdmin: 1,
             'profile.name': 1,
             'profile.avatar': 1,
         },

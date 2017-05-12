@@ -1,3 +1,7 @@
 p span {
     display: block;
 }
+
+p.closed-action-item {
+    text-decoration: line-through;
+}
