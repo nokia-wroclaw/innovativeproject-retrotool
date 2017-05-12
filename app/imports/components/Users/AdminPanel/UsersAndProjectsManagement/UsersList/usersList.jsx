@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
-import { PropTypes } from 'prop-types';
 import SetAdmin from './setAdmin/SetAdmin.jsx';
 
 
