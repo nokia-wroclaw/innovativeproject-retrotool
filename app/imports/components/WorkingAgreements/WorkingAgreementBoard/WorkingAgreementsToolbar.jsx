@@ -14,27 +14,20 @@ class WorkingAgreementsToolbar extends React.Component {
         super(props);
         this.hideToolbar = this.hideToolbar.bind(this);
         this.showToolbar = this.showToolbar.bind(this);
-
-        this.state = {
-            toolbarClassName: 'toolbar',
-            showToolbarIconClassName: 'hideToolbarIcon',
-        };
     }
 
     hideToolbar() {
-        this.setState({
-            toolbarClassName: 'hideToolbar',
-            showToolbarIconClassName: 'showToolbarIcon',
-        });
-        //  localStorage.toolbarClassName = 'hideToolbar';
+        localStorage.toolbarClassName = 'hideToolbar';
+        localStorage.showToolbarIconClassName = 'showToolbarIcon';
+
+        this.forceUpdate();
     }
 
     showToolbar() {
-        this.setState({
-            toolbarClassName: 'toolbar',
-            showToolbarIconClassName: 'hideToolbarIcon',
-        });
-        //  localStorage.toolbarClassName = 'toolbar';
+        localStorage.toolbarClassName = 'toolbar';
+        localStorage.showToolbarIconClassName = 'hideToolbarIcon';
+
+        this.forceUpdate();
     }
 
     render() {
@@ -47,7 +40,7 @@ class WorkingAgreementsToolbar extends React.Component {
         const {
             toolbarClassName,
             showToolbarIconClassName,
-        } = this.state;
+        } = localStorage;
 
         return (
             <div>
