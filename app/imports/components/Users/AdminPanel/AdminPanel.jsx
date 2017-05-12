@@ -9,7 +9,7 @@ import {
 import UsersList from './UsersAndProjectsManagement/UsersList';
 import ProjectsList from './UsersAndProjectsManagement/ProjectsList';
 
-export default class Panel extends React.Component {
+export default class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = { option: true };
@@ -43,10 +43,11 @@ export default class Panel extends React.Component {
     }
 }
 
-Panel.defaultProps = {
-    isAdmin: false,
+
+AdminPanel.propTypes = {
+    isAdmin: PropTypes.bool.isRequired,
 };
 
-Panel.propTypes = {
-    isAdmin: PropTypes.bool.isRequired,
+AdminPanel.defaultProps = {
+    isAdmin: false,
 };

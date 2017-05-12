@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
+import { isAdmin } from '/imports/api/users';
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 import MainLayout from '/imports/components/layout';
 
@@ -21,8 +22,9 @@ import SingleSprint from '/imports/components/Sprints/SingleSprint';
 import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
-import { isAdmin } from '/imports/api/users';
-import Panel from '/imports/components/Users/AdminPanel/Panel.jsx';
+import Profile from '/imports/components/Users/Profile';
+
+import AdminPanel from '/imports/components/Users/AdminPanel';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -45,14 +47,15 @@ const onlyAdmin = (nextState, replace) => {
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="admin" onEnter={onlyAdmin}>
+                <Route path="main" component={{ main: AdminPanel, drawerContent: ProjectList }} />
+            </Route>
             <Route
                 path="create"
                 components={{ main: CreateNewProject, drawerContent: ProjectList }}
             />
-            <Route path="admin" onEnter={onlyAdmin}>
-                <Route path="main" component={{ main: Panel, drawerContent: ProjectList }} />
-            </Route>
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="profile" component={{ main: Profile, drawerContent: ProjectList }} />
             <Route path="project">
                 <Route
                     path=":projectId"

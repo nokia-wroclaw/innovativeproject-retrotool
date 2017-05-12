@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
-import Panel from './Panel.jsx';
+import AdminPanel from './AdminPanel.jsx';
 
 const composer = (props, onData) => {
     const { isAdmin = false } = Meteor.user();
@@ -10,4 +10,4 @@ const composer = (props, onData) => {
     });
 };
 
-export default composeWithTracker(composer)(Panel);
+export default composeWithTracker(composer)(AdminPanel);

@@ -14,9 +14,14 @@ const goToAdminPanel = () => {
     browserHistory.push('/admin/main');
 };
 
+const goToProfile = () => {
+    browserHistory.push('/profile');
+};
+
 const actions = {
     manageAdmin,
     goToAdminPanel,
+    goToProfile,
 };
 
 export { actions };

@@ -53,11 +53,11 @@ class MainLayout extends React.Component {
                     iconElementRight={
                         <Navigation
                             goToWall={() => postActions.goToPosts(projectId, sprintId)}
-                            goToProfile={() => {}}
+                            goToProfile={usersActions.goToProfile}
                             goToAdminPanel={usersActions.goToAdminPanel}
                             onLogOut={onLogOut}
                             showButtons={{
-                                wall: isLoggedInUser && projectId && !!sprintId,
+                                wall: isLoggedInUser && !!projectId && !!sprintId,
                                 profile: isLoggedInUser,
                                 adminPanel: isCurrentUserAdmin,
                                 logout: isLoggedInUser,
