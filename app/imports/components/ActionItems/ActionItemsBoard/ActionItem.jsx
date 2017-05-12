@@ -37,16 +37,8 @@ const ActionItem = ({
         <CardText>
             <p>{text}</p>
 
-            {open && closeMessage ?
-                <p><del>Close message: { closeMessage }</del></p>
-                :
-                ''
-            }
-
-            {!open && closeMessage ?
-                <p>Close message: { closeMessage }</p>
-                :
-                ''
+            {closeMessage &&
+                <p className={open ? 'closed-action-item' : ''}>{closeMessage}</p>
             }
 
             <p>
@@ -55,23 +47,19 @@ const ActionItem = ({
             </p>
         </CardText>
 
-        {errorRemove && id === idToRemove ?
+        {errorRemove && id === idToRemove &&
             <CardText color="red">
                 {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
             </CardText>
-            :
-            ''
         }
 
         <CardActions>
-            {isModerator || userId === assignee._id ?
+            {(isModerator || userId === assignee._id) &&
                 <RaisedButton
                     label={open ? 'Close action item' : 'Reopen action item'}
                     onTouchTap={toggleActionItem}
                     secondary={open}
                 />
-                :
-                ''
             }
         </CardActions>
     </Card>

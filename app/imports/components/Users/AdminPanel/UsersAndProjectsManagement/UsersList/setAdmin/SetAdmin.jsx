@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { PropTypes } from 'prop-types';
-import { actions } from '/imports/api/users/actions.js';
+import { actions } from '/imports/api/users';
 
 export default class SetAdmin extends React.Component {
 

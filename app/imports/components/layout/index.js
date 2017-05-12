@@ -7,7 +7,7 @@ import {
 import { getProjectName } from '/imports/api/projects';
 import MainLayout from './MainLayout.jsx';
 
-const composer = ({ params: { projectId } }, onData) => {
+const composer = ({ params: { projectId, sprintId } }, onData) => {
     const isLoggedInUser = isLoggedIn();
     const isCurrentUserAdmin = isAdmin();
 
@@ -17,6 +17,8 @@ const composer = ({ params: { projectId } }, onData) => {
         title,
         isLoggedInUser,
         isCurrentUserAdmin,
+        projectId,
+        sprintId,
     });
 };
 

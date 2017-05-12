@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
 import ActionItemsToolbar from './ActionItemsToolbar.jsx';
 import ActionItem from './ActionItem.jsx';
-import AddActionItem from '../AddActionItem';
-import CloseOrReopenActionItem from '../CloseOrReopenActionItem';
+import AddActionItem from './../AddActionItem';
+import CloseOrReopenActionItem from './../CloseOrReopenActionItem';
 
 const isSelected = (ai, selectedState) =>
     ai.open.toString() === selectedState || selectedState === 'all';
