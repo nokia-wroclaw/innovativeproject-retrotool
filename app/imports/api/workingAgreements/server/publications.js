@@ -23,3 +23,19 @@ Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) 
     }
     return this.ready();
 });
+
+Meteor.publish('ProjectWorkingAgreements', function publishProjectWorkingAgreements(projectId) {
+    check(projectId, String);
+
+    const userId = this.userId;
+    const isCurrentUserAdmin = isAdmin(userId);
+
+    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+        const query = { projectId };
+
+        const options = {};
+
+        return WorkingAgreements.find(query, options);
+    }
+    return this.ready();
+});
