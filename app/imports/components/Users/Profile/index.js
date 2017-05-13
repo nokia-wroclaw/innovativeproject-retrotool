@@ -7,15 +7,11 @@ import { FullPageLoader } from '/imports/components/Loaders';
 import Profile from './Profile.jsx';
 
 const composer = (props, onData) => {
-    const userHandler = Meteor.subscribe('extendedUser');
+    const user = Meteor.user();
 
-    if (userHandler.ready()) {
-        const user = Meteor.user();
-
-        onData(null, {
-            user,
-        });
-    }
+    onData(null, {
+        user,
+    });
 };
 
 export default withRouter(
