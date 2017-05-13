@@ -1,12 +1,15 @@
-import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
-import { Card, CardTitle } from 'material-ui';
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
+import {
+    Card,
+    CardTitle,
+    RaisedButton,
+} from 'material-ui';
+
 import UsersList from './UsersAndProjectsManagement/UsersList';
 import ProjectsList from './UsersAndProjectsManagement/ProjectsList';
 
-export default class Panel extends React.Component {
+export default class AdminPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = { option: true };
@@ -22,18 +25,16 @@ export default class Panel extends React.Component {
             <div>
                 <Card>
                     <CardTitle
-                        title="Retro Tool- Admin Panel"
+                        title="Retro Tool - Admin Panel"
                         subtitle="Admin"
                     />
                     <RaisedButton
                         onTouchTap={this.changeOption}
                         label="Manage Users"
-                        icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                     <RaisedButton
                         onTouchTap={this.changeOption}
                         label="Manage Projects"
-                        icon={<FontIcon className="muidocs-icon-custom-github" />}
                     />
                 </Card>
                 { this.state.option ? <UsersList /> : <ProjectsList /> }
@@ -42,10 +43,11 @@ export default class Panel extends React.Component {
     }
 }
 
-Panel.defaultProps = {
-    isAdmin: false,
+
+AdminPanel.propTypes = {
+    isAdmin: PropTypes.bool.isRequired,
 };
 
-Panel.propTypes = {
-    isAdmin: PropTypes.bool.isRequired,
+AdminPanel.defaultProps = {
+    isAdmin: false,
 };
