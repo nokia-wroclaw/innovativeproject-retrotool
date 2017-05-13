@@ -28,7 +28,7 @@ class ActionItems extends React.Component {
             showAddActionItemModal: false,
             showToggleActionItemModal: false,
             openSnackbar: false,
-            openToggleSnackbar: false,
+            snackbarMessage: '',
             actionItemId: '',
             selectedState: 'all',
             isOpen: false,
@@ -89,6 +89,7 @@ class ActionItems extends React.Component {
 
         this.setState({
             openSnackbar: true,
+            snackbarMessage: 'New action item has been created!',
         });
 
         addActionItem(
@@ -117,7 +118,8 @@ class ActionItems extends React.Component {
         const { actionItemId } = this.state;
 
         this.setState({
-            openToggleSnackbar: true,
+            openSnackbar: true,
+            snackbarMessage: 'Changes saved!',
         });
 
         toggleActionItem(
@@ -139,7 +141,7 @@ class ActionItems extends React.Component {
             isOpen,
             message,
             openSnackbar,
-            openToggleSnackbar,
+            snackbarMessage,
         } = this.state;
 
         const {
@@ -206,14 +208,7 @@ class ActionItems extends React.Component {
 
                 <Snackbar
                     open={openSnackbar}
-                    message="New action item has been added!"
-                    autoHideDuration={4000}
-                    onRequestClose={this.closeSnackBar}
-                />
-
-                <Snackbar
-                    open={openToggleSnackbar}
-                    message="Changes saved!"
+                    message={snackbarMessage}
                     autoHideDuration={4000}
                     onRequestClose={this.closeSnackBar}
                 />

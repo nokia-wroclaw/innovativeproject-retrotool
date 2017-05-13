@@ -25,7 +25,7 @@ class WorkingAgreements extends React.Component {
             showRemoveWorkingAgreementModal: false,
             workingAgreementId: '',
             openSnackbar: false,
-            openRemoveSnackbar: false,
+            snackbarMessage: '',
         };
     }
 
@@ -80,6 +80,7 @@ class WorkingAgreements extends React.Component {
 
         this.setState({
             openSnackbar: true,
+            snackbarMessage: 'New working agreement has been added!',
         });
 
         addWorkingAgreement(
@@ -104,7 +105,8 @@ class WorkingAgreements extends React.Component {
         } = this.props;
 
         this.setState({
-            openRemoveSnackbar: true,
+            openSnackbar: true,
+            snackbarMessage: 'Working agreement has been removed!',
         });
 
         removeWorkingAgreement(id, sprintId, onData, handlers, hideButton, wrappedData);
@@ -116,7 +118,7 @@ class WorkingAgreements extends React.Component {
             showRemoveWorkingAgreementModal,
             workingAgreementId,
             openSnackbar,
-            openRemoveSnackbar,
+            snackbarMessage,
         } = this.state;
 
         const {
@@ -168,14 +170,7 @@ class WorkingAgreements extends React.Component {
 
                 <Snackbar
                     open={openSnackbar}
-                    message="New working agreement has been added!"
-                    autoHideDuration={4000}
-                    onRequestClose={this.closeSnackBar}
-                />
-
-                <Snackbar
-                    open={openRemoveSnackbar}
-                    message="Working agreement has been removed!"
+                    message={snackbarMessage}
                     autoHideDuration={4000}
                     onRequestClose={this.closeSnackBar}
                 />
