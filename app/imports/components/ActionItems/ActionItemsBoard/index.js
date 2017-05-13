@@ -25,9 +25,7 @@ const toggleActionItem = async (
 ) => {
     try {
         await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
-        wrappedData(onData, sprintId, handlers, hideButton, {
-            openToggleSnackbar: true,
-        });
+        wrappedData(onData, sprintId, handlers, hideButton);
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorToggle: error,
@@ -48,21 +46,12 @@ const addActionItem = async (
 ) => {
     try {
         await actionItemsActions.createActionItem(sprintId, startDate, endDate, assigneeId, text);
-        wrappedData(onData, sprintId, handlers, hideButton, {
-            openSnackbar: true,
-        });
+        wrappedData(onData, sprintId, handlers, hideButton);
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
     }
-};
-
-const closeSnackBar = (sprintId, onData, handlers, hideButton, wrappedData) => {
-    wrappedData(onData, sprintId, handlers, hideButton, {
-        openSnackbar: false,
-        openToggleSnackbar: false,
-    });
 };
 
 const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
@@ -93,7 +82,6 @@ const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
             actionItems,
             toggleActionItem,
             addActionItem,
-            closeSnackBar,
             isMember,
             isModerator,
             projectId,
