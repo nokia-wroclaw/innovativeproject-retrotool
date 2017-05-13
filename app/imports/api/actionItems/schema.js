@@ -3,7 +3,6 @@ import SimpleSchema from 'simpl-schema';
 const ActionItemsSchema = new SimpleSchema({
     projectId: {
         type: String,
-        defaultValue: '',
     },
     sprintId: {
         type: String,
@@ -38,6 +37,8 @@ const ActionItemsSchema = new SimpleSchema({
         optional: true,
     },
 });
+
+export const AddActionItemsSchema = ActionItemsSchema.pick('sprintId', 'startDate', 'endDate', 'assigneeId', 'text');
 
 const closeOrReopenActionItemsSchema = new SimpleSchema({
     actionItemId: {

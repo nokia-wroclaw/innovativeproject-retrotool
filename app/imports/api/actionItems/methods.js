@@ -4,13 +4,13 @@ import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './ActionItems.js';
 import {
-    ActionItemsSchema,
+    AddActionItemsSchema,
     closeOrReopenActionItemsSchema,
 } from './schema.js';
 
 export const addActionItem = new ValidatedMethod({
     name: 'actionItem.add',
-    validate: ActionItemsSchema.validator({ clean: true }),
+    validate: AddActionItemsSchema.validator({ clean: true }),
     run({ sprintId, startDate, endDate, assigneeId, text }) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
