@@ -13,22 +13,19 @@ Meteor.publish(
         check(sprintOrProjectId, String);
         check(isSprint, Boolean);
 
+        const getProjectId = (sprintId) => {
+            const sprint = Sprints.findOne(sprintId);
+            const projectId = sprint.projectId;
+            return projectId;
+        };
+
         const userId = this.userId;
         const isCurrentUserAdmin = isAdmin(userId);
 
         const query = isSprint ? { sprintId: sprintOrProjectId } : { projectId: sprintOrProjectId };
+        const projectId = isSprint ? getProjectId(sprintOrProjectId) : sprintOrProjectId;
 
-        if (isSprint) {
-            const sprint = Sprints.findOne(sprintOrProjectId);
-            const projectId = sprint.projectId;
-
-            if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-                const options = {};
-
-                return WorkingAgreements.find(query, options);
-            }
-        }
-        if (isProjectMember(sprintOrProjectId, userId) || isCurrentUserAdmin) {
+        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
             const options = {};
 
             return WorkingAgreements.find(query, options);
