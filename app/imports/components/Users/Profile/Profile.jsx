@@ -11,7 +11,7 @@ import {
 
 const Profile = ({ user }) =>
     <div className="content-container">
-        <Card className="class">
+        <Card className="profileContainer">
             <CardMedia>
                 <img src={user.profile.avatar} alt="My avatar" />
             </CardMedia>

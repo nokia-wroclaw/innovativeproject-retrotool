@@ -32,6 +32,7 @@ const ChangeProfileName = ({
             <ErrorsField />
             <TextField
                 name="text"
+                floatingLabelText="New profile name"
                 fullWidth
             />
             <FlatButton
