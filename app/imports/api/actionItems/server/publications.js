@@ -5,36 +5,36 @@ import { isAdmin } from '/imports/api/users';
 import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './../ActionItems.js';
 
-Meteor.publish('actionItems', function publishActionItems(sprintId) {
-    check(sprintId, String);
+
+Meteor.publish('actionItems', function publishActionItems(sprintOrProjectId, type = 'sprintId') {
+    check(sprintOrProjectId, String);
+    check(type, String);
 
     const userId = this.userId;
     const isCurrentUserAdmin = isAdmin(userId);
 
-    const sprint = Sprints.findOne(sprintId);
-    const projectId = sprint.projectId;
+    if (type === 'sprintId') {
+        const sprintId = sprintOrProjectId;
+        const sprint = Sprints.findOne(sprintId);
+        const projectId = sprint.projectId;
 
-    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-        const query = { sprintId };
+        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+            const query = { sprintId };
 
-        const options = {};
+            const options = {};
 
-        return ActionItems.find(query, options);
-    }
-    return this.ready();
-});
+            return ActionItems.find(query, options);
+        }
+    } else if (type === 'projectId') {
+        const projectId = sprintOrProjectId;
 
-    check(projectId, String);
+        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+            const query = { projectId };
 
-    const userId = this.userId;
-    const isCurrentUserAdmin = isAdmin(userId);
+            const options = {};
 
-    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-        const query = { projectId };
-
-        const options = {};
-
-        return ActionItems.find(query, options);
+            return ActionItems.find(query, options);
+        }
     }
     return this.ready();
 });

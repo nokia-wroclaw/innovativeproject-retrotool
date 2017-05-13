@@ -5,37 +5,37 @@ import { isAdmin } from '/imports/api/users';
 import { Sprints } from '/imports/api/sprints';
 import { WorkingAgreements } from './../WorkingAgreements.js';
 
-Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) {
-    check(sprintId, String);
 
-    const userId = this.userId;
-    const isCurrentUserAdmin = isAdmin(userId);
+Meteor.publish('WorkingAgreements',
+    function publishWorkingAgreements(sprintOrProjectId, type = 'sprintId') {
+        check(sprintOrProjectId, String);
+        check(type, String);
 
-    const sprint = Sprints.findOne(sprintId);
-    const projectId = sprint.projectId;
+        const userId = this.userId;
+        const isCurrentUserAdmin = isAdmin(userId);
 
-    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-        const query = { sprintId };
+        if (type === 'sprintId') {
+            const sprintId = sprintOrProjectId;
+            const sprint = Sprints.findOne(sprintId);
+            const projectId = sprint.projectId;
 
-        const options = {};
+            if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+                const query = { sprintId };
 
-        return WorkingAgreements.find(query, options);
-    }
-    return this.ready();
-});
+                const options = {};
 
-Meteor.publish('ProjectWorkingAgreements', function publishProjectWorkingAgreements(projectId) {
-    check(projectId, String);
+                return WorkingAgreements.find(query, options);
+            }
+        } else if (type === 'projectId') {
+            const projectId = sprintOrProjectId;
 
-    const userId = this.userId;
-    const isCurrentUserAdmin = isAdmin(userId);
+            if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+                const query = { projectId };
 
-    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-        const query = { projectId };
+                const options = {};
 
-        const options = {};
-
-        return WorkingAgreements.find(query, options);
-    }
-    return this.ready();
-});
+                return WorkingAgreements.find(query, options);
+            }
+        }
+        return this.ready();
+    });
