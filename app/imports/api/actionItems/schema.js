@@ -38,9 +38,15 @@ const ActionItemsSchema = new SimpleSchema({
     },
 });
 
-export const AddActionItemsSchema = ActionItemsSchema.pick('sprintId', 'startDate', 'endDate', 'assigneeId', 'text');
+const AddActionItemsSchema = ActionItemsSchema.pick(
+    'sprintId',
+    'startDate',
+    'endDate',
+    'assigneeId',
+    'text',
+);
 
-const closeOrReopenActionItemsSchema = new SimpleSchema({
+const CloseOrReopenActionItemsSchema = new SimpleSchema({
     actionItemId: {
         type: String,
     },
@@ -50,4 +56,8 @@ const closeOrReopenActionItemsSchema = new SimpleSchema({
     },
 });
 
-export { ActionItemsSchema, closeOrReopenActionItemsSchema };
+export {
+    ActionItemsSchema,
+    AddActionItemsSchema,
+    CloseOrReopenActionItemsSchema,
+};

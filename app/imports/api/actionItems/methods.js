@@ -5,7 +5,7 @@ import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './ActionItems.js';
 import {
     AddActionItemsSchema,
-    closeOrReopenActionItemsSchema,
+    CloseOrReopenActionItemsSchema,
 } from './schema.js';
 
 export const addActionItem = new ValidatedMethod({
@@ -43,7 +43,7 @@ export const addActionItem = new ValidatedMethod({
 
 export const closeOrReopenActionItem = new ValidatedMethod({
     name: 'actionItem.closeOrReopen',
-    validate: closeOrReopenActionItemsSchema.validator({ clean: true }),
+    validate: CloseOrReopenActionItemsSchema.validator({ clean: true }),
     run({ actionItemId, closeMessage }) {
         const userId = Meteor.userId();
 
