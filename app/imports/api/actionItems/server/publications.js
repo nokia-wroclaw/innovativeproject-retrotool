@@ -6,35 +6,29 @@ import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './../ActionItems.js';
 
 
-Meteor.publish('actionItems', function publishActionItems(sprintOrProjectId, type = 'sprintId') {
+Meteor.publish('actionItems', function publishActionItems(sprintOrProjectId, isSprint = true) {
     check(sprintOrProjectId, String);
-    check(type, String);
+    check(isSprint, Boolean);
 
     const userId = this.userId;
     const isCurrentUserAdmin = isAdmin(userId);
 
-    if (type === 'sprintId') {
-        const sprintId = sprintOrProjectId;
-        const sprint = Sprints.findOne(sprintId);
+    const query = isSprint ? { sprintId: sprintOrProjectId } : { projectId: sprintOrProjectId };
+
+    if (isSprint) {
+        const sprint = Sprints.findOne(sprintOrProjectId);
         const projectId = sprint.projectId;
 
         if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-            const query = { sprintId };
-
             const options = {};
 
             return ActionItems.find(query, options);
         }
-    } else if (type === 'projectId') {
-        const projectId = sprintOrProjectId;
+    }
+    if (isProjectMember(sprintOrProjectId, userId) || isCurrentUserAdmin) {
+        const options = {};
 
-        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-            const query = { projectId };
-
-            const options = {};
-
-            return ActionItems.find(query, options);
-        }
+        return ActionItems.find(query, options);
     }
     return this.ready();
 });
