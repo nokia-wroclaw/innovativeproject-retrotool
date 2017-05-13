@@ -13,8 +13,13 @@ export default class ProjectsList extends React.Component {
         this.state = {
             filter: '',
         };
+
+        this.filtr = this.filtr.bind(this);
     }
 
+    filtr(project) {
+        return project.name.search(this.state.filter) >= 0;
+    }
     render() {
         return (
             <div>
@@ -26,17 +31,12 @@ export default class ProjectsList extends React.Component {
                 />
                 <List>
                     <Subheader>Projects</Subheader>
-                    {this.props.projects.map((project) => {
-                        if (project.name.search(this.state.filter) >= 0) {
-                            return (
-                                <ListItem
-                                    primaryText={project.name}
-                                    key={project._id}
-                                />
-                            );
-                        }
-                        return undefined;
-                    })}
+                    {this.props.projects.filter(this.filtr).map(project => (
+                        <ListItem
+                            primaryText={project.name}
+                            key={project._id}
+                        />
+                    ))}
                 </List>
             </div>
         );

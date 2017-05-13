@@ -16,7 +16,14 @@ export default class UsersList extends React.Component {
         this.state = {
             filter: '',
         };
+
+        this.filtr = this.filtr.bind(this);
     }
+
+    filtr(user) {
+        return user.profile.name.search(this.state.filter) >= 0;
+    }
+
     render() {
         return (
             <div>
@@ -28,27 +35,22 @@ export default class UsersList extends React.Component {
                 />
                 <List>
                     <Subheader>Users</Subheader>
-                    {this.props.users.map((user) => {
-                        if (user.profile.name.search(this.state.filter) >= 0) {
-                            return (
-                                <ListItem
-                                    primaryText={user.profile.name}
+                    {this.props.users.filter(this.filtr).map(user => (
+                        <ListItem
+                            primaryText={user.profile.name}
+                            key={user._id}
+                            leftAvatar={<Avatar
+                                src={user.profile.avatar}
+                            />}
+                            nestedItems={[
+                                <SetAdmin
+                                    primaryText="Set admin"
+                                    user={user}
                                     key={user._id}
-                                    leftAvatar={<Avatar
-                                        src={user.profile.avatar}
-                                    />}
-                                    nestedItems={[
-                                        <SetAdmin
-                                            primaryText="Set admin"
-                                            user={user}
-                                            key={user._id}
-                                        />,
-                                    ]}
-                                />
-                            );
-                        }
-                        return undefined;
-                    })}
+                                />,
+                            ]}
+                        />
+                        ))}
                 </List>
             </div>
         );
