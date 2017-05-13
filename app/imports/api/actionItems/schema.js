@@ -1,6 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
 const ActionItemsSchema = new SimpleSchema({
+    projectId: {
+        type: String,
+    },
     sprintId: {
         type: String,
     },
@@ -35,7 +38,15 @@ const ActionItemsSchema = new SimpleSchema({
     },
 });
 
-const closeOrReopenActionItemsSchema = new SimpleSchema({
+const AddActionItemsSchema = ActionItemsSchema.pick(
+    'sprintId',
+    'startDate',
+    'endDate',
+    'assigneeId',
+    'text',
+);
+
+const CloseOrReopenActionItemsSchema = new SimpleSchema({
     actionItemId: {
         type: String,
     },
@@ -45,4 +56,8 @@ const closeOrReopenActionItemsSchema = new SimpleSchema({
     },
 });
 
-export { ActionItemsSchema, closeOrReopenActionItemsSchema };
+export {
+    ActionItemsSchema,
+    AddActionItemsSchema,
+    CloseOrReopenActionItemsSchema,
+};

@@ -12,10 +12,11 @@ const WorkingAgreementsToolbar = ({
     addWorkingAgreement,
     isMember,
     isClosed,
+    hideButton,
 }) =>
     <Toolbar className="WAtoolbar">
         <ToolbarGroup className="WAtoolbarGroup">
-            {isMember && !isClosed ?
+            {isMember && !isClosed && !hideButton ?
                 <RaisedButton
                     label="Add working agreement"
                     onTouchTap={addWorkingAgreement}
@@ -28,10 +29,15 @@ const WorkingAgreementsToolbar = ({
     </Toolbar>
 ;
 
+WorkingAgreementsToolbar.defaultProps = {
+    hideButton: false,
+};
+
 WorkingAgreementsToolbar.propTypes = {
     addWorkingAgreement: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
+    hideButton: PropTypes.bool,
 };
 
 export default WorkingAgreementsToolbar;
