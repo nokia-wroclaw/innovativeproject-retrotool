@@ -68,9 +68,9 @@ const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
     }
 };
 
-const composer = ({ params: { sprintId, projectId }, hideButton }, onData) => {
+const composer = ({ params: { projectId, sprintId }, hideButton }, onData) => {
     const handlers = [
-        Meteor.subscribe('WorkingAgreements', sprintId),
+        Meteor.subscribe('WorkingAgreements', sprintId || projectId, !!sprintId),
         Meteor.subscribe('singleSprint', sprintId),
     ];
 
