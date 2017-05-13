@@ -42,7 +42,7 @@ class SingleSprint extends React.Component {
                 />
 
                 <div className="half">
-                    <ActionItemsBoard />
+                    <ActionItemsBoard hideButton />
                 </div>
                 <div className="half">
                     <WorkingAgreementBoard hideButton />

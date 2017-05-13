@@ -20,15 +20,16 @@ const toggleActionItem = async (
     onData,
     sprintId,
     handlers,
+    hideButton,
     wrappedData,
 ) => {
     try {
         await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
-        wrappedData(onData, sprintId, handlers, {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             openToggleSnackbar: true,
         });
     } catch (error) {
-        wrappedData(onData, sprintId, handlers, {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             errorToggle: error,
         });
     }
@@ -42,28 +43,29 @@ const addActionItem = async (
     text,
     onData,
     handlers,
+    hideButton,
     wrappedData,
 ) => {
     try {
         await actionItemsActions.createActionItem(sprintId, startDate, endDate, assigneeId, text);
-        wrappedData(onData, sprintId, handlers, {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             openSnackbar: true,
         });
     } catch (error) {
-        wrappedData(onData, sprintId, handlers, {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
     }
 };
 
-const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
-    wrappedData(onData, sprintId, handlers, {
+const closeSnackBar = (sprintId, onData, handlers, hideButton, wrappedData) => {
+    wrappedData(onData, sprintId, handlers, hideButton, {
         openSnackbar: false,
         openToggleSnackbar: false,
     });
 };
 
-const wrappedData = (onData, sprintId, handlers, data) => {
+const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
     if (handlers.every(handler => handler.ready())) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
@@ -86,6 +88,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
         onData(null, {
             onData,
             handlers,
+            hideButton,
             wrappedData,
             actionItems,
             toggleActionItem,
@@ -102,7 +105,7 @@ const wrappedData = (onData, sprintId, handlers, data) => {
     }
 };
 
-const composer = ({ params: { projectId, sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId }, hideButton }, onData) => {
     const handlers = [
         Meteor.subscribe('actionItems', sprintId),
         Meteor.subscribe('singleSprint', sprintId),
@@ -111,7 +114,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
     ];
 
     if (handlers.every(handler => handler.ready())) {
-        wrappedData(onData, sprintId, handlers);
+        wrappedData(onData, sprintId, handlers, hideButton);
     }
 };
 

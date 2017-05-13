@@ -73,6 +73,7 @@ class ActionItems extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -84,6 +85,7 @@ class ActionItems extends React.Component {
             doc.text,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         );
     }
@@ -94,6 +96,7 @@ class ActionItems extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -105,6 +108,7 @@ class ActionItems extends React.Component {
             onData,
             sprintId,
             handlers,
+            hideButton,
             wrappedData,
         );
     }
@@ -133,6 +137,7 @@ class ActionItems extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -144,6 +149,7 @@ class ActionItems extends React.Component {
                     selectedState={selectedState}
                     isMember={isMember}
                     isClosed={isClosed}
+                    hideButton={hideButton}
                 />
 
                 <div className="content-container">
@@ -165,10 +171,6 @@ class ActionItems extends React.Component {
                                 isModerator={isModerator}
                                 userId={userId}
                                 idToRemove={idToRemove}
-                                sprintId={sprintId}
-                                onData={onData}
-                                handlers={handlers}
-                                wrappedData={wrappedData}
                             />,
                     )}
                 </div>
@@ -193,14 +195,18 @@ class ActionItems extends React.Component {
                     open={openSnackbar}
                     message="New action item has been added!"
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={() => closeSnackBar(
+                        sprintId, onData, handlers, hideButton, wrappedData,
+                    )}
                 />
 
                 <Snackbar
                     open={openToggleSnackbar}
                     message="Changes saved!"
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={() => closeSnackBar(
+                        sprintId, onData, handlers, hideButton, wrappedData,
+                    )}
                 />
             </div>
         );
@@ -213,6 +219,7 @@ ActionItems.defaultProps = {
     idToRemove: '',
     openSnackbar: false,
     openToggleSnackbar: false,
+    hideButton: false,
 };
 
 ActionItems.propTypes = {
@@ -247,6 +254,7 @@ ActionItems.propTypes = {
     idToRemove: PropTypes.string,
     openSnackbar: PropTypes.bool,
     openToggleSnackbar: PropTypes.bool,
+    hideButton: PropTypes.bool,
     errorToggle: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
