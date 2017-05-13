@@ -14,6 +14,7 @@ const ActionItemsToolbar = ({
     isClosed,
     selectedState,
     onChangeCategory,
+    hideButton,
 }) => {
     const status = [
         {
@@ -40,7 +41,7 @@ const ActionItemsToolbar = ({
                 />
             </ToolbarGroup>
             <ToolbarGroup>
-                {isMember && !isClosed ?
+                {isMember && !isClosed && !hideButton ?
                     <RaisedButton
                         label="Add action item"
                         onTouchTap={addActionItem}
@@ -54,12 +55,17 @@ const ActionItemsToolbar = ({
     );
 };
 
+ActionItemsToolbar.defaultProps = {
+    hideButton: false,
+};
+
 ActionItemsToolbar.propTypes = {
     addActionItem: PropTypes.func.isRequired,
     onChangeCategory: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
     selectedState: PropTypes.string.isRequired,
+    hideButton: PropTypes.bool,
 };
 
 export default ActionItemsToolbar;

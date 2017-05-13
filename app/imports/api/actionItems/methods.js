@@ -4,13 +4,13 @@ import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 import { ActionItems } from './ActionItems.js';
 import {
-    ActionItemsSchema,
-    closeOrReopenActionItemsSchema,
+    AddActionItemsSchema,
+    CloseOrReopenActionItemsSchema,
 } from './schema.js';
 
 export const addActionItem = new ValidatedMethod({
     name: 'actionItem.add',
-    validate: ActionItemsSchema.validator({ clean: true }),
+    validate: AddActionItemsSchema.validator({ clean: true }),
     run({ sprintId, startDate, endDate, assigneeId, text }) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
@@ -26,6 +26,7 @@ export const addActionItem = new ValidatedMethod({
 
         if (isProjectMember(projectId, userId)) {
             return ActionItems.insert({
+                projectId,
                 sprintId,
                 startDate,
                 endDate,
@@ -42,7 +43,7 @@ export const addActionItem = new ValidatedMethod({
 
 export const closeOrReopenActionItem = new ValidatedMethod({
     name: 'actionItem.closeOrReopen',
-    validate: closeOrReopenActionItemsSchema.validator({ clean: true }),
+    validate: CloseOrReopenActionItemsSchema.validator({ clean: true }),
     run({ actionItemId, closeMessage }) {
         const userId = Meteor.userId();
 
