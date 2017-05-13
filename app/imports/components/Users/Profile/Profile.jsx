@@ -9,24 +9,21 @@ import {
 } from 'material-ui';
 
 
-const Profile = ({ user }) => {
-    console.log(user);
-    return (
-        <div className="content-container">
-            <Card className="class">
-                <CardMedia>
-                    <img src={user.profile.avatar} alt="My avatar" />
-                </CardMedia>
-                <CardTitle title={user.profile.name} subtitle={user.isAdmin ? 'Admin' : ''} />
-                <CardActions>
-                    <FlatButton label="Change name" />
-                    <FlatButton label="Connect photo with github" />
-                    <FlatButton label="Connect photo with gravatar" />
-                </CardActions>
-            </Card>
-        </div>
-    );
-};
+const Profile = ({ user }) =>
+    <div className="content-container">
+        <Card className="class">
+            <CardMedia>
+                <img src={user.profile.avatar} alt="My avatar" />
+            </CardMedia>
+            <CardTitle title={user.profile.name} subtitle={user.isAdmin ? 'Admin' : ''} />
+            <CardActions>
+                <FlatButton label="Change name" />
+                <FlatButton label="Connect photo with github" />
+                <FlatButton label="Connect photo with gravatar" />
+            </CardActions>
+        </Card>
+    </div>
+;
 
 Profile.propTypes = {
     user: PropTypes.shape({
