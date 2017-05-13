@@ -6,36 +6,29 @@ import { Sprints } from '/imports/api/sprints';
 import { WorkingAgreements } from './../WorkingAgreements.js';
 
 
-Meteor.publish('WorkingAgreements',
-    function publishWorkingAgreements(sprintOrProjectId, type = 'sprintId') {
-        check(sprintOrProjectId, String);
-        check(type, String);
+Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintOrProjectId, isSprint = true) {
+    check(sprintOrProjectId, String);
+    check(isSprint, Boolean);
 
-        const userId = this.userId;
-        const isCurrentUserAdmin = isAdmin(userId);
+    const userId = this.userId;
+    const isCurrentUserAdmin = isAdmin(userId);
 
-        if (type === 'sprintId') {
-            const sprintId = sprintOrProjectId;
-            const sprint = Sprints.findOne(sprintId);
-            const projectId = sprint.projectId;
+    const query = isSprint ? { sprintId: sprintOrProjectId } : { projectId: sprintOrProjectId };
 
-            if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-                const query = { sprintId };
+    if (isSprint) {
+        const sprint = Sprints.findOne(sprintOrProjectId);
+        const projectId = sprint.projectId;
 
-                const options = {};
+        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+            const options = {};
 
-                return WorkingAgreements.find(query, options);
-            }
-        } else if (type === 'projectId') {
-            const projectId = sprintOrProjectId;
-
-            if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-                const query = { projectId };
-
-                const options = {};
-
-                return WorkingAgreements.find(query, options);
-            }
+            return WorkingAgreements.find(query, options);
         }
-        return this.ready();
-    });
+    }
+    if (isProjectMember(sprintOrProjectId, userId) || isCurrentUserAdmin) {
+        const options = {};
+
+        return WorkingAgreements.find(query, options);
+    }
+    return this.ready();
+});
