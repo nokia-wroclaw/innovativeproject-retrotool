@@ -15,9 +15,7 @@ import WorkingAgreements from './WorkingAgreements.jsx';
 
 const removeWorkingAgreement = (id, sprintId, onData, handlers, hideButton, wrappedData) => {
     workingAgreementActions.deleteWorkingAgreement(id).then(() => {
-        wrappedData(onData, sprintId, handlers, hideButton, {
-            openRemoveSnackbar: true,
-        });
+        wrappedData(onData, sprintId, handlers, hideButton);
     }).catch((error) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorRemove: error,
@@ -36,21 +34,12 @@ const addWorkingAgreement = async (
 ) => {
     try {
         await workingAgreementActions.createWorkingAgreement(sprintId, text, date);
-        wrappedData(onData, sprintId, handlers, hideButton, {
-            openSnackbar: true,
-        });
+        wrappedData(onData, sprintId, handlers, hideButton);
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
     }
-};
-
-const closeSnackBar = (sprintId, onData, handlers, hideButton, wrappedData) => {
-    wrappedData(onData, sprintId, handlers, hideButton, {
-        openSnackbar: false,
-        openRemoveSnackbar: false,
-    });
 };
 
 const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
@@ -70,7 +59,6 @@ const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
             workingAgreements,
             removeWorkingAgreement,
             addWorkingAgreement,
-            closeSnackBar,
             isMember,
             isModerator,
             sprintId,

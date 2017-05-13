@@ -12,11 +12,6 @@ const RemoveWorkingAgreement = ({
     onSubmit,
     open,
     id,
-    sprintId,
-    onData,
-    handlers,
-    hideButton,
-    wrappedData,
 }) => (
     <Dialog
         title="Are you sure you want to remove this working agreement?"
@@ -35,7 +30,7 @@ const RemoveWorkingAgreement = ({
         />
         <RaisedButton
             label="Remove"
-            onTouchTap={() => onSubmit(id, sprintId, onData, handlers, hideButton, wrappedData)}
+            onTouchTap={() => onSubmit(id)}
             disabled={error}
             primary
         />
@@ -46,23 +41,13 @@ RemoveWorkingAgreement.propTypes = {
     error: PropTypes.instanceOf(Error),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onData: PropTypes.func.isRequired,
-    wrappedData: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
-    sprintId: PropTypes.string.isRequired,
-    handlers: PropTypes.arrayOf(
-        PropTypes.shape({
-            subscriptionId: PropTypes.string.isRequired,
-        }).isRequired,
-    ).isRequired,
-    hideButton: PropTypes.bool,
 };
 
 RemoveWorkingAgreement.defaultProps = {
     error: null,
     open: false,
-    hideButton: false,
 };
 
 export default RemoveWorkingAgreement;
