@@ -15,6 +15,7 @@ const RemoveWorkingAgreement = ({
     sprintId,
     onData,
     handlers,
+    hideButton,
     wrappedData,
 }) => (
     <Dialog
@@ -34,7 +35,7 @@ const RemoveWorkingAgreement = ({
         />
         <RaisedButton
             label="Remove"
-            onTouchTap={() => onSubmit(id, sprintId, onData, handlers, wrappedData)}
+            onTouchTap={() => onSubmit(id, sprintId, onData, handlers, hideButton, wrappedData)}
             disabled={error}
             primary
         />
@@ -55,11 +56,13 @@ RemoveWorkingAgreement.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
+    hideButton: PropTypes.bool,
 };
 
 RemoveWorkingAgreement.defaultProps = {
     error: null,
     open: false,
+    hideButton: false,
 };
 
 export default RemoveWorkingAgreement;

@@ -45,7 +45,7 @@ class SingleSprint extends React.Component {
                     <ActionItemsBoard />
                 </div>
                 <div className="half">
-                    <WorkingAgreementBoard />
+                    <WorkingAgreementBoard hideButton />
                 </div>
 
                 <CloseDialog

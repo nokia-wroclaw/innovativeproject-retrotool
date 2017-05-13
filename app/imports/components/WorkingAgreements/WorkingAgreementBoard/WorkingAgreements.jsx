@@ -63,10 +63,19 @@ class WorkingAgreements extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
-        addWorkingAgreement(sprintId, doc.text, doc.date, onData, handlers, wrappedData);
+        addWorkingAgreement(
+            sprintId,
+            doc.text,
+            doc.date,
+            onData,
+            handlers,
+            hideButton,
+            wrappedData,
+        );
     }
 
     render() {
@@ -90,6 +99,7 @@ class WorkingAgreements extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -99,6 +109,7 @@ class WorkingAgreements extends React.Component {
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
                     isMember={isMember}
                     isClosed={isClosed}
+                    hideButton={hideButton}
                 />
 
                 <div className="content-container">
@@ -110,10 +121,6 @@ class WorkingAgreements extends React.Component {
                             date={wa.date}
                             deleteWorkingAgreement={this.showRemoveWorkingAgreementModal}
                             isModerator={isModerator}
-                            sprintId={sprintId}
-                            onData={onData}
-                            handlers={handlers}
-                            wrappedData={wrappedData}
                         />,
                     )}
                 </div>
@@ -134,6 +141,7 @@ class WorkingAgreements extends React.Component {
                     sprintId={sprintId}
                     onData={onData}
                     handlers={handlers}
+                    hideButton={hideButton}
                     wrappedData={wrappedData}
                 />
 
@@ -141,14 +149,18 @@ class WorkingAgreements extends React.Component {
                     open={openSnackbar}
                     message="New working agreement has been added!"
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={() => closeSnackBar(
+                        sprintId, onData, handlers, hideButton, wrappedData,
+                    )}
                 />
 
                 <Snackbar
                     open={openRemoveSnackbar}
                     message="Working agreement has been removed!"
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={() => closeSnackBar(
+                        sprintId, onData, handlers, hideButton, wrappedData,
+                    )}
                 />
             </div>
         );
@@ -161,6 +173,7 @@ WorkingAgreements.defaultProps = {
     idToRemove: '',
     openSnackbar: false,
     openRemoveSnackbar: false,
+    hideButton: false,
 };
 
 WorkingAgreements.propTypes = {
@@ -187,6 +200,7 @@ WorkingAgreements.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
+    hideButton: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
