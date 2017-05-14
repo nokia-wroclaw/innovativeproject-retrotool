@@ -73,7 +73,6 @@ class ActionItems extends React.Component {
     closeSnackBar() {
         this.setState({
             openSnackbar: false,
-            openToggleSnackbar: false,
         });
     }
 
