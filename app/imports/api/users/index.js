@@ -6,7 +6,9 @@ export {
 
 export {
     removeAdmin,
+    changeProfileName,
     setAdmin,
+    setProfileName,
 } from './methods.js';
 
 export { actions } from './actions.js';

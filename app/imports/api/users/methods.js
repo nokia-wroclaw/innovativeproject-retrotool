@@ -3,6 +3,7 @@ import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import {
     setAdminSchema,
     removeAdminSchema,
+    setNameSchema,
 } from './schema.js';
 
 
@@ -38,3 +39,19 @@ export const removeAdmin = new ValidatedMethod({
     },
 });
 
+export const setProfileName = new ValidatedMethod({
+    name: 'users.setName',
+    validate: setNameSchema.validator({ clean: true }),
+    run({ name }) {
+        const userId = Meteor.userId();
+
+        if (userId) {
+            return Meteor.users.update(userId, {
+                $set: {
+                    'profile.name': name,
+                },
+            });
+        }
+        return this.ready();
+    },
+});

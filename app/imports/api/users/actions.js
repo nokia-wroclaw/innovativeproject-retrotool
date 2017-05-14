@@ -1,5 +1,9 @@
 import { browserHistory } from 'react-router';
-import { setAdmin, removeAdmin } from './methods.js';
+import {
+    setAdmin,
+    removeAdmin,
+    setProfileName,
+} from './methods.js';
 
 // @TODO change `isAdmin` name to sth more intuitive
 const manageAdmin = ({ _id: userId, isAdmin }) => {
@@ -9,6 +13,17 @@ const manageAdmin = ({ _id: userId, isAdmin }) => {
         removeAdmin.call({ userId });
     }
 };
+
+const changeProfileName = name =>
+    new Promise((resolve, reject) => {
+        setProfileName.call({ name }, (err, res) => {
+            if (err) {
+                const error = new Error(err);
+                reject(error);
+            }
+            resolve(res);
+        });
+    });
 
 const goToAdminPanel = () => {
     browserHistory.push('/admin/main');
@@ -20,7 +35,9 @@ const goToProfile = () => {
 
 const actions = {
     manageAdmin,
+    changeProfileName,
     goToAdminPanel,
+    setProfileName,
     goToProfile,
 };
 

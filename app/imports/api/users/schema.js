@@ -11,3 +11,9 @@ export const removeAdminSchema = new SimpleSchema({
         type: String,
     },
 });
+
+export const setNameSchema = new SimpleSchema({
+    name: {
+        type: String,
+    },
+});
