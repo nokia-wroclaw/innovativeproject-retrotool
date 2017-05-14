@@ -53,13 +53,14 @@ Meteor.publish('extendedUser', function publishExtendedUser() {
     });
 });
 
-Meteor.publish('userEmail', function publishExtendedUser() {
+Meteor.publish('userNameEmail', function publishExtendedUser() {
     const userId = this.userId;
 
     if (userId) {
         return Meteor.users.find(userId, {
             fields: {
                 'services.github.email': 1,
+                'services.github.username': 1,
             },
         });
     }

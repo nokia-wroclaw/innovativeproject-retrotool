@@ -77,3 +77,23 @@ export const setGravatarAvatar = new ValidatedMethod({
         return undefined;
     },
 });
+
+export const setGithubAvatar = new ValidatedMethod({
+    name: 'users.setGitvatar',
+    validate: new SimpleSchema({}).validator({}),
+    run() {
+        const user = Meteor.user();
+
+        if (user) {
+            const userId = user._id;
+            const username = user.services.github.username;
+
+            return Meteor.users.update(userId, {
+                $set: {
+                    'profile.avatar': `https://github.com/${username}.png`,
+                },
+            });
+        }
+        return undefined;
+    },
+});

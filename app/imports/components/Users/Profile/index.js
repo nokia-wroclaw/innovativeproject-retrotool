@@ -9,7 +9,7 @@ import { actions as userActions } from '/imports/api/users';
 import Profile from './Profile.jsx';
 
 const composer = (props, onData) => {
-    const userHandler = Meteor.subscribe('userEmail');
+    const userHandler = Meteor.subscribe('userNameEmail');
 
     if (userHandler.ready()) {
         const changeProfileName = async (name) => {
