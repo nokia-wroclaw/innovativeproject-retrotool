@@ -8,6 +8,9 @@ import {
     FlatButton,
 } from 'material-ui';
 
+
+const isGithubAvatar = avatar => avatar.startsWith('https://github.com');
+
 const UserCard = ({
     showChangeProfileNameModal,
     setGravatarPhoto,
@@ -27,10 +30,12 @@ const UserCard = ({
             <FlatButton
                 label="Connect photo with github"
                 onTouchTap={() => setGithubPhoto()}
+                disabled={isGithubAvatar(user.profile.avatar)}
             />
             <FlatButton
                 label="Connect photo with gravatar"
                 onTouchTap={() => setGravatarPhoto()}
+                disabled={!isGithubAvatar(user.profile.avatar)}
             />
         </CardActions>
     </Card>
