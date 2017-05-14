@@ -4,6 +4,7 @@ import {
     removeAdmin,
     setProfileName,
     setGravatarAvatar,
+    setGithubAvatar,
 } from './methods.js';
 
 // @TODO change `isAdmin` name to sth more intuitive
@@ -30,6 +31,10 @@ const setGravatarPhoto = () => {
     setGravatarAvatar.call({});
 };
 
+const setGithubPhoto = () => {
+    setGithubAvatar.call({});
+};
+
 const goToAdminPanel = () => {
     browserHistory.push('/admin/main');
 };
@@ -43,6 +48,7 @@ const actions = {
     changeProfileName,
     goToAdminPanel,
     setGravatarPhoto,
+    setGithubPhoto,
     setProfileName,
     goToProfile,
 };

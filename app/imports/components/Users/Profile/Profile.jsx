@@ -47,6 +47,7 @@ class Profile extends React.Component {
             user,
             errorProfile,
             setGravatarPhoto,
+            setGithubPhoto,
         } = this.props;
 
         const {
@@ -59,6 +60,7 @@ class Profile extends React.Component {
                     user={user}
                     showChangeProfileNameModal={this.showChangeProfileNameModal}
                     setGravatarPhoto={setGravatarPhoto}
+                    setGithubPhoto={setGithubPhoto}
                 />
 
                 <ChangeProfileName
@@ -79,6 +81,7 @@ Profile.defaultProps = {
 Profile.propTypes = {
     changeProfileName: PropTypes.func.isRequired,
     setGravatarPhoto: PropTypes.func.isRequired,
+    setGithubPhoto: PropTypes.func.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
