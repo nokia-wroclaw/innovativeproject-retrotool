@@ -18,10 +18,14 @@ class Profile extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.errorProfile) {
+            this.hideChangeProfileNameModal();
+        }
+    }
+
     setProfileName(doc) {
         const { changeProfileName } = this.props;
-
-        this.hideChangeProfileNameModal();
 
         changeProfileName(doc.text);
     }
