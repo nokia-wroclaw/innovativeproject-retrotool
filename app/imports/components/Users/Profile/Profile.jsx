@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Card,
-    CardActions,
-    CardMedia,
-    CardTitle,
-    FlatButton,
-} from 'material-ui';
 
 import ChangeProfileName from './ChangeProfileName';
+import UserCard from './UserCard.jsx';
 
 
 class Profile extends React.Component {
@@ -56,20 +50,10 @@ class Profile extends React.Component {
 
         return (
             <div className="content-container">
-                <Card className="profile-container">
-                    <CardMedia>
-                        <img src={user.profile.avatar} alt="My avatar" />
-                    </CardMedia>
-                    <CardTitle title={user.profile.name} subtitle={user.isAdmin ? 'Admin' : ''} />
-                    <CardActions>
-                        <FlatButton
-                            label="Change name"
-                            onTouchTap={this.showChangeProfileNameModal}
-                        />
-                        <FlatButton label="Connect photo with github" />
-                        <FlatButton label="Connect photo with gravatar" />
-                    </CardActions>
-                </Card>
+                <UserCard
+                    user={user}
+                    showChangeProfileNameModal={this.showChangeProfileNameModal}
+                />
 
                 <ChangeProfileName
                     open={showChangeProfileNameModal}
