@@ -9,6 +9,7 @@ export {
     changeProfileName,
     setAdmin,
     setProfileName,
+    setGravatarPhoto,
 } from './methods.js';
 
 export { actions } from './actions.js';

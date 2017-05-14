@@ -9,26 +9,33 @@ import { actions as userActions } from '/imports/api/users';
 import Profile from './Profile.jsx';
 
 const composer = (props, onData) => {
-    const changeProfileName = async (name) => {
-        try {
-            await userActions.changeProfileName(name);
-            onData(null, {
-                user: Meteor.user(),
-                changeProfileName,
-            });
-        } catch (error) {
-            onData(null, {
-                user: Meteor.user(),
-                changeProfileName,
-                errorProfile: error,
-            });
-        }
-    };
+    const userHandler = Meteor.subscribe('userEmail');
 
-    onData(null, {
-        user: Meteor.user(),
-        changeProfileName,
-    });
+    if (userHandler.ready()) {
+        const changeProfileName = async (name) => {
+            try {
+                await userActions.changeProfileName(name);
+                onData(null, {
+                    user: Meteor.user(),
+                    changeProfileName,
+                    setGravatarPhoto: userActions.setGravatarPhoto,
+                });
+            } catch (error) {
+                onData(null, {
+                    user: Meteor.user(),
+                    changeProfileName,
+                    setGravatarPhoto: userActions.setGravatarPhoto,
+                    errorProfile: error,
+                });
+            }
+        };
+
+        onData(null, {
+            user: Meteor.user(),
+            changeProfileName,
+            setGravatarPhoto: userActions.setGravatarPhoto,
+        });
+    }
 };
 
 export default withRouter(

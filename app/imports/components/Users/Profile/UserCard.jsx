@@ -10,6 +10,7 @@ import {
 
 const UserCard = ({
     showChangeProfileNameModal,
+    setGravatarPhoto,
     user,
 }) =>
     <Card className="profile-container">
@@ -23,7 +24,10 @@ const UserCard = ({
                 onTouchTap={showChangeProfileNameModal}
             />
             <FlatButton label="Connect photo with github" />
-            <FlatButton label="Connect photo with gravatar" />
+            <FlatButton
+                label="Connect photo with gravatar"
+                onTouchTap={() => setGravatarPhoto()}
+            />
         </CardActions>
     </Card>
 ;
@@ -39,6 +43,7 @@ UserCard.defaultProps = {
 
 UserCard.propTypes = {
     showChangeProfileNameModal: PropTypes.func.isRequired,
+    setGravatarPhoto: PropTypes.func.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,

@@ -3,6 +3,7 @@ import {
     setAdmin,
     removeAdmin,
     setProfileName,
+    setGravatarAvatar,
 } from './methods.js';
 
 // @TODO change `isAdmin` name to sth more intuitive
@@ -25,6 +26,10 @@ const changeProfileName = name =>
         });
     });
 
+const setGravatarPhoto = () => {
+    setGravatarAvatar.call({});
+};
+
 const goToAdminPanel = () => {
     browserHistory.push('/admin/main');
 };
@@ -37,6 +42,7 @@ const actions = {
     manageAdmin,
     changeProfileName,
     goToAdminPanel,
+    setGravatarPhoto,
     setProfileName,
     goToProfile,
 };

@@ -46,6 +46,7 @@ class Profile extends React.Component {
         const {
             user,
             errorProfile,
+            setGravatarPhoto,
         } = this.props;
 
         const {
@@ -57,6 +58,7 @@ class Profile extends React.Component {
                 <UserCard
                     user={user}
                     showChangeProfileNameModal={this.showChangeProfileNameModal}
+                    setGravatarPhoto={setGravatarPhoto}
                 />
 
                 <ChangeProfileName
@@ -76,6 +78,7 @@ Profile.defaultProps = {
 
 Profile.propTypes = {
     changeProfileName: PropTypes.func.isRequired,
+    setGravatarPhoto: PropTypes.func.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,

@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
+import SimpleSchema from 'simpl-schema';
+import md5 from 'md5';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import {
     setAdminSchema,
     removeAdminSchema,
     setNameSchema,
 } from './schema.js';
-
 
 export const setAdmin = new ValidatedMethod({
     name: 'users.setAdmin',
@@ -52,6 +53,27 @@ export const setProfileName = new ValidatedMethod({
                 },
             });
         }
-        return this.ready();
+        return undefined;
+    },
+});
+
+export const setGravatarAvatar = new ValidatedMethod({
+    name: 'users.setGravatar',
+    validate: new SimpleSchema({}).validator({}),
+    run() {
+        const user = Meteor.user();
+
+        if (user) {
+            const userId = user._id;
+            const email = user.services.github.email;
+            const emailHash = md5(email);
+
+            return Meteor.users.update(userId, {
+                $set: {
+                    'profile.avatar': `https://s.gravatar.com/avatar/${emailHash}`,
+                },
+            });
+        }
+        return undefined;
     },
 });
