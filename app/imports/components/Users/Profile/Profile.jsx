@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Snackbar from 'material-ui/Snackbar';
 
 import ChangeProfileName from './ChangeProfileName';
 import UserCard from './UserCard.jsx';
@@ -12,9 +13,15 @@ class Profile extends React.Component {
         this.showChangeProfileNameModal = this.showChangeProfileNameModal.bind(this);
         this.hideChangeProfileNameModal = this.hideChangeProfileNameModal.bind(this);
         this.setProfileName = this.setProfileName.bind(this);
+        this.closeSnackBar = this.closeSnackBar.bind(this);
+
+        this.setGravatarPhoto = this.setGravatarPhoto.bind(this);
+        this.setGithubPhoto = this.setGithubPhoto.bind(this);
 
         this.state = {
             showChangeProfileNameModal: false,
+            openSnackbar: false,
+            snackbarMessage: '',
         };
     }
 
@@ -27,7 +34,34 @@ class Profile extends React.Component {
     setProfileName(doc) {
         const { changeProfileName } = this.props;
 
+        this.setState({
+            openSnackbar: true,
+            snackbarMessage: 'Name has been changed!',
+        });
+
         changeProfileName(doc.text);
+    }
+
+    setGravatarPhoto() {
+        const { setGravatarPhoto } = this.props;
+
+        setGravatarPhoto();
+
+        this.setState({
+            openSnackbar: true,
+            snackbarMessage: 'Set gravatar avatar',
+        });
+    }
+
+    setGithubPhoto() {
+        const { setGithubPhoto } = this.props;
+
+        setGithubPhoto();
+
+        this.setState({
+            openSnackbar: true,
+            snackbarMessage: 'Set github avatar',
+        });
     }
 
     showChangeProfileNameModal() {
@@ -42,16 +76,22 @@ class Profile extends React.Component {
         });
     }
 
+    closeSnackBar() {
+        this.setState({
+            openSnackbar: false,
+        });
+    }
+
     render() {
         const {
             user,
             errorProfile,
-            setGravatarPhoto,
-            setGithubPhoto,
         } = this.props;
 
         const {
             showChangeProfileNameModal,
+            openSnackbar,
+            snackbarMessage,
         } = this.state;
 
         return (
@@ -59,8 +99,8 @@ class Profile extends React.Component {
                 <UserCard
                     user={user}
                     showChangeProfileNameModal={this.showChangeProfileNameModal}
-                    setGravatarPhoto={setGravatarPhoto}
-                    setGithubPhoto={setGithubPhoto}
+                    setGravatarPhoto={this.setGravatarPhoto}
+                    setGithubPhoto={this.setGithubPhoto}
                 />
 
                 <ChangeProfileName
@@ -68,6 +108,13 @@ class Profile extends React.Component {
                     onSubmit={this.setProfileName}
                     error={errorProfile}
                     onClose={this.hideChangeProfileNameModal}
+                />
+
+                <Snackbar
+                    open={openSnackbar}
+                    message={snackbarMessage}
+                    autoHideDuration={4000}
+                    onRequestClose={this.closeSnackBar}
                 />
             </div>
         );
