@@ -28,6 +28,15 @@ const UserCard = ({
     </Card>
 ;
 
+UserCard.defaultProps = {
+    user: {
+        profile: {
+            avatar: '',
+            name: 'User',
+        },
+    },
+};
+
 UserCard.propTypes = {
     showChangeProfileNameModal: PropTypes.func.isRequired,
     user: PropTypes.shape({
