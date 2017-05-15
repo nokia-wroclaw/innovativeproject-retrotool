@@ -16,6 +16,6 @@ export const setNameSchema = new SimpleSchema({
     name: {
         type: String,
         min: 3,
-        max: 25,
+        max: 50,
     },
 });

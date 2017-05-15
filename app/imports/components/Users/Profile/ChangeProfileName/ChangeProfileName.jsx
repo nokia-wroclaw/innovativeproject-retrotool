@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SimpleSchema from 'simpl-schema';
 import {
     Dialog,
     FlatButton,
@@ -12,39 +13,50 @@ import {
     SubmitField,
 } from 'uniforms-material';
 
-import { schema } from './schema.js';
 
 const ChangeProfileName = ({
     error,
     onClose,
     onSubmit,
     open,
-}) => (
-    <Dialog
-        title="Change name"
-        open={open}
-    >
-        <AutoForm
-            schema={schema}
-            onSubmit={onSubmit}
-            error={error}
+    oldName,
+}) => {
+    const schema = new SimpleSchema({
+        text: {
+            type: String,
+            min: 3,
+            max: 50,
+            defaultValue: oldName,
+        },
+    });
+
+    return (
+        <Dialog
+            title="Change name"
+            open={open}
         >
-            <ErrorsField />
-            <TextField
-                name="text"
-                floatingLabelText="New profile name"
-                fullWidth
-            />
-            <FlatButton
-                label="Close"
-                onTouchTap={onClose}
-            />
-            <SubmitField
-                primary
-            />
-        </AutoForm>
-    </Dialog>
-);
+            <AutoForm
+                schema={schema}
+                onSubmit={onSubmit}
+                error={error}
+            >
+                <ErrorsField />
+                <TextField
+                    name="text"
+                    floatingLabelText="New profile name"
+                    fullWidth
+                />
+                <FlatButton
+                    label="Close"
+                    onTouchTap={onClose}
+                />
+                <SubmitField
+                    primary
+                />
+            </AutoForm>
+        </Dialog>
+    );
+};
 
 ChangeProfileName.defaultProps = {
     error: null,
@@ -56,6 +68,7 @@ ChangeProfileName.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
+    oldName: PropTypes.string.isRequired,
 };
 
 export default ChangeProfileName;

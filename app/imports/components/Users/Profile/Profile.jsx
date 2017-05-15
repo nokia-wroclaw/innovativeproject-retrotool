@@ -108,6 +108,7 @@ class Profile extends React.Component {
                     onSubmit={this.setProfileName}
                     error={errorProfile}
                     onClose={this.hideChangeProfileNameModal}
+                    oldName={user.profile.name}
                 />
 
                 <Snackbar
