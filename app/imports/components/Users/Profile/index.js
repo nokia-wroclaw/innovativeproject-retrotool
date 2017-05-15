@@ -18,16 +18,14 @@ const composer = (props, onData) => {
                 onData(null, {
                     user: Meteor.user(),
                     changeProfileName,
-                    setGravatarPhoto: userActions.setGravatarPhoto,
-                    setGithubPhoto: userActions.setGithubPhoto,
+                    setProfileAvatar: userActions.setProfileAvatar,
                     result: !!result,
                 });
             } catch (error) {
                 onData(null, {
                     user: Meteor.user(),
                     changeProfileName,
-                    setGravatarPhoto: userActions.setGravatarPhoto,
-                    setGithubPhoto: userActions.setGithubPhoto,
+                    setProfileAvatar: userActions.setProfileAvatar,
                     errorProfile: error,
                 });
             }
@@ -36,8 +34,7 @@ const composer = (props, onData) => {
         onData(null, {
             user: Meteor.user(),
             changeProfileName,
-            setGravatarPhoto: userActions.setGravatarPhoto,
-            setGithubPhoto: userActions.setGithubPhoto,
+            setProfileAvatar: userActions.setProfileAvatar,
         });
     }
 };

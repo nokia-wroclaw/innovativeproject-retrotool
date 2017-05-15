@@ -1,11 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
 import md5 from 'md5';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import {
     setAdminSchema,
     removeAdminSchema,
     setNameSchema,
+    setAwatarSchema,
 } from './schema.js';
 
 export const setAdmin = new ValidatedMethod({
@@ -57,14 +57,14 @@ export const setProfileName = new ValidatedMethod({
     },
 });
 
-export const setGravatarAvatar = new ValidatedMethod({
-    name: 'users.setGravatar',
-    validate: new SimpleSchema({}).validator({}),
-    run() {
+export const setAvatar = new ValidatedMethod({
+    name: 'users.setAvatar',
+    validate: setAwatarSchema.validator({ clean: true }),
+    run({ service }) {
         const user = Meteor.user();
+        const userId = user._id;
 
-        if (user) {
-            const userId = user._id;
+        if (user && service === 'gravatar') {
             const email = user.emails[0].address;
             const emailHash = md5(email);
 
@@ -74,18 +74,8 @@ export const setGravatarAvatar = new ValidatedMethod({
                 },
             });
         }
-        return undefined;
-    },
-});
 
-export const setGithubAvatar = new ValidatedMethod({
-    name: 'users.setGithubAvatar',
-    validate: new SimpleSchema({}).validator({}),
-    run() {
-        const user = Meteor.user();
-
-        if (user.profile.username.service === 'github') {
-            const userId = user._id;
+        if (user.profile.username.service === 'github' && service === 'github') {
             const username = user.profile.username.serviceName;
 
             return Meteor.users.update(userId, {

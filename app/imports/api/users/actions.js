@@ -3,8 +3,7 @@ import {
     setAdmin,
     removeAdmin,
     setProfileName,
-    setGravatarAvatar,
-    setGithubAvatar,
+    setAvatar,
 } from './methods.js';
 
 // @TODO change `isAdmin` name to sth more intuitive
@@ -27,12 +26,8 @@ const changeProfileName = name =>
         });
     });
 
-const setGravatarPhoto = () => {
-    setGravatarAvatar.call({});
-};
-
-const setGithubPhoto = () => {
-    setGithubAvatar.call({});
+const setProfileAvatar = (service) => {
+    setAvatar.call({ service });
 };
 
 const goToAdminPanel = () => {
@@ -47,8 +42,7 @@ const actions = {
     manageAdmin,
     changeProfileName,
     goToAdminPanel,
-    setGravatarPhoto,
-    setGithubPhoto,
+    setProfileAvatar,
     setProfileName,
     goToProfile,
 };

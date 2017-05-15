@@ -19,3 +19,9 @@ export const setNameSchema = new SimpleSchema({
         max: 50,
     },
 });
+
+export const setAwatarSchema = new SimpleSchema({
+    service: {
+        type: String,
+    },
+});

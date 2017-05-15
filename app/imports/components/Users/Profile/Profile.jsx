@@ -15,8 +15,7 @@ class Profile extends React.Component {
         this.setProfileName = this.setProfileName.bind(this);
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
-        this.setGravatarPhoto = this.setGravatarPhoto.bind(this);
-        this.setGithubPhoto = this.setGithubPhoto.bind(this);
+        this.setProfileAvatar = this.setProfileAvatar.bind(this);
 
         this.state = {
             showChangeProfileNameModal: false,
@@ -48,25 +47,14 @@ class Profile extends React.Component {
         changeProfileName(doc.text);
     }
 
-    setGravatarPhoto() {
-        const { setGravatarPhoto } = this.props;
+    setProfileAvatar(service) {
+        const { setProfileAvatar } = this.props;
 
-        setGravatarPhoto();
+        setProfileAvatar(service);
 
         this.setState({
             openSnackbar: true,
             snackbarMessage: 'Set gravatar avatar',
-        });
-    }
-
-    setGithubPhoto() {
-        const { setGithubPhoto } = this.props;
-
-        setGithubPhoto();
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Set github avatar',
         });
     }
 
@@ -105,8 +93,7 @@ class Profile extends React.Component {
                 <UserCard
                     user={user}
                     showChangeProfileNameModal={this.showChangeProfileNameModal}
-                    setGravatarPhoto={this.setGravatarPhoto}
-                    setGithubPhoto={this.setGithubPhoto}
+                    setProfileAvatar={this.setProfileAvatar}
                 />
 
                 <ChangeProfileName
@@ -135,8 +122,7 @@ Profile.defaultProps = {
 
 Profile.propTypes = {
     changeProfileName: PropTypes.func.isRequired,
-    setGravatarPhoto: PropTypes.func.isRequired,
-    setGithubPhoto: PropTypes.func.isRequired,
+    setProfileAvatar: PropTypes.func.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
