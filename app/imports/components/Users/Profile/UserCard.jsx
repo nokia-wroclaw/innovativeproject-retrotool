@@ -10,6 +10,7 @@ import {
 
 
 const isGithubAvatar = avatar => avatar.startsWith('https://github.com');
+const isGithubUser = user => !!(user.profile.username.service === 'github');
 
 const UserCard = ({
     showChangeProfileNameModal,
@@ -27,11 +28,15 @@ const UserCard = ({
                 label="Change name"
                 onTouchTap={showChangeProfileNameModal}
             />
-            <FlatButton
-                label="Connect photo with github"
-                onTouchTap={() => setGithubPhoto()}
-                disabled={isGithubAvatar(user.profile.avatar)}
-            />
+            {isGithubUser(user) ?
+                <FlatButton
+                    label="Connect photo with github"
+                    onTouchTap={() => setGithubPhoto()}
+                    disabled={isGithubAvatar(user.profile.avatar)}
+                />
+                :
+                ''
+            }
             <FlatButton
                 label="Connect photo with gravatar"
                 onTouchTap={() => setGravatarPhoto()}

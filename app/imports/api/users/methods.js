@@ -84,7 +84,7 @@ export const setGithubAvatar = new ValidatedMethod({
     run() {
         const user = Meteor.user();
 
-        if (user) {
+        if (user.profile.username.service === 'github') {
             const userId = user._id;
             const username = user.profile.username.serviceName;
 
