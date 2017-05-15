@@ -40,10 +40,36 @@ const setAdminOnFirstUser = (options, user) => {
     return user;
 };
 
+const getPublicEmail = (user) => {
+    const githubEmail = {
+        address: _.get(user, 'services.github.email', undefined),
+        verified: true,
+    };
+    return githubEmail || { address: 'contact@email.com', verified: false };
+};
+
+const getPublicUsername = (user) => {
+    const githubUsername = {
+        serviceName: _.get(user, 'services.github.username', undefined),
+        service: 'github',
+    };
+    return githubUsername || { serviceName: user.profile.name, service: 'none' };
+};
+
+const setPublicEmailAndUsername = (options, user) => {
+    if (user && user.profile && !user.emails && !user.profile.username) {
+        user.emails = getPublicEmail(user);
+        user.profile.username = getPublicUsername(user);
+    }
+    return user;
+};
+
+
 Accounts.onCreateUser((options, user) => {
     user = saveUserProfile(options, user);
     user = setAdminOnFirstUser(options, user);
     user = setUsernameIfDoesntHave(options, user);
     user = setAvatar(options, user);
+    user = setPublicEmailAndUsername(options, user);
     return user;
 });
