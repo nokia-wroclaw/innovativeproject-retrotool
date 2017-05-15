@@ -65,7 +65,7 @@ export const setGravatarAvatar = new ValidatedMethod({
 
         if (user) {
             const userId = user._id;
-            const email = user.services.github.email;
+            const email = user.emails[0].address;
             const emailHash = md5(email);
 
             return Meteor.users.update(userId, {
@@ -79,14 +79,14 @@ export const setGravatarAvatar = new ValidatedMethod({
 });
 
 export const setGithubAvatar = new ValidatedMethod({
-    name: 'users.setGitvatar',
+    name: 'users.setGithubAvatar',
     validate: new SimpleSchema({}).validator({}),
     run() {
         const user = Meteor.user();
 
         if (user) {
             const userId = user._id;
-            const username = user.services.github.username;
+            const username = user.profile.username.serviceName;
 
             return Meteor.users.update(userId, {
                 $set: {

@@ -59,7 +59,7 @@ Meteor.publish('userNameEmail', function publishExtendedUser() {
     if (userId) {
         return Meteor.users.find(userId, {
             fields: {
-                'emails': 1,
+                emails: 1,
                 'profile.username': 1,
             },
         });
