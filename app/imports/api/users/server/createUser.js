@@ -41,11 +41,11 @@ const setAdminOnFirstUser = (options, user) => {
 };
 
 const getPublicEmail = (user) => {
-    const githubEmail = {
+    const githubEmail = [{
         address: _.get(user, 'services.github.email', undefined),
         verified: true,
-    };
-    return githubEmail || { address: 'contact@email.com', verified: false };
+    }];
+    return githubEmail || [{ address: 'contact@email.com', verified: false }];
 };
 
 const getPublicUsername = (user) => {
