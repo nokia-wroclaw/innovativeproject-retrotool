@@ -24,8 +24,13 @@ const toggleActionItem = async (
     wrappedData,
 ) => {
     try {
-        await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
-        wrappedData(onData, sprintId, handlers, hideButton);
+        const toggleResult = await actionItemsActions.toggleActionItemState(
+            actionItemId,
+            closeMessage,
+        );
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            toggleResult: !!toggleResult,
+        });
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorToggle: error,
@@ -45,8 +50,16 @@ const addActionItem = async (
     wrappedData,
 ) => {
     try {
-        await actionItemsActions.createActionItem(sprintId, startDate, endDate, assigneeId, text);
-        wrappedData(onData, sprintId, handlers, hideButton);
+        const addResult = await actionItemsActions.createActionItem(
+            sprintId,
+            startDate,
+            endDate,
+            assigneeId,
+            text,
+        );
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            addResult: !!addResult,
+        });
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,

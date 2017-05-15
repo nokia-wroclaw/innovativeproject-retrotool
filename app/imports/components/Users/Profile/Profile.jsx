@@ -26,18 +26,24 @@ class Profile extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.errorProfile) {
+        const {
+            errorProfile,
+            result,
+        } = nextProps;
+
+        if (!errorProfile) {
             this.hideChangeProfileNameModal();
+        }
+        if (result) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Name has been changed!',
+            });
         }
     }
 
     setProfileName(doc) {
         const { changeProfileName } = this.props;
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Name has been changed!',
-        });
 
         changeProfileName(doc.text);
     }
@@ -124,6 +130,7 @@ class Profile extends React.Component {
 
 Profile.defaultProps = {
     errorProfile: null,
+    result: false,
 };
 
 Profile.propTypes = {
@@ -139,6 +146,7 @@ Profile.propTypes = {
         }).isRequired,
     }).isRequired,
     errorProfile: PropTypes.instanceOf(Error),
+    result: PropTypes.bool,
 };
 
 export default Profile;

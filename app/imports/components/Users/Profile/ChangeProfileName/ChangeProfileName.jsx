@@ -34,6 +34,7 @@ const ChangeProfileName = ({
         <Dialog
             title="Change name"
             open={open}
+            onRequestClose={onClose}
         >
             <AutoForm
                 schema={schema}

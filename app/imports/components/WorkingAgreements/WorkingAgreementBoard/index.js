@@ -14,8 +14,10 @@ import { Sprints } from '/imports/api/sprints';
 import WorkingAgreements from './WorkingAgreements.jsx';
 
 const removeWorkingAgreement = (id, sprintId, onData, handlers, hideButton, wrappedData) => {
-    workingAgreementActions.deleteWorkingAgreement(id).then(() => {
-        wrappedData(onData, sprintId, handlers, hideButton);
+    workingAgreementActions.deleteWorkingAgreement(id).then((removeResult) => {
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            removeResult: !!removeResult,
+        });
     }).catch((error) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorRemove: error,
@@ -33,8 +35,14 @@ const addWorkingAgreement = async (
     wrappedData,
 ) => {
     try {
-        await workingAgreementActions.createWorkingAgreement(sprintId, text, date);
-        wrappedData(onData, sprintId, handlers, hideButton);
+        const addResult = await workingAgreementActions.createWorkingAgreement(
+            sprintId,
+            text,
+            date,
+        );
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            addResult: !!addResult,
+        });
     } catch (error) {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,

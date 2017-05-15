@@ -30,11 +30,30 @@ class WorkingAgreements extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        if (!props.errorAdd) {
+        const {
+            errorAdd,
+            errorRemove,
+            addResult,
+            removeResult,
+        } = props;
+
+        if (!errorAdd) {
             this.hideAddWorkingAgreementModal();
         }
-        if (!props.errorRemove) {
+        if (!errorRemove) {
             this.hideRemoveWorkingAgreementModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been created!',
+            });
+        }
+        if (removeResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been removed!',
+            });
         }
     }
 
@@ -78,11 +97,6 @@ class WorkingAgreements extends React.Component {
             wrappedData,
         } = this.props;
 
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'New working agreement has been added!',
-        });
-
         addWorkingAgreement(
             sprintId,
             doc.text,
@@ -103,11 +117,6 @@ class WorkingAgreements extends React.Component {
             hideButton,
             wrappedData,
         } = this.props;
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Working agreement has been removed!',
-        });
 
         removeWorkingAgreement(id, sprintId, onData, handlers, hideButton, wrappedData);
     }
@@ -184,6 +193,8 @@ WorkingAgreements.defaultProps = {
     errorAdd: null,
     idToRemove: '',
     hideButton: false,
+    addResult: false,
+    removeResult: false,
 };
 
 WorkingAgreements.propTypes = {
@@ -208,6 +219,8 @@ WorkingAgreements.propTypes = {
         }).isRequired,
     ).isRequired,
     hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    removeResult: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };

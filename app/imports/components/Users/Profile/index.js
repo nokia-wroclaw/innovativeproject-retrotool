@@ -14,12 +14,13 @@ const composer = (props, onData) => {
     if (userHandler.ready()) {
         const changeProfileName = async (name) => {
             try {
-                await userActions.changeProfileName(name);
+                const result = await userActions.changeProfileName(name);
                 onData(null, {
                     user: Meteor.user(),
                     changeProfileName,
                     setGravatarPhoto: userActions.setGravatarPhoto,
                     setGithubPhoto: userActions.setGithubPhoto,
+                    result: !!result,
                 });
             } catch (error) {
                 onData(null, {
