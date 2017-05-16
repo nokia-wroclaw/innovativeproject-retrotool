@@ -14,7 +14,7 @@ import { Sprints } from '/imports/api/sprints';
 import ActionItems from './ActionItemsBoard.jsx';
 
 
-const toggleActionItem = async (
+const toggleActionItem = (
     actionItemId,
     closeMessage,
     onData,
@@ -23,22 +23,21 @@ const toggleActionItem = async (
     hideButton,
     wrappedData,
 ) => {
-    try {
-        const toggleResult = await actionItemsActions.toggleActionItemState(
-            actionItemId,
-            closeMessage,
-        );
+    actionItemsActions.toggleActionItemState(
+        actionItemId,
+        closeMessage,
+    ).then((toggleResult) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             toggleResult: !!toggleResult,
         });
-    } catch (error) {
+    }).catch((error) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorToggle: error,
         });
-    }
+    });
 };
 
-const addActionItem = async (
+const addActionItem = (
     sprintId,
     startDate,
     endDate,
@@ -49,22 +48,21 @@ const addActionItem = async (
     hideButton,
     wrappedData,
 ) => {
-    try {
-        const addResult = await actionItemsActions.createActionItem(
-            sprintId,
-            startDate,
-            endDate,
-            assigneeId,
-            text,
-        );
+    actionItemsActions.createActionItem(
+        sprintId,
+        startDate,
+        endDate,
+        assigneeId,
+        text,
+    ).then((addResult) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             addResult: !!addResult,
         });
-    } catch (error) {
+    }).catch((error) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
-    }
+    });
 };
 
 const wrappedData = (onData, sprintId, handlers, hideButton, data) => {

@@ -45,7 +45,7 @@ const getPublicEmail = (user) => {
         address: _.get(user, 'services.github.email', undefined),
         verified: true,
     }];
-    return githubEmail || [{ address: 'contact@email.com', verified: false }];
+    return githubEmail;
 };
 
 const getPublicUsername = (user) => {
@@ -58,7 +58,9 @@ const getPublicUsername = (user) => {
 
 const setPublicEmailAndUsername = (options, user) => {
     if (user && user.profile && !user.emails && !user.profile.username) {
-        user.emails = getPublicEmail(user);
+        if (getPublicEmail(user)) {
+            user.emails = getPublicEmail(user);
+        }
         user.profile.username = getPublicUsername(user);
     }
     return user;

@@ -12,23 +12,22 @@ const composer = (props, onData) => {
     const userHandler = Meteor.subscribe('userNameEmail');
 
     if (userHandler.ready()) {
-        const changeProfileName = async (name) => {
-            try {
-                const result = await userActions.changeProfileName(name);
+        const changeProfileName = (name) => {
+            userActions.changeProfileName(name).then((result) => {
                 onData(null, {
                     user: Meteor.user(),
                     changeProfileName,
                     setProfileAvatar: userActions.setProfileAvatar,
                     result: !!result,
                 });
-            } catch (error) {
+            }).catch((error) => {
                 onData(null, {
                     user: Meteor.user(),
                     changeProfileName,
                     setProfileAvatar: userActions.setProfileAvatar,
                     errorProfile: error,
                 });
-            }
+            });
         };
 
         onData(null, {

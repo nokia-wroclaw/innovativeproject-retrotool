@@ -25,7 +25,7 @@ const removeWorkingAgreement = (id, sprintId, onData, handlers, hideButton, wrap
     });
 };
 
-const addWorkingAgreement = async (
+const addWorkingAgreement = (
     sprintId,
     text,
     date,
@@ -34,20 +34,15 @@ const addWorkingAgreement = async (
     hideButton,
     wrappedData,
 ) => {
-    try {
-        const addResult = await workingAgreementActions.createWorkingAgreement(
-            sprintId,
-            text,
-            date,
-        );
+    workingAgreementActions.createWorkingAgreement(sprintId, text, date).then((addResult) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             addResult: !!addResult,
         });
-    } catch (error) {
+    }).catch((error) => {
         wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
-    }
+    });
 };
 
 const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
