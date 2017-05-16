@@ -52,17 +52,3 @@ Meteor.publish('extendedUser', function publishExtendedUser() {
         },
     });
 });
-
-Meteor.publish('userNameEmail', function publishExtendedUser() {
-    const userId = this.userId;
-
-    if (userId) {
-        return Meteor.users.find(userId, {
-            fields: {
-                emails: 1,
-                'profile.username': 1,
-            },
-        });
-    }
-    return this.ready();
-});
