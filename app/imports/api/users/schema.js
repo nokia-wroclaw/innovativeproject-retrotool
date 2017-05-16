@@ -20,7 +20,7 @@ export const setNameSchema = new SimpleSchema({
     },
 });
 
-export const setAwatarSchema = new SimpleSchema({
+export const setAvatarSchema = new SimpleSchema({
     service: {
         type: String,
     },

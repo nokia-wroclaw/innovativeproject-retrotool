@@ -29,7 +29,7 @@ const UserCard = ({
             />
             {isGithubUser(user) ?
                 <FlatButton
-                    label="Connect photo with github"
+                    label="Connect photo with GitHub"
                     onTouchTap={() => setProfileAvatar('github')}
                     disabled={isGithubAvatar(user.profile.avatar)}
                 />

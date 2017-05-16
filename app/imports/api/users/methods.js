@@ -5,7 +5,7 @@ import {
     setAdminSchema,
     removeAdminSchema,
     setNameSchema,
-    setAwatarSchema,
+    setAvatarSchema,
 } from './schema.js';
 
 export const setAdmin = new ValidatedMethod({
@@ -59,12 +59,12 @@ export const setProfileName = new ValidatedMethod({
 
 export const setAvatar = new ValidatedMethod({
     name: 'users.setAvatar',
-    validate: setAwatarSchema.validator({ clean: true }),
+    validate: setAvatarSchema.validator({ clean: true }),
     run({ service }) {
         const user = Meteor.user();
         const userId = user._id;
 
-        if (user && service === 'gravatar') {
+        if (user.emails[0].address && service === 'gravatar') {
             const email = user.emails[0].address;
             const emailHash = md5(email);
 
