@@ -5,7 +5,7 @@ import {
     Projects,
 } from '/imports/api/projects';
 
-import ProjectsList from './ProjectsList.jsx';
+import SingleProjectView from './SingleProjectView.jsx';
 
 
 const composer = (props, onData) => {
@@ -26,4 +26,4 @@ const composer = (props, onData) => {
     }
 };
 
-export default composeWithTracker(composer)(ProjectsList);
+export default composeWithTracker(composer)(SingleProjectView);

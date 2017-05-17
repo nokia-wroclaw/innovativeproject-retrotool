@@ -5,7 +5,7 @@ import { List, ListItem } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
 import AutoComplete from 'material-ui/AutoComplete';
 import { actions } from '/imports/api/users/actions.js';
-import SetAdmin from './setAdmin/SetAdmin.jsx';
+import SetAdminConfirmation from './setAdminConfirmation/SetAdminConfirmation.jsx';
 
 
 export default class UsersList extends React.Component {
@@ -43,7 +43,7 @@ export default class UsersList extends React.Component {
                                 src={user.profile.avatar}
                             />}
                             nestedItems={[
-                                <SetAdmin
+                                <SetAdminConfirmation
                                     primaryText="Set admin"
                                     user={user}
                                     key={user._id}
