@@ -19,3 +19,7 @@ html, body {
 .post-comment, .working-agreement, .action-item {
     margin: 8px;
 }
+
+.chip {
+    margin: 4px !important;
+}

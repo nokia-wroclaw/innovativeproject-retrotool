@@ -5,6 +5,7 @@ import {
     AutoComplete,
     MenuItem,
     Chip,
+    Avatar,
 } from 'material-ui';
 
 
@@ -25,9 +26,9 @@ class UserSelectField extends React.Component {
         const { users } = this.state;
         const isSelected = users.find(user => user.id === e.id);
 
-        if (!isSelected) {
+        if (!isSelected && e.id) {
             this.setState({
-                users: users.concat({ id: e.id, name: e.text }),
+                users: users.concat({ id: e.id, name: e.text, avatar: e.avatar }),
                 inputText: '',
             });
             this.handleConnectFieldOnChange();
@@ -71,8 +72,12 @@ class UserSelectField extends React.Component {
 
         const userList = options.map(user => ({
             text: user.label,
-            value: <MenuItem primaryText={user.label} />,
+            value: <MenuItem
+                primaryText={user.label}
+                rightIcon={<Avatar src={user.avatar} />}
+            />,
             id: user.value,
+            avatar: user.avatar,
         }));
 
         return (
@@ -89,9 +94,11 @@ class UserSelectField extends React.Component {
                 />
                 {this.state.users.map((user, index) =>
                     <Chip
+                        className="chip"
                         key={user.id}
                         onRequestDelete={() => this.handleRequestDelete(index)}
                     >
+                        <Avatar src={user.avatar} />
                         {user.name}
                     </Chip>,
                 )}
@@ -102,6 +109,9 @@ class UserSelectField extends React.Component {
 
 UserSelectField.defaultProps = {
     floatingLabelText: '',
+    options: {
+        avatar: '',
+    },
 };
 
 UserSelectField.propTypes = {
@@ -111,6 +121,7 @@ UserSelectField.propTypes = {
         PropTypes.shape({
             label: PropTypes.string.isRequired,
             value: PropTypes.string.isRequired,
+            avatar: PropTypes.string,
         }).isRequired,
     ).isRequired,
     floatingLabelText: PropTypes.string,
