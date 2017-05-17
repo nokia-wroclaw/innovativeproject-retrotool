@@ -48,11 +48,9 @@ const getPublicEmail = (user) => {
     return githubEmail;
 };
 
-const setPublicEmailAndUsername = (options, user) => {
-    if (user && user.profile && !user.emails && !user.profile.username) {
-        if (getPublicEmail(user)) {
-            user.emails = getPublicEmail(user);
-        }
+const setPublicEmail = (options, user) => {
+    if (user && user.profile && !user.emails && getPublicEmail(user)) {
+        user.emails = getPublicEmail(user);
     }
     return user;
 };
@@ -63,6 +61,6 @@ Accounts.onCreateUser((options, user) => {
     user = setAdminOnFirstUser(options, user);
     user = setUsernameIfDoesntHave(options, user);
     user = setAvatar(options, user);
-    user = setPublicEmailAndUsername(options, user);
+    user = setPublicEmail(options, user);
     return user;
 });
