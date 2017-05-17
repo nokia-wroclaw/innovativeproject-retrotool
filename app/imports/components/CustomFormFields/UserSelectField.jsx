@@ -19,6 +19,7 @@ class UserSelectField extends React.Component {
         this.state = {
             users: [],
             inputText: '',
+            errorMessage: '',
         };
     }
 
@@ -30,10 +31,15 @@ class UserSelectField extends React.Component {
             this.setState({
                 users: users.concat({ id: e.id, name: e.text, avatar: e.avatar }),
                 inputText: '',
+                errorMessage: '',
             });
             this.handleConnectFieldOnChange();
-            this.refInput.focus();
+        } else {
+            this.setState({
+                errorMessage: 'User does not exists or is already on list',
+            });
         }
+        this.refInput.focus();
     }
 
     handleConnectFieldOnChange() {
@@ -46,6 +52,7 @@ class UserSelectField extends React.Component {
     updateInputText(e) {
         this.setState({
             inputText: e,
+            errorMessage: '',
         });
     }
 
@@ -64,10 +71,12 @@ class UserSelectField extends React.Component {
             name,
             options,
             floatingLabelText,
+            fullWidth,
         } = this.props;
 
         const {
             inputText,
+            errorMessage,
         } = this.state;
 
         const userList = options.map(user => ({
@@ -91,6 +100,8 @@ class UserSelectField extends React.Component {
                     onNewRequest={this.addUser}
                     dataSource={userList}
                     onUpdateInput={this.updateInputText}
+                    errorText={errorMessage}
+                    fullWidth={fullWidth}
                 />
                 {this.state.users.map((user, index) =>
                     <Chip
@@ -112,6 +123,7 @@ UserSelectField.defaultProps = {
     options: {
         avatar: '',
     },
+    fullWidth: false,
 };
 
 UserSelectField.propTypes = {
@@ -125,6 +137,7 @@ UserSelectField.propTypes = {
         }).isRequired,
     ).isRequired,
     floatingLabelText: PropTypes.string,
+    fullWidth: PropTypes.bool,
 };
 
 export default connectField(UserSelectField, { ensureValue: false });

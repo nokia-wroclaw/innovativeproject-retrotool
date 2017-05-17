@@ -4,7 +4,6 @@ import {
     AutoForm,
     ErrorsField,
     TextField,
-    SelectField,
     SubmitField,
 } from 'uniforms-material';
 
@@ -33,8 +32,9 @@ const CreateNewProject = ({
             floatingLabelText="Moderators"
             options={options}
         />
-        <SelectField
+        <UserSelectField
             name="members"
+            floatingLabelText="Members"
             options={options}
         />
         <SubmitField
