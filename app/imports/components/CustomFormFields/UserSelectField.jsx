@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
 import connectField from 'uniforms/connectField';
 
-import AutoComplete from 'material-ui/AutoComplete';
-import MenuItem from 'material-ui/MenuItem';
+import {
+    AutoComplete,
+    MenuItem,
+    Chip,
+} from 'material-ui';
 
 
 class UserSelectField extends React.Component {
@@ -20,10 +23,11 @@ class UserSelectField extends React.Component {
 
     addUser(e) {
         const { users } = this.state;
+        const isSelected = users.find(user => user.id === e.id);
 
-        if (users.indexOf(e.id) === -1 && e.id) {
+        if (!isSelected) {
             this.setState({
-                users: users.concat(e.id),
+                users: users.concat({ id: e.id, name: e.text }),
                 inputText: '',
             });
             this.handleConnectFieldOnChange();
@@ -32,13 +36,26 @@ class UserSelectField extends React.Component {
     }
 
     handleConnectFieldOnChange() {
-        this.props.onChange(this.state.users);
+        const { users } = this.state;
+        const picked = users.map(user => user.id);
+
+        this.props.onChange(picked);
     }
 
     updateInputText(e) {
         this.setState({
             inputText: e,
         });
+    }
+
+    handleRequestDelete(index) {
+        const { users } = this.state;
+        users.splice(index, 1);
+
+        this.setState({
+            users,
+        });
+        this.handleConnectFieldOnChange();
     }
 
     render() {
@@ -52,23 +69,33 @@ class UserSelectField extends React.Component {
             inputText,
         } = this.state;
 
-        const options2 = options.map(user => ({
+        const userList = options.map(user => ({
             text: user.label,
             value: <MenuItem primaryText={user.label} />,
             id: user.value,
         }));
 
         return (
-            <AutoComplete
-                ref={(ref) => { this.refInput = ref; }}
-                filter={AutoComplete.fuzzyFilter}
-                name={name}
-                floatingLabelText={floatingLabelText}
-                searchText={inputText}
-                onNewRequest={this.addUser}
-                dataSource={options2}
-                onUpdateInput={this.updateInputText}
-            />
+            <div>
+                <AutoComplete
+                    ref={(ref) => { this.refInput = ref; }}
+                    filter={AutoComplete.fuzzyFilter}
+                    name={name}
+                    floatingLabelText={floatingLabelText}
+                    searchText={inputText}
+                    onNewRequest={this.addUser}
+                    dataSource={userList}
+                    onUpdateInput={this.updateInputText}
+                />
+                {this.state.users.map((user, index) =>
+                    <Chip
+                        key={user.id}
+                        onRequestDelete={() => this.handleRequestDelete(index)}
+                    >
+                        {user.name}
+                    </Chip>,
+                )}
+            </div>
         );
     }
 }
