@@ -77,6 +77,7 @@ class UserSelectField extends React.Component {
         const {
             inputText,
             errorMessage,
+            users,
         } = this.state;
 
         const userList = options.map(user => ({
@@ -97,13 +98,13 @@ class UserSelectField extends React.Component {
                     name={name}
                     floatingLabelText={floatingLabelText}
                     searchText={inputText}
-                    onNewRequest={this.addUser}
                     dataSource={userList}
-                    onUpdateInput={this.updateInputText}
                     errorText={errorMessage}
                     fullWidth={fullWidth}
+                    onUpdateInput={this.updateInputText}
+                    onNewRequest={this.addUser}
                 />
-                {this.state.users.map((user, index) =>
+                {users.map((user, index) =>
                     <Chip
                         className="chip"
                         key={user.id}
