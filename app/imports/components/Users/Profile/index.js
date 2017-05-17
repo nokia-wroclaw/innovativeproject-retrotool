@@ -9,29 +9,33 @@ import { actions as userActions } from '/imports/api/users';
 import Profile from './Profile.jsx';
 
 const composer = (props, onData) => {
-    const changeProfileName = (name) => {
-        userActions.changeProfileName(name).then((result) => {
-            onData(null, {
-                user: Meteor.user(),
-                changeProfileName,
-                setProfileAvatar: userActions.setProfileAvatar,
-                result: !!result,
-            });
-        }).catch((error) => {
-            onData(null, {
-                user: Meteor.user(),
-                changeProfileName,
-                setProfileAvatar: userActions.setProfileAvatar,
-                errorProfile: error,
-            });
-        });
-    };
+    const userHandler = Meteor.subscribe('githubUsername');
 
-    onData(null, {
-        user: Meteor.user(),
-        changeProfileName,
-        setProfileAvatar: userActions.setProfileAvatar,
-    });
+    if (userHandler.ready()) {
+        const changeProfileName = (name) => {
+            userActions.changeProfileName(name).then((result) => {
+                onData(null, {
+                    user: Meteor.user(),
+                    changeProfileName,
+                    setProfileAvatar: userActions.setProfileAvatar,
+                    result: !!result,
+                });
+            }).catch((error) => {
+                onData(null, {
+                    user: Meteor.user(),
+                    changeProfileName,
+                    setProfileAvatar: userActions.setProfileAvatar,
+                    errorProfile: error,
+                });
+            });
+        };
+
+        onData(null, {
+            user: Meteor.user(),
+            changeProfileName,
+            setProfileAvatar: userActions.setProfileAvatar,
+        });
+    }
 };
 
 export default withRouter(

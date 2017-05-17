@@ -74,9 +74,8 @@ export const setAvatar = new ValidatedMethod({
                 },
             });
         }
-
-        if (user.profile.username.service === 'github' && service === 'github') {
-            const username = user.profile.username.serviceName;
+        if (user.services.github && service === 'github') {
+            const username = user.services.github.username;
 
             return Meteor.users.update(userId, {
                 $set: {

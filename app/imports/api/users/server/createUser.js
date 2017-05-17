@@ -48,20 +48,11 @@ const getPublicEmail = (user) => {
     return githubEmail;
 };
 
-const getPublicUsername = (user) => {
-    const githubUsername = {
-        serviceName: _.get(user, 'services.github.username', undefined),
-        service: 'github',
-    };
-    return githubUsername || { serviceName: user.profile.name, service: 'none' };
-};
-
 const setPublicEmailAndUsername = (options, user) => {
     if (user && user.profile && !user.emails && !user.profile.username) {
         if (getPublicEmail(user)) {
             user.emails = getPublicEmail(user);
         }
-        user.profile.username = getPublicUsername(user);
     }
     return user;
 };

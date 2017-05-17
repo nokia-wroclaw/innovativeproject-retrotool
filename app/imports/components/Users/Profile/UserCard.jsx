@@ -10,7 +10,7 @@ import {
 
 
 const isGithubAvatar = avatar => avatar.startsWith('https://github.com');
-const isGithubUser = user => !!(user.profile.username.service === 'github');
+const isGithubUser = user => user.services.github;
 
 const UserCard = ({
     showChangeProfileNameModal,

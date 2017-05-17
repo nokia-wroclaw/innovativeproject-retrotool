@@ -52,3 +52,16 @@ Meteor.publish('extendedUser', function publishExtendedUser() {
         },
     });
 });
+
+Meteor.publish('githubUsername', function publishExtendedUser() {
+    const userId = this.userId;
+
+    if (userId) {
+        return Meteor.users.find(userId, {
+            fields: {
+                'services.github.username': 1,
+            },
+        });
+    }
+    return this.ready();
+});
