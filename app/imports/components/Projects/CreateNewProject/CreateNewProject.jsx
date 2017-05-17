@@ -8,6 +8,8 @@ import {
     SubmitField,
 } from 'uniforms-material';
 
+import { UserSelectField } from '/imports/components/CustomFormFields';
+
 import { schema } from './schema.js';
 
 const CreateNewProject = ({
@@ -26,8 +28,9 @@ const CreateNewProject = ({
         <TextField
             name="name"
         />
-        <SelectField
+        <UserSelectField
             name="moderators"
+            floatingLabelText="Moderators"
             options={options}
         />
         <SelectField
