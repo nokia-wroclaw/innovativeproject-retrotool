@@ -8,6 +8,8 @@ import {
     Avatar,
 } from 'material-ui';
 
+import { styles } from './style.js';
+
 
 class UserSelectField extends React.Component {
     constructor(props) {
@@ -72,6 +74,8 @@ class UserSelectField extends React.Component {
             options,
             floatingLabelText,
             fullWidth,
+            openOnFocus,
+            maxSearchResults,
         } = this.props;
 
         const {
@@ -95,6 +99,8 @@ class UserSelectField extends React.Component {
                 <AutoComplete
                     ref={(ref) => { this.refInput = ref; }}
                     filter={AutoComplete.fuzzyFilter}
+                    maxSearchResults={maxSearchResults}
+                    openOnFocus={openOnFocus}
                     name={name}
                     floatingLabelText={floatingLabelText}
                     searchText={inputText}
@@ -106,7 +112,7 @@ class UserSelectField extends React.Component {
                 />
                 {users.map((user, index) =>
                     <Chip
-                        className="chip"
+                        style={styles.chip}
                         key={user.id}
                         onRequestDelete={() => this.handleRequestDelete(index)}
                     >
@@ -125,6 +131,8 @@ UserSelectField.defaultProps = {
         avatar: '',
     },
     fullWidth: false,
+    openOnFocus: true,
+    maxSearchResults: 5,
 };
 
 UserSelectField.propTypes = {
@@ -139,6 +147,8 @@ UserSelectField.propTypes = {
     ).isRequired,
     floatingLabelText: PropTypes.string,
     fullWidth: PropTypes.bool,
+    openOnFocus: PropTypes.bool,
+    maxSearchResults: PropTypes.number,
 };
 
 export default connectField(UserSelectField, { ensureValue: false });
