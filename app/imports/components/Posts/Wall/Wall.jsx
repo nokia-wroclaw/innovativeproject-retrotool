@@ -109,6 +109,7 @@ class Wall extends React.Component {
                                 likePost={likePost}
                                 dislikePost={dislikePost}
                                 likes={post.likes}
+                                dislikes={post.dislikes}
                             />,
                         )
                     }
