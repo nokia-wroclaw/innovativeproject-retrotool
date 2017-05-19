@@ -24,4 +24,9 @@ export const setAvatarSchema = new SimpleSchema({
     service: {
         type: String,
     },
+    address: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Email,
+        optional: true,
+    },
 });

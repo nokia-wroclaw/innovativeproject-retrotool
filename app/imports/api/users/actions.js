@@ -26,9 +26,16 @@ const changeProfileName = name =>
         });
     });
 
-const setProfileAvatar = (service) => {
-    setAvatar.call({ service });
-};
+const setProfileAvatar = (service, address) =>
+    new Promise((resolve, reject) => {
+        setAvatar.call({ service, address }, (err, res) => {
+            if (err) {
+                const error = new Error(err);
+                reject(error);
+            }
+            resolve(res);
+        });
+    });
 
 const goToAdminPanel = () => {
     browserHistory.push('/admin/main');

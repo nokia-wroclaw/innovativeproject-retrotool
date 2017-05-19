@@ -49,7 +49,7 @@ const getPublicEmail = (user) => {
 };
 
 const setPublicEmail = (options, user) => {
-    if (user && user.profile && !user.emails && getPublicEmail(user)) {
+    if (user && !user.emails && getPublicEmail(user)) {
         user.emails = getPublicEmail(user);
     }
     return user;

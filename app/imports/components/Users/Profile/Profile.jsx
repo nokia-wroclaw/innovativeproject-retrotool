@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
 
 import ChangeProfileName from './ChangeProfileName';
+import SetGravatar from './SetGravatar';
 import UserCard from './UserCard.jsx';
 
 
@@ -11,16 +12,20 @@ class Profile extends React.Component {
         super(props);
 
         this.showChangeProfileNameModal = this.showChangeProfileNameModal.bind(this);
-        this.hideChangeProfileNameModal = this.hideChangeProfileNameModal.bind(this);
         this.setProfileName = this.setProfileName.bind(this);
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
         this.setProfileAvatar = this.setProfileAvatar.bind(this);
+        this.hideChangeModal = this.hideChangeModal.bind(this);
+        this.showSetGravatarModal = this.showSetGravatarModal.bind(this);
+        this.setGravatar = this.setGravatar.bind(this);
 
         this.state = {
             showChangeProfileNameModal: false,
+            showSetGravatarModal: false,
             openSnackbar: false,
             snackbarMessage: '',
+            service: '',
         };
     }
 
@@ -31,7 +36,7 @@ class Profile extends React.Component {
         } = nextProps;
 
         if (!errorProfile) {
-            this.hideChangeProfileNameModal();
+            this.hideChangeModal();
         }
         if (result) {
             this.setState({
@@ -54,6 +59,20 @@ class Profile extends React.Component {
 
         this.setState({
             openSnackbar: true,
+            snackbarMessage: 'Set GitHub avatar',
+        });
+    }
+
+    setGravatar(doc) {
+        const { setProfileAvatar } = this.props;
+        const { service } = this.state;
+
+        setProfileAvatar(service, doc.address).then(() => {
+            this.hideChangeModal();
+        });
+
+        this.setState({
+            openSnackbar: true,
             snackbarMessage: 'Set gravatar avatar',
         });
     }
@@ -64,9 +83,17 @@ class Profile extends React.Component {
         });
     }
 
-    hideChangeProfileNameModal() {
+    hideChangeModal() {
         this.setState({
             showChangeProfileNameModal: false,
+            showSetGravatarModal: false,
+        });
+    }
+
+    showSetGravatarModal(service) {
+        this.setState({
+            showSetGravatarModal: true,
+            service,
         });
     }
 
@@ -84,6 +111,7 @@ class Profile extends React.Component {
 
         const {
             showChangeProfileNameModal,
+            showSetGravatarModal,
             openSnackbar,
             snackbarMessage,
         } = this.state;
@@ -93,6 +121,7 @@ class Profile extends React.Component {
                 <UserCard
                     user={user}
                     showChangeProfileNameModal={this.showChangeProfileNameModal}
+                    setGravatar={this.showSetGravatarModal}
                     setProfileAvatar={this.setProfileAvatar}
                 />
 
@@ -100,8 +129,15 @@ class Profile extends React.Component {
                     open={showChangeProfileNameModal}
                     onSubmit={this.setProfileName}
                     error={errorProfile}
-                    onClose={this.hideChangeProfileNameModal}
+                    onClose={this.hideChangeModal}
                     oldName={user.profile.name}
+                />
+
+                <SetGravatar
+                    open={showSetGravatarModal}
+                    onSubmit={this.setGravatar}
+                    onClose={this.hideChangeModal}
+                    email={user.emails[0].address}
                 />
 
                 <Snackbar

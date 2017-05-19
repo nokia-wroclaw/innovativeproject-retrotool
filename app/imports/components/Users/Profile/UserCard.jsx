@@ -15,6 +15,7 @@ const isGithubUser = user => user.services.github;
 const UserCard = ({
     showChangeProfileNameModal,
     setProfileAvatar,
+    setGravatar,
     user,
 }) =>
     <Card className="profile-container">
@@ -38,8 +39,7 @@ const UserCard = ({
             }
             <FlatButton
                 label="Connect photo with gravatar"
-                onTouchTap={() => setProfileAvatar('gravatar')}
-                disabled={!isGithubAvatar(user.profile.avatar)}
+                onTouchTap={() => setGravatar('gravatar')}
             />
         </CardActions>
     </Card>
@@ -57,6 +57,7 @@ UserCard.defaultProps = {
 UserCard.propTypes = {
     showChangeProfileNameModal: PropTypes.func.isRequired,
     setProfileAvatar: PropTypes.func.isRequired,
+    setGravatar: PropTypes.func.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,

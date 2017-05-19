@@ -60,13 +60,12 @@ export const setProfileName = new ValidatedMethod({
 export const setAvatar = new ValidatedMethod({
     name: 'users.setAvatar',
     validate: setAvatarSchema.validator({ clean: true }),
-    run({ service }) {
+    run({ service, address }) {
         const user = Meteor.user();
         const userId = user._id;
 
-        if (user.emails[0].address && service === 'gravatar') {
-            const email = user.emails[0].address;
-            const emailHash = md5(email);
+        if (address && service === 'gravatar') {
+            const emailHash = md5(address);
 
             return Meteor.users.update(userId, {
                 $set: {
