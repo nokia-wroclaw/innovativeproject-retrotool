@@ -131,7 +131,7 @@ UserSelectField.defaultProps = {
         avatar: '',
     },
     fullWidth: false,
-    openOnFocus: true,
+    openOnFocus: false,
     maxSearchResults: 5,
 };
 
