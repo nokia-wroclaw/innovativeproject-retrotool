@@ -33,11 +33,23 @@ export const closeOrReopenSprint = new ValidatedMethod({
         const projectId = sprint.projectId;
         const userId = Meteor.userId();
         const closed = sprint.closed;
+        const isOpenSprint = Sprints.find({ closed: false }).fetch().length;
 
         if (isProjectModerator(projectId, userId)) {
-            return Sprints.update(sprintId, {
-                $set: { closed: !closed },
-            });
+            if (!closed) {
+                return Sprints.update(sprintId, {
+                    $set: { closed: true },
+                });
+            }
+            if (closed && !isOpenSprint) {
+                return Sprints.update(sprintId, {
+                    $set: { closed: false },
+                });
+            }
+            throw new Meteor.Error(
+                'sprints-only-one-active',
+                'Only one sprint can be open',
+            );
         }
         throw new Meteor.Error(
             'sprints-only-moderator-can-close',
