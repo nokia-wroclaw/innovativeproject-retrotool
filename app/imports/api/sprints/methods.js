@@ -14,7 +14,7 @@ export const addSprint = new ValidatedMethod({
     validate: AddSprintSchema.validator({ clean: true }),
     run({ name, projectId }) {
         const userId = Meteor.userId();
-        const isOpenSprint = Sprints.find({ closed: false }).fetch().length;
+        const isOpenSprint = Sprints.find({ closed: false, projectId }).fetch().length;
 
         if (isProjectModerator(projectId, userId)) {
             if (!isOpenSprint) {
@@ -40,7 +40,7 @@ export const closeOrReopenSprint = new ValidatedMethod({
         const projectId = sprint.projectId;
         const userId = Meteor.userId();
         const closed = sprint.closed;
-        const isOpenSprint = Sprints.find({ closed: false }).fetch().length;
+        const isOpenSprint = Sprints.find({ closed: false, projectId }).fetch().length;
 
         if (isProjectModerator(projectId, userId)) {
             if (!closed) {
