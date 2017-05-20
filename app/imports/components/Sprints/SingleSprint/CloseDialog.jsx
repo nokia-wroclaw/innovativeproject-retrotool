@@ -11,6 +11,8 @@ export default class CloseDialog extends React.Component {
     constructor(props) {
         super(props);
 
+        this.onClose = this.onClose.bind(this);
+
         this.state = {
             errorMessage: '',
         };
@@ -19,11 +21,7 @@ export default class CloseDialog extends React.Component {
     onSubmit(e, sprintId) {
         e.preventDefault();
 
-        const {
-            toggleSprint,
-            onClose,
-        } = this.props;
-
+        const { toggleSprint } = this.props;
 
         toggleSprint(sprintId, (err) => {
             if (err) {
@@ -31,16 +29,23 @@ export default class CloseDialog extends React.Component {
                     errorMessage: err.reason,
                 });
             } else {
-                onClose();
+                this.onClose();
             }
         });
+    }
+
+    onClose() {
+        const { onClose } = this.props;
+        this.setState({
+            errorMessage: '',
+        });
+        onClose();
     }
 
     render() {
         const {
             sprint,
             open,
-            onClose,
         } = this.props;
 
         const { errorMessage } = this.state;
@@ -48,7 +53,7 @@ export default class CloseDialog extends React.Component {
         const actions = [
             <FlatButton
                 label="Cancel"
-                onTouchTap={onClose}
+                onTouchTap={this.onClose}
             />,
             <FlatButton
                 label={!sprint.closed ? 'Close sprint' : 'Open sprint'}
@@ -69,6 +74,7 @@ export default class CloseDialog extends React.Component {
                     title={title}
                     actions={actions}
                     open={open}
+                    onRequestClose={this.onClose}
                 >
                     {errorMessage ?
                         <CardText
