@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from '/imports/components/ActionItems/ActionItemsBoard/utils.js';
+
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
 import AddWorkingAgreement from '../AddWorkingAgreement';
@@ -20,12 +26,15 @@ class WorkingAgreements extends React.Component {
         this.hideRemoveWorkingAgreementModal = this.hideRemoveWorkingAgreementModal.bind(this);
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
+        this.handleChangeSort = this.handleChangeSort.bind(this);
+
         this.state = {
             showAddWorkingAgreementModal: false,
             showRemoveWorkingAgreementModal: false,
             workingAgreementId: '',
             openSnackbar: false,
             snackbarMessage: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
@@ -54,6 +63,13 @@ class WorkingAgreements extends React.Component {
                 openSnackbar: true,
                 snackbarMessage: 'Working agreement has been removed!',
             });
+        }
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
         }
     }
 
@@ -128,10 +144,10 @@ class WorkingAgreements extends React.Component {
             workingAgreementId,
             openSnackbar,
             snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            workingAgreements,
             isMember,
             isModerator,
             errorRemove,
@@ -140,13 +156,18 @@ class WorkingAgreements extends React.Component {
             hideButton,
         } = this.props;
 
+        const workingAgreements = sort(this.props.workingAgreements, selectedSortId);
+
         return (
             <div>
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     isMember={isMember}
                     isClosed={isClosed}
                     hideButton={hideButton}
+                    sortOptions={sortOptions}
                 />
 
                 <div className="content-container">
