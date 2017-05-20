@@ -37,11 +37,30 @@ class ActionItems extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        if (!props.errorAdd) {
+        const {
+            errorAdd,
+            errorToggle,
+            addResult,
+            toggleResult,
+        } = props;
+
+        if (!errorAdd) {
             this.hideAddActionItemModal();
         }
-        if (!props.errorToggle) {
+        if (!errorToggle) {
             this.hideToggleActionItemModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'New action item has been created!',
+            });
+        }
+        if (toggleResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Changes saved!',
+            });
         }
     }
 
@@ -73,7 +92,6 @@ class ActionItems extends React.Component {
     closeSnackBar() {
         this.setState({
             openSnackbar: false,
-            openToggleSnackbar: false,
         });
     }
 
@@ -86,11 +104,6 @@ class ActionItems extends React.Component {
             hideButton,
             wrappedData,
         } = this.props;
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'New action item has been created!',
-        });
 
         addActionItem(
             sprintId,
@@ -116,11 +129,6 @@ class ActionItems extends React.Component {
         } = this.props;
 
         const { actionItemId } = this.state;
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Changes saved!',
-        });
 
         toggleActionItem(
             actionItemId,
@@ -222,6 +230,8 @@ ActionItems.defaultProps = {
     errorAdd: null,
     idToRemove: '',
     hideButton: false,
+    addResult: false,
+    toggleResult: false,
 };
 
 ActionItems.propTypes = {
@@ -254,6 +264,8 @@ ActionItems.propTypes = {
     ).isRequired,
     idToRemove: PropTypes.string,
     hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    toggleResult: PropTypes.bool,
     errorToggle: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };

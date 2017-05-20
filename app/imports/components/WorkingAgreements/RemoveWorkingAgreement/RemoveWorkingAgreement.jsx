@@ -16,6 +16,7 @@ const RemoveWorkingAgreement = ({
     <Dialog
         title="Are you sure you want to remove this working agreement?"
         open={open}
+        onRequestClose={onClose}
     >
         {error ?
             <CardText color="red">
@@ -31,7 +32,7 @@ const RemoveWorkingAgreement = ({
         <RaisedButton
             label="Remove"
             onTouchTap={() => onSubmit(id)}
-            disabled={error}
+            disabled={!!error}
             primary
         />
     </Dialog>
