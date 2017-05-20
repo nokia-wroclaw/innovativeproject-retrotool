@@ -232,16 +232,12 @@ export const setLastViewedProject = new ValidatedMethod({
         const user = Meteor.user();
 
         if (user) {
-            return Meteor.users.update(user._id, {
+            Meteor.users.update(user._id, {
                 $set: {
                     'profile.lastViewedProject': projectId,
                 },
             });
         }
-        throw new Meteor.Error(
-            'not-logged-in-set-last-viewed-project',
-            'Sign in to set you last viewed project',
-        );
     },
 });
 
@@ -250,8 +246,14 @@ export const starProject = new ValidatedMethod({
     validate: ProjectIdentitySchema.validator({ clear: true }),
     run({ projectId }) {
         const user = Meteor.user();
-
         if (user) {
+            if (!user.profile.favouriteProjects) {
+                return Meteor.users.update(user._id, {
+                    $set: {
+                        'profile.favouriteProjects': [projectId],
+                    },
+                });
+            }
             return Meteor.users.update(user._id, {
                 $addToSet: {
                     'profile.favouriteProjects': projectId,
@@ -272,11 +274,14 @@ export const unstarProject = new ValidatedMethod({
         const user = Meteor.user();
 
         if (user) {
-            return Meteor.users.update(user._id, {
-                $pull: {
-                    'profile.favouriteProjects': projectId,
-                },
-            });
+            if (user.profile && user.profile.favouriteProjects) {
+                return Meteor.users.update(user._id, {
+                    $pull: {
+                        'profile.favouriteProjects': projectId,
+                    },
+                });
+            }
+            return 0;
         }
         throw new Meteor.Error(
             'not-logged-in-unstar-project',
