@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import Snackbar from 'material-ui/Snackbar';
 
 import ChangeProfileName from './ChangeProfileName';
@@ -116,6 +117,8 @@ class Profile extends React.Component {
             snackbarMessage,
         } = this.state;
 
+        const userEmail = _.get(user, 'emails[0].address');
+
         return (
             <div className="content-container">
                 <UserCard
@@ -137,7 +140,7 @@ class Profile extends React.Component {
                     open={showSetGravatarModal}
                     onSubmit={this.setGravatar}
                     onClose={this.hideChangeModal}
-                    email={user.emails[0].address}
+                    email={userEmail}
                 />
 
                 <Snackbar
