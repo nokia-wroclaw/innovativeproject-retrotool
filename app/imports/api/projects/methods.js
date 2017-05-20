@@ -224,3 +224,63 @@ export const updateProject = new ValidatedMethod({
         }
     },
 });
+
+export const setLastViewedProject = new ValidatedMethod({
+    name: 'projects.setLastViewedProject',
+    validate: ProjectIdentitySchema.validator({ clean: true }),
+    run({ projectId }) {
+        const user = Meteor.user();
+
+        if (user) {
+            return Meteor.users.update(user._id, {
+                $set: {
+                    'profile.lastViewedProject': projectId,
+                },
+            });
+        }
+        throw new Meteor.Error(
+            'not-logged-in-set-last-viewed-project',
+            'Sign in to set you last viewed project',
+        );
+    },
+});
+
+export const starProject = new ValidatedMethod({
+    name: 'projects.star',
+    validate: ProjectIdentitySchema.validator({ clear: true }),
+    run({ projectId }) {
+        const user = Meteor.user();
+
+        if (user) {
+            return Meteor.users.update(user._id, {
+                $addToSet: {
+                    'profile.favouriteProjects': projectId,
+                },
+            });
+        }
+        throw new Meteor.Error(
+            'not-logged-in-star-project',
+            'Log in to add you favourite project',
+        );
+    },
+});
+
+export const unstarProject = new ValidatedMethod({
+    name: 'projects.unstar',
+    validate: ProjectIdentitySchema.validator({ clear: true }),
+    run({ projectId }) {
+        const user = Meteor.user();
+
+        if (user) {
+            return Meteor.users.update(user._id, {
+                $pull: {
+                    'profile.favouriteProjects': projectId,
+                },
+            });
+        }
+        throw new Meteor.Error(
+            'not-logged-in-unstar-project',
+            'Log in to remove you favourite project',
+        );
+    },
+});
