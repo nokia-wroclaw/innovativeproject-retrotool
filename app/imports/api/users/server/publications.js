@@ -53,7 +53,7 @@ Meteor.publish('extendedUser', function publishExtendedUser() {
     });
 });
 
-Meteor.publish('githubUsername', function publishExtendedUser() {
+Meteor.publish('githubUsername', function publishGithubUsername() {
     const userId = this.userId;
 
     if (userId) {

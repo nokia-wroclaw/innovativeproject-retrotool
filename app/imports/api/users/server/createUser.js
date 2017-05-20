@@ -42,7 +42,7 @@ const setAdminOnFirstUser = (options, user) => {
 
 const getPublicEmail = (user) => {
     const githubEmail = [{
-        address: _.get(user, 'services.github.email', undefined),
+        address: _.get(user, 'services.github.email'),
         verified: true,
     }];
     return githubEmail;
