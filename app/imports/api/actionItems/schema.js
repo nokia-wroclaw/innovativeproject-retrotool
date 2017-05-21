@@ -31,6 +31,10 @@ const ActionItemsSchema = new SimpleSchema({
         type: Boolean,
         defaultValue: true,
     },
+    createdAt: {
+        type: Date,
+        defaultValue: new Date(),
+    },
     closeMessage: {
         type: String,
         defaultValue: '',

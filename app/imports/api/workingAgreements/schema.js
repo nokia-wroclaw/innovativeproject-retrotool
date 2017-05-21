@@ -14,6 +14,10 @@ const WorkingAgreementsSchema = new SimpleSchema({
         type: Date,
         defaultValue: new Date(),
     },
+    createdAt: {
+        type: Date,
+        defaultValue: new Date(),
+    },
 });
 
 const AddWorkingAgreementsSchema = WorkingAgreementsSchema.pick('sprintId', 'text', 'date');

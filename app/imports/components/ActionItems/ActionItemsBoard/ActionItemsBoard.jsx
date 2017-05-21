@@ -6,6 +6,13 @@ import ActionItem from './ActionItem.jsx';
 import AddActionItem from './../AddActionItem';
 import CloseOrReopenActionItem from './../CloseOrReopenActionItem';
 
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
+
+
 const isSelected = (ai, selectedState) =>
     ai.open.toString() === selectedState || selectedState === 'all';
 
@@ -23,6 +30,7 @@ class ActionItems extends React.Component {
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
         this.onChangeCategory = this.onChangeCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
 
         this.state = {
             showAddActionItemModal: false,
@@ -33,6 +41,7 @@ class ActionItems extends React.Component {
             selectedState: 'all',
             isOpen: false,
             message: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
@@ -66,6 +75,13 @@ class ActionItems extends React.Component {
 
     onChangeCategory(event, index, value) {
         this.setState({ selectedState: value });
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
+        }
     }
 
     showAddActionItemModal() {
@@ -150,10 +166,10 @@ class ActionItems extends React.Component {
             message,
             openSnackbar,
             snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            actionItems,
             isMember,
             isModerator,
             userId,
@@ -164,12 +180,17 @@ class ActionItems extends React.Component {
             hideButton,
         } = this.props;
 
+        const actionItems = sort(this.props.actionItems, selectedSortId);
+
         return (
             <div>
                 <ActionItemsToolbar
                     addActionItem={this.showAddActionItemModal}
                     onChangeCategory={this.onChangeCategory}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     selectedState={selectedState}
+                    sortOptions={sortOptions}
                     isMember={isMember}
                     isClosed={isClosed}
                     hideButton={hideButton}

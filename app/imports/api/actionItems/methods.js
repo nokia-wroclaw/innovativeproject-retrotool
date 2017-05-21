@@ -32,6 +32,7 @@ export const addActionItem = new ValidatedMethod({
                 endDate,
                 assigneeId,
                 text,
+                createdAt: new Date(),
             });
         }
         throw new Meteor.Error(
