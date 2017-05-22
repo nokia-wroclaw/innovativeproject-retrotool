@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
-import {
-    getDefaultOptionValue,
-    sort,
-    sortOptions,
-} from '/imports/components/ActionItems/ActionItemsBoard/utils.js';
 
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
 import AddWorkingAgreement from '../AddWorkingAgreement';
 import RemoveWorkingAgreement from '../RemoveWorkingAgreement';
+
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
 
 
 class WorkingAgreements extends React.Component {
