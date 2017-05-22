@@ -39,8 +39,6 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             const {
                 showAuthor,
                 authorId,
-                likes = [],
-                dislikes = [],
             } = post;
 
             if (showAuthor) {
@@ -50,7 +48,8 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
-            post.likes = likes.length - dislikes.length;
+            post.likes = post.likes.length;
+            post.dislikes = post.dislikes.length;
             return post;
         });
 

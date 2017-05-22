@@ -28,6 +28,7 @@ const Post = ({
     dislikePost,
     removePost,
     likes,
+    dislikes,
 }) => (
     <Card
         className="post"
@@ -44,16 +45,12 @@ const Post = ({
         <CardActions>
             <RaisedButton
                 icon={<ThumbUp />}
-                label="Like It"
+                label={`Like It (${likes})`}
                 onTouchTap={() => likePost(id)}
             />
             <RaisedButton
-                label={`${likes}`}
-                disabled
-            />
-            <RaisedButton
                 icon={<ThumbDown />}
-                label="Dislike It"
+                label={`Dislike It (${dislikes})`}
                 onTouchTap={() => dislikePost(id)}
             />
             {canRemove &&
@@ -85,6 +82,7 @@ Post.propTypes = {
     likePost: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
     likes: PropTypes.number.isRequired,
+    dislikes: PropTypes.number.isRequired,
 };
 
 Post.defaultProps = {
@@ -94,6 +92,7 @@ Post.defaultProps = {
     },
     canRemove: false,
     likes: 0,
+    dislikes: 0,
 };
 
 export default Post;
