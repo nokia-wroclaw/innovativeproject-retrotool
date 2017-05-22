@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
+import { browserHistory } from 'react-router';
 import { FullPageLoader } from '/imports/components/Loaders';
 import {
     isAdmin,
@@ -16,6 +17,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         const isCurrentUserAdmin = isAdmin();
 
         const title = getProjectName(projectId) || 'Retro Tool';
+        const onRouteChanged = browserHistory.listen(() => true);
 
         onData(null, {
             title,
@@ -23,6 +25,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             isCurrentUserAdmin,
             projectId,
             sprintId,
+            onRouteChanged,
         });
     }
 };

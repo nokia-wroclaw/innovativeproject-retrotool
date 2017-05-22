@@ -24,6 +24,14 @@ class MainLayout extends React.Component {
         };
     }
 
+    componentWillReceiveProps(props) {
+        const { onRouteChanged } = props;
+
+        if (onRouteChanged) {
+            this.closeDrawer();
+        }
+    }
+
     closeDrawer() {
         this.setState({ isDrawerOpen: false });
     }
@@ -85,6 +93,7 @@ MainLayout.propTypes = {
     drawerContent: PropTypes.node.isRequired,
     isLoggedInUser: PropTypes.bool.isRequired,
     isCurrentUserAdmin: PropTypes.bool.isRequired,
+    onRouteChanged: PropTypes.func.isRequired,
     projectId: PropTypes.string,
     sprintId: PropTypes.string,
 };
