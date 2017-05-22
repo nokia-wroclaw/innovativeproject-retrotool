@@ -19,6 +19,8 @@ import { renderProjectListItems } from '/imports/components/Projects/ProjectList
 const renderSprintLinks = (
     projectId,
     sprintId,
+    sprintName,
+    isSprintClosed,
     {
         goToSprint,
         goToPosts,
@@ -29,7 +31,7 @@ const renderSprintLinks = (
 ) =>
     <div>
         {withSubheader && <Divider />}
-        {withSubheader && <Subheader>Current Sprint</Subheader>}
+        {withSubheader && <Subheader>{sprintName} {isSprintClosed ? ' [CLOSED]' : ''}</Subheader>}
         <ListItem
             leftIcon={<Dashboard />}
             primaryText="Sprint summary"
@@ -96,6 +98,8 @@ const SingleProjectSidebar = (props) => {
         goToSprint,
         goToWorkingAgreements,
         currentSprintId,
+        currentSprintName,
+        isSprintClosed,
         showAddSprint,
         showCreateLink,
         selectedProjectTitle,
@@ -116,7 +120,9 @@ const SingleProjectSidebar = (props) => {
                 renderProjectListItems(projects, goToProject, showCreateLink, goToAddProject)
                 }
             />
-            {currentSprintId && renderSprintLinks(projectId, currentSprintId, sprintActions)}
+            {currentSprintId && renderSprintLinks(
+                projectId, currentSprintId, currentSprintName, isSprintClosed, sprintActions,
+            )}
             <Divider />
             <Subheader>Sprints</Subheader>
             {renderSprintListItems(sprints, goToAddSprint, goToSprint, projectId, showAddSprint)}
@@ -126,6 +132,7 @@ const SingleProjectSidebar = (props) => {
 
 SingleProjectSidebar.propTypes = {
     currentSprintId: PropTypes.string.isRequired,
+    currentSprintName: PropTypes.string,
     projectId: PropTypes.string.isRequired,
     projects: PropTypes.arrayOf(
         PropTypes.shape({
@@ -143,6 +150,7 @@ SingleProjectSidebar.propTypes = {
     ).isRequired,
     showAddSprint: PropTypes.bool.isRequired,
     showCreateLink: PropTypes.bool.isRequired,
+    isSprintClosed: PropTypes.bool,
     goToActionItems: PropTypes.func.isRequired,
     goToAddProject: PropTypes.func.isRequired,
     goToAddSprint: PropTypes.func.isRequired,
@@ -154,6 +162,7 @@ SingleProjectSidebar.propTypes = {
 
 SingleProjectSidebar.defaultProps = {
     currentSprintId: '',
+    currentSprintName: '',
     goToActionItems() {},
     goToAddProject() {},
     goToAddSprint() {},
@@ -161,6 +170,7 @@ SingleProjectSidebar.defaultProps = {
     goToProject() {},
     goToSprint() {},
     goToWorkingAgreements() {},
+    isSprintClosed: false,
     showAddSprint: false,
     selectedProjectTitle: 'Projects',
 };

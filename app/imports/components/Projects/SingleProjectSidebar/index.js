@@ -39,22 +39,47 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
         const selectedProjectTitle = getProjectName(projectId);
 
-        onData(null, {
-            projectId,
-            projects: projectList,
-            sprints: sprintList,
-            goToAddProject: projectActions.goToAddProject,
-            goToAddSprint: sprintActions.goToAddSprint,
-            goToPosts: postActions.goToPosts,
-            goToProject: projectActions.goToProject,
-            goToSprint: sprintActions.goToSprint,
-            goToActionItems: actionItemsActions.goToActionItems,
-            goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
-            currentSprintId,
-            showAddSprint: canAddNewSprint,
-            showCreateLink: isCurrentUserAdmin,
-            selectedProjectTitle,
-        });
+        if (currentSprintId) {
+            const currentSprint = Sprints.findOne(currentSprintId);
+            const currentSprintName = currentSprint.name;
+            const isSprintClosed = currentSprint.closed;
+
+            onData(null, {
+                projectId,
+                projects: projectList,
+                sprints: sprintList,
+                goToAddProject: projectActions.goToAddProject,
+                goToAddSprint: sprintActions.goToAddSprint,
+                goToPosts: postActions.goToPosts,
+                goToProject: projectActions.goToProject,
+                goToSprint: sprintActions.goToSprint,
+                goToActionItems: actionItemsActions.goToActionItems,
+                goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
+                currentSprintId,
+                currentSprintName,
+                isSprintClosed,
+                showAddSprint: canAddNewSprint,
+                showCreateLink: isCurrentUserAdmin,
+                selectedProjectTitle,
+            });
+        } else {
+            onData(null, {
+                projectId,
+                projects: projectList,
+                sprints: sprintList,
+                goToAddProject: projectActions.goToAddProject,
+                goToAddSprint: sprintActions.goToAddSprint,
+                goToPosts: postActions.goToPosts,
+                goToProject: projectActions.goToProject,
+                goToSprint: sprintActions.goToSprint,
+                goToActionItems: actionItemsActions.goToActionItems,
+                goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
+                currentSprintId,
+                showAddSprint: canAddNewSprint,
+                showCreateLink: isCurrentUserAdmin,
+                selectedProjectTitle,
+            });
+        }
     }
 };
 
