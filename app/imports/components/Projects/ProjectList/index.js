@@ -12,7 +12,7 @@ const {
     goToAddProject,
 } = actions;
 
-const composer = ({ params: { closeDrawer } }, onData) => {
+const composer = (props, onData) => {
     const projectsHandler = Meteor.subscribe('projectList');
     const showCreateLink = isAdmin();
 
@@ -24,7 +24,6 @@ const composer = ({ params: { closeDrawer } }, onData) => {
             onTouchTap: goToProject,
             goToAddProject,
             showCreateLink,
-            closeDrawer,
         });
     }
 };

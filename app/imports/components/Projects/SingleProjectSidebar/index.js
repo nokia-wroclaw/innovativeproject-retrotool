@@ -25,7 +25,7 @@ import { isAdmin } from '/imports/api/users';
 
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
-const composer = ({ params: { projectId, sprintId: currentSprintId, closeDrawer } }, onData) => {
+const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) => {
     const projectListHandler = Meteor.subscribe('projectList');
     const sprintListHandler = Meteor.subscribe('sprintList', projectId);
     const userId = Meteor.userId();
@@ -58,7 +58,6 @@ const composer = ({ params: { projectId, sprintId: currentSprintId, closeDrawer 
                 currentSprintId,
                 currentSprintName,
                 isSprintClosed,
-                closeDrawer,
                 showAddSprint: canAddNewSprint,
                 showCreateLink: isCurrentUserAdmin,
                 selectedProjectTitle,
@@ -76,7 +75,6 @@ const composer = ({ params: { projectId, sprintId: currentSprintId, closeDrawer 
                 goToActionItems: actionItemsActions.goToActionItems,
                 goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
                 currentSprintId,
-                closeDrawer,
                 showAddSprint: canAddNewSprint,
                 showCreateLink: isCurrentUserAdmin,
                 selectedProjectTitle,
