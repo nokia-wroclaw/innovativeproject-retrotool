@@ -58,6 +58,7 @@ const renderSprintLinks = (
 const renderSprintListItems = (
     sprints,
     goToAddSprint,
+    currentSprintName,
     goToSprint,
     projectId,
     showAddSprint = false,
@@ -66,7 +67,7 @@ const renderSprintListItems = (
         <ListItem
             leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
             key={sprint._id}
-            primaryText={sprint.name}
+            primaryText={sprint.name === currentSprintName ? <b>{sprint.name}</b> : sprint.name}
             onTouchTap={() => goToSprint(projectId, sprint._id)}
         />
     ));
@@ -125,7 +126,9 @@ const SingleProjectSidebar = (props) => {
             )}
             <Divider />
             <Subheader>Sprints</Subheader>
-            {renderSprintListItems(sprints, goToAddSprint, goToSprint, projectId, showAddSprint)}
+            {renderSprintListItems(
+                sprints, goToAddSprint, currentSprintName, goToSprint, projectId, showAddSprint,
+            )}
         </List>
     );
 };
