@@ -11,3 +11,22 @@ export const removeAdminSchema = new SimpleSchema({
         type: String,
     },
 });
+
+export const setNameSchema = new SimpleSchema({
+    name: {
+        type: String,
+        min: 3,
+        max: 50,
+    },
+});
+
+export const setAvatarSchema = new SimpleSchema({
+    service: {
+        type: String,
+    },
+    address: {
+        type: String,
+        regEx: SimpleSchema.RegEx.Email,
+        optional: true,
+    },
+});

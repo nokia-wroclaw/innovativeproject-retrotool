@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { FullPageLoader } from '/imports/components/Loaders';
 import {
@@ -8,18 +9,22 @@ import { getProjectName } from '/imports/api/projects';
 import MainLayout from './MainLayout.jsx';
 
 const composer = ({ params: { projectId, sprintId } }, onData) => {
-    const isLoggedInUser = isLoggedIn();
-    const isCurrentUserAdmin = isAdmin();
+    const userHandler = Meteor.subscribe('extendedUser');
 
-    const title = getProjectName(projectId) || 'Retro Tool';
+    if (userHandler.ready()) {
+        const isLoggedInUser = isLoggedIn();
+        const isCurrentUserAdmin = isAdmin();
 
-    onData(null, {
-        title,
-        isLoggedInUser,
-        isCurrentUserAdmin,
-        projectId,
-        sprintId,
-    });
+        const title = getProjectName(projectId) || 'Retro Tool';
+
+        onData(null, {
+            title,
+            isLoggedInUser,
+            isCurrentUserAdmin,
+            projectId,
+            sprintId,
+        });
+    }
 };
 
 export default composeWithTracker(

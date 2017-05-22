@@ -6,6 +6,13 @@ import ActionItem from './ActionItem.jsx';
 import AddActionItem from './../AddActionItem';
 import CloseOrReopenActionItem from './../CloseOrReopenActionItem';
 
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
+
+
 const isSelected = (ai, selectedState) =>
     ai.open.toString() === selectedState || selectedState === 'all';
 
@@ -23,6 +30,7 @@ class ActionItems extends React.Component {
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
         this.onChangeCategory = this.onChangeCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
 
         this.state = {
             showAddActionItemModal: false,
@@ -33,20 +41,47 @@ class ActionItems extends React.Component {
             selectedState: 'all',
             isOpen: false,
             message: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
     componentWillReceiveProps(props) {
-        if (!props.errorAdd) {
+        const {
+            errorAdd,
+            errorToggle,
+            addResult,
+            toggleResult,
+        } = props;
+
+        if (!errorAdd) {
             this.hideAddActionItemModal();
         }
-        if (!props.errorToggle) {
+        if (!errorToggle) {
             this.hideToggleActionItemModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'New action item has been created!',
+            });
+        }
+        if (toggleResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Changes saved!',
+            });
         }
     }
 
     onChangeCategory(event, index, value) {
         this.setState({ selectedState: value });
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
+        }
     }
 
     showAddActionItemModal() {
@@ -73,7 +108,6 @@ class ActionItems extends React.Component {
     closeSnackBar() {
         this.setState({
             openSnackbar: false,
-            openToggleSnackbar: false,
         });
     }
 
@@ -86,11 +120,6 @@ class ActionItems extends React.Component {
             hideButton,
             wrappedData,
         } = this.props;
-
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'New action item has been created!',
-        });
 
         addActionItem(
             sprintId,
@@ -117,11 +146,6 @@ class ActionItems extends React.Component {
 
         const { actionItemId } = this.state;
 
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Changes saved!',
-        });
-
         toggleActionItem(
             actionItemId,
             doc.closeMessage,
@@ -142,10 +166,10 @@ class ActionItems extends React.Component {
             message,
             openSnackbar,
             snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            actionItems,
             isMember,
             isModerator,
             userId,
@@ -156,12 +180,17 @@ class ActionItems extends React.Component {
             hideButton,
         } = this.props;
 
+        const actionItems = sort(this.props.actionItems, selectedSortId);
+
         return (
             <div>
                 <ActionItemsToolbar
                     addActionItem={this.showAddActionItemModal}
                     onChangeCategory={this.onChangeCategory}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     selectedState={selectedState}
+                    sortOptions={sortOptions}
                     isMember={isMember}
                     isClosed={isClosed}
                     hideButton={hideButton}
@@ -222,6 +251,8 @@ ActionItems.defaultProps = {
     errorAdd: null,
     idToRemove: '',
     hideButton: false,
+    addResult: false,
+    toggleResult: false,
 };
 
 ActionItems.propTypes = {
@@ -254,6 +285,8 @@ ActionItems.propTypes = {
     ).isRequired,
     idToRemove: PropTypes.string,
     hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    toggleResult: PropTypes.bool,
     errorToggle: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };

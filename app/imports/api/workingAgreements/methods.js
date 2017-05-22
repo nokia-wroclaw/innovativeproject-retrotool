@@ -26,7 +26,13 @@ export const addWorkingAgreement = new ValidatedMethod({
         const projectId = sprint.projectId;
 
         if (isProjectMember(projectId, userId)) {
-            return WorkingAgreements.insert({ projectId, sprintId, text, date });
+            return WorkingAgreements.insert({
+                projectId,
+                sprintId,
+                text,
+                date,
+                createdAt: new Date(),
+            });
         }
         throw new Meteor.Error(
             'working-agreements-only-members-can-add',

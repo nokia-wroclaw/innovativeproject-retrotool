@@ -25,6 +25,7 @@ const AddWorkingAgreement = ({
     <Dialog
         title="Add working agreement"
         open={open}
+        onRequestClose={onClose}
     >
         <AutoForm
             schema={schema}

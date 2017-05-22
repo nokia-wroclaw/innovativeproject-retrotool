@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from '/imports/components/ActionItems/ActionItemsBoard/utils.js';
+
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
 import AddWorkingAgreement from '../AddWorkingAgreement';
@@ -20,21 +26,50 @@ class WorkingAgreements extends React.Component {
         this.hideRemoveWorkingAgreementModal = this.hideRemoveWorkingAgreementModal.bind(this);
         this.closeSnackBar = this.closeSnackBar.bind(this);
 
+        this.handleChangeSort = this.handleChangeSort.bind(this);
+
         this.state = {
             showAddWorkingAgreementModal: false,
             showRemoveWorkingAgreementModal: false,
             workingAgreementId: '',
             openSnackbar: false,
             snackbarMessage: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
     componentWillReceiveProps(props) {
-        if (!props.errorAdd) {
+        const {
+            errorAdd,
+            errorRemove,
+            addResult,
+            removeResult,
+        } = props;
+
+        if (!errorAdd) {
             this.hideAddWorkingAgreementModal();
         }
-        if (!props.errorRemove) {
+        if (!errorRemove) {
             this.hideRemoveWorkingAgreementModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been created!',
+            });
+        }
+        if (removeResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been removed!',
+            });
+        }
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
         }
     }
 
@@ -78,11 +113,6 @@ class WorkingAgreements extends React.Component {
             wrappedData,
         } = this.props;
 
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'New working agreement has been added!',
-        });
-
         addWorkingAgreement(
             sprintId,
             doc.text,
@@ -104,11 +134,6 @@ class WorkingAgreements extends React.Component {
             wrappedData,
         } = this.props;
 
-        this.setState({
-            openSnackbar: true,
-            snackbarMessage: 'Working agreement has been removed!',
-        });
-
         removeWorkingAgreement(id, sprintId, onData, handlers, hideButton, wrappedData);
     }
 
@@ -119,10 +144,10 @@ class WorkingAgreements extends React.Component {
             workingAgreementId,
             openSnackbar,
             snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            workingAgreements,
             isMember,
             isModerator,
             errorRemove,
@@ -131,13 +156,18 @@ class WorkingAgreements extends React.Component {
             hideButton,
         } = this.props;
 
+        const workingAgreements = sort(this.props.workingAgreements, selectedSortId);
+
         return (
             <div>
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     isMember={isMember}
                     isClosed={isClosed}
                     hideButton={hideButton}
+                    sortOptions={sortOptions}
                 />
 
                 <div className="content-container">
@@ -184,6 +214,8 @@ WorkingAgreements.defaultProps = {
     errorAdd: null,
     idToRemove: '',
     hideButton: false,
+    addResult: false,
+    removeResult: false,
 };
 
 WorkingAgreements.propTypes = {
@@ -208,6 +240,8 @@ WorkingAgreements.propTypes = {
         }).isRequired,
     ).isRequired,
     hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    removeResult: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };

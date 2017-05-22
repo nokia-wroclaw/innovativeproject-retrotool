@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import ReactMarkdown from 'react-markdown';
 import {
     Card,
     CardActions,
@@ -39,7 +40,7 @@ const Post = ({
             subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
-            {text}
+            <ReactMarkdown source={text} />
         </CardText>
         <CardActions>
             <RaisedButton

@@ -14,7 +14,15 @@ export const addSprint = new ValidatedMethod({
     validate: AddSprintSchema.validator({ clean: true }),
     run({ name, projectId }) {
         const userId = Meteor.userId();
+
         if (isProjectModerator(projectId, userId)) {
+            Sprints.update({
+                projectId,
+            }, {
+                $set: { closed: true },
+            }, {
+                multi: true,
+            });
             return Sprints.insert({ name, projectId });
         }
         throw new Meteor.Error(
@@ -24,7 +32,6 @@ export const addSprint = new ValidatedMethod({
     },
 });
 
-
 export const closeOrReopenSprint = new ValidatedMethod({
     name: 'sprints.closeOrReopen',
     validate: CloseSprintSchema.validator({ clean: true }),
@@ -33,11 +40,23 @@ export const closeOrReopenSprint = new ValidatedMethod({
         const projectId = sprint.projectId;
         const userId = Meteor.userId();
         const closed = sprint.closed;
+        const isOpenSprint = Sprints.find({ closed: false, projectId }).count();
 
         if (isProjectModerator(projectId, userId)) {
-            return Sprints.update(sprintId, {
-                $set: { closed: !closed },
-            });
+            if (!closed) {
+                return Sprints.update(sprintId, {
+                    $set: { closed: true },
+                });
+            }
+            if (closed && !isOpenSprint) {
+                return Sprints.update(sprintId, {
+                    $set: { closed: false },
+                });
+            }
+            throw new Meteor.Error(
+                'sprints-only-one-active',
+                'Only one sprint can be open',
+            );
         }
         throw new Meteor.Error(
             'sprints-only-moderator-can-close',

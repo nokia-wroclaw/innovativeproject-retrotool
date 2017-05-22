@@ -27,6 +27,7 @@ const AddActionItem = ({
     <Dialog
         title="Add action item"
         open={open}
+        onRequestClose={onClose}
     >
         <AutoForm
             schema={schema}
