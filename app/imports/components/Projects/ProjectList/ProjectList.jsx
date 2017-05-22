@@ -7,6 +7,7 @@ import {
 import LibraryAdd from 'material-ui/svg-icons/av/library-add';
 
 export const renderProjectListItems = (
+    closeDrawer,
     projects,
     onTouchTap,
     showCreateLink = false,
@@ -26,7 +27,7 @@ export const renderProjectListItems = (
                 key="createProject"
                 leftIcon={<LibraryAdd />}
                 primaryText="Create project"
-                onTouchTap={goToAddProject}
+                onTouchTap={() => { goToAddProject(); closeDrawer(); }}
             />,
         );
     }
@@ -35,13 +36,14 @@ export const renderProjectListItems = (
 };
 
 const ProjectList = ({
+    closeDrawer,
     projects,
     onTouchTap,
     goToAddProject,
     showCreateLink,
 }) => (
     <List>
-        {renderProjectListItems(projects, onTouchTap, showCreateLink, goToAddProject)}
+        {renderProjectListItems(closeDrawer, projects, onTouchTap, showCreateLink, goToAddProject)}
     </List>
 );
 
@@ -55,6 +57,7 @@ ProjectList.propTypes = {
     onTouchTap: PropTypes.func.isRequired,
     goToAddProject: PropTypes.func.isRequired,
     showCreateLink: PropTypes.bool.isRequired,
+    closeDrawer: PropTypes.func.isRequired,
 };
 
 ProjectList.defaultProps = {

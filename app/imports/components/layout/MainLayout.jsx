@@ -45,6 +45,8 @@ class MainLayout extends React.Component {
 
         const { isDrawerOpen } = this.state;
 
+        drawerContent.props.params.closeDrawer = this.closeDrawer;
+
         return (
             <div>
                 <AppBar

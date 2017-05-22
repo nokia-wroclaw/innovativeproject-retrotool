@@ -21,6 +21,7 @@ const renderSprintLinks = (
     sprintId,
     sprintName,
     isSprintClosed,
+    closeDrawer,
     {
         goToSprint,
         goToPosts,
@@ -35,22 +36,22 @@ const renderSprintLinks = (
         <ListItem
             leftIcon={<Dashboard />}
             primaryText="Sprint summary"
-            onTouchTap={() => goToSprint(projectId, sprintId)}
+            onTouchTap={() => { goToSprint(projectId, sprintId); closeDrawer(); }}
         />
         <ListItem
             leftIcon={<Forum />}
             primaryText="Posts"
-            onTouchTap={() => goToPosts(projectId, sprintId)}
+            onTouchTap={() => { goToPosts(projectId, sprintId); closeDrawer(); }}
         />
         <ListItem
             leftIcon={<AssignmentTurnedIn />}
             primaryText="Working agreements"
-            onTouchTap={() => goToWorkingAgreements(projectId, sprintId)}
+            onTouchTap={() => { goToWorkingAgreements(projectId, sprintId); closeDrawer(); }}
         />
         <ListItem
             leftIcon={<Assignment />}
             primaryText="Action Items"
-            onTouchTap={() => goToActionItems(projectId, sprintId)}
+            onTouchTap={() => { goToActionItems(projectId, sprintId); closeDrawer(); }}
         />
     </div>
 ;
@@ -62,6 +63,7 @@ const renderSprintListItems = (
     goToSprint,
     projectId,
     showAddSprint = false,
+    closeDrawer,
 ) => {
     const openSprints = sprints.filter(sprint => !sprint.closed);
     const closedSprints = sprints.filter(sprint => sprint.closed);
@@ -71,7 +73,7 @@ const renderSprintListItems = (
             leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
             key={sprint._id}
             primaryText={sprint.name === currentSprintName ? <b>{sprint.name}</b> : sprint.name}
-            onTouchTap={() => goToSprint(projectId, sprint._id)}
+            onTouchTap={() => { goToSprint(projectId, sprint._id); closeDrawer(); }}
         />
     ));
 
@@ -91,7 +93,7 @@ const renderSprintListItems = (
                                 :
                                 sprint.name
                             }
-                            onTouchTap={() => goToSprint(projectId, sprint._id)}
+                            onTouchTap={() => { goToSprint(projectId, sprint._id); closeDrawer(); }}
                         />
                     ))
                 }
@@ -105,7 +107,7 @@ const renderSprintListItems = (
                 leftIcon={<LibraryAdd />}
                 key="addSprint"
                 primaryText="Add sprint"
-                onTouchTap={() => goToAddSprint(projectId)}
+                onTouchTap={() => { goToAddSprint(projectId); closeDrawer(); }}
             />,
         );
     }
@@ -131,6 +133,7 @@ const SingleProjectSidebar = (props) => {
         showAddSprint,
         showCreateLink,
         selectedProjectTitle,
+        closeDrawer,
     } = props;
 
     const sprintActions = {
@@ -145,16 +148,28 @@ const SingleProjectSidebar = (props) => {
             <ListItem
                 primaryText={selectedProjectTitle}
                 nestedItems={
-                renderProjectListItems(projects, goToProject, showCreateLink, goToAddProject)
+                renderProjectListItems(
+                    closeDrawer, projects, goToProject, showCreateLink, goToAddProject)
                 }
             />
             {currentSprintId && renderSprintLinks(
-                projectId, currentSprintId, currentSprintName, isSprintClosed, sprintActions,
+                projectId,
+                currentSprintId,
+                currentSprintName,
+                isSprintClosed,
+                closeDrawer,
+                sprintActions,
             )}
             <Divider />
             <Subheader>Sprints</Subheader>
             {renderSprintListItems(
-                sprints, goToAddSprint, currentSprintName, goToSprint, projectId, showAddSprint,
+                sprints,
+                goToAddSprint,
+                currentSprintName,
+                goToSprint,
+                projectId,
+                showAddSprint,
+                closeDrawer,
             )}
         </List>
     );
@@ -188,6 +203,7 @@ SingleProjectSidebar.propTypes = {
     goToProject: PropTypes.func.isRequired,
     goToSprint: PropTypes.func.isRequired,
     goToWorkingAgreements: PropTypes.func.isRequired,
+    closeDrawer: PropTypes.func.isRequired,
 };
 
 SingleProjectSidebar.defaultProps = {
