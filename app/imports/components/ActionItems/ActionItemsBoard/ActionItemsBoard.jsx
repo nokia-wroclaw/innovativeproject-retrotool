@@ -45,13 +45,13 @@ class ActionItems extends React.Component {
         };
     }
 
-    componentWillReceiveProps(props) {
+    componentWillReceiveProps(nextProps) {
         const {
             errorAdd,
             errorToggle,
             addResult,
             toggleResult,
-        } = props;
+        } = nextProps;
 
         if (!errorAdd) {
             this.hideAddActionItemModal();

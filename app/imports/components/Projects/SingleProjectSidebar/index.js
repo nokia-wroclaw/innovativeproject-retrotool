@@ -39,47 +39,25 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
         const selectedProjectTitle = getProjectName(projectId);
 
-        if (currentSprintId) {
-            const currentSprint = Sprints.findOne(currentSprintId);
-            const currentSprintName = currentSprint.name;
-            const isSprintClosed = currentSprint.closed;
+        const currentSprint = Sprints.findOne(currentSprintId);
 
-            onData(null, {
-                projectId,
-                projects: projectList,
-                sprints: sprintList,
-                goToAddProject: projectActions.goToAddProject,
-                goToAddSprint: sprintActions.goToAddSprint,
-                goToPosts: postActions.goToPosts,
-                goToProject: projectActions.goToProject,
-                goToSprint: sprintActions.goToSprint,
-                goToActionItems: actionItemsActions.goToActionItems,
-                goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
-                currentSprintId,
-                currentSprintName,
-                isSprintClosed,
-                showAddSprint: canAddNewSprint,
-                showCreateLink: isCurrentUserAdmin,
-                selectedProjectTitle,
-            });
-        } else {
-            onData(null, {
-                projectId,
-                projects: projectList,
-                sprints: sprintList,
-                goToAddProject: projectActions.goToAddProject,
-                goToAddSprint: sprintActions.goToAddSprint,
-                goToPosts: postActions.goToPosts,
-                goToProject: projectActions.goToProject,
-                goToSprint: sprintActions.goToSprint,
-                goToActionItems: actionItemsActions.goToActionItems,
-                goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
-                currentSprintId,
-                showAddSprint: canAddNewSprint,
-                showCreateLink: isCurrentUserAdmin,
-                selectedProjectTitle,
-            });
-        }
+        onData(null, {
+            projectId,
+            projects: projectList,
+            sprints: sprintList,
+            goToAddProject: projectActions.goToAddProject,
+            goToAddSprint: sprintActions.goToAddSprint,
+            goToPosts: postActions.goToPosts,
+            goToProject: projectActions.goToProject,
+            goToSprint: sprintActions.goToSprint,
+            goToActionItems: actionItemsActions.goToActionItems,
+            goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
+            currentSprintId,
+            currentSprint,
+            showAddSprint: canAddNewSprint,
+            showCreateLink: isCurrentUserAdmin,
+            selectedProjectTitle,
+        });
     }
 };
 

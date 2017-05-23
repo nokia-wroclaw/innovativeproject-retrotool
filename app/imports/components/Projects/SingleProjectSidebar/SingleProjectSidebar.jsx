@@ -19,8 +19,7 @@ import { renderProjectListItems } from '/imports/components/Projects/ProjectList
 const renderSprintLinks = (
     projectId,
     sprintId,
-    sprintName,
-    isSprintClosed,
+    currentSprint,
     {
         goToSprint,
         goToPosts,
@@ -31,7 +30,11 @@ const renderSprintLinks = (
 ) =>
     <div>
         {withSubheader && <Divider />}
-        {withSubheader && <Subheader>{sprintName} {isSprintClosed ? ' [CLOSED]' : ''}</Subheader>}
+        {withSubheader && <Subheader>{currentSprint.name} {currentSprint.closed ?
+            ' [CLOSED]'
+            :
+            ''
+        }</Subheader>}
         <ListItem
             leftIcon={<Dashboard />}
             primaryText="Sprint summary"
@@ -58,7 +61,7 @@ const renderSprintLinks = (
 const renderSprintListItems = (
     sprints,
     goToAddSprint,
-    currentSprintName,
+    currentSprintId,
     goToSprint,
     projectId,
     showAddSprint = false,
@@ -70,7 +73,7 @@ const renderSprintListItems = (
         <ListItem
             leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
             key={sprint._id}
-            primaryText={sprint.name === currentSprintName ? <b>{sprint.name}</b> : sprint.name}
+            primaryText={sprint._id === currentSprintId ? <b>{sprint.name}</b> : sprint.name}
             onTouchTap={() => goToSprint(projectId, sprint._id)}
         />
     ));
@@ -86,7 +89,7 @@ const renderSprintListItems = (
                         <ListItem
                             leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
                             key={`nested${sprint._id}`}
-                            primaryText={sprint.name === currentSprintName ?
+                            primaryText={sprint._id === currentSprintId ?
                                 <b>{sprint.name}</b>
                                 :
                                 sprint.name
@@ -126,8 +129,7 @@ const SingleProjectSidebar = (props) => {
         goToSprint,
         goToWorkingAgreements,
         currentSprintId,
-        currentSprintName,
-        isSprintClosed,
+        currentSprint,
         showAddSprint,
         showCreateLink,
         selectedProjectTitle,
@@ -149,12 +151,12 @@ const SingleProjectSidebar = (props) => {
                 }
             />
             {currentSprintId && renderSprintLinks(
-                projectId, currentSprintId, currentSprintName, isSprintClosed, sprintActions,
+                projectId, currentSprintId, currentSprint, sprintActions,
             )}
             <Divider />
             <Subheader>Sprints</Subheader>
             {renderSprintListItems(
-                sprints, goToAddSprint, currentSprintName, goToSprint, projectId, showAddSprint,
+                sprints, goToAddSprint, currentSprintId, goToSprint, projectId, showAddSprint,
             )}
         </List>
     );
@@ -162,7 +164,6 @@ const SingleProjectSidebar = (props) => {
 
 SingleProjectSidebar.propTypes = {
     currentSprintId: PropTypes.string.isRequired,
-    currentSprintName: PropTypes.string,
     projectId: PropTypes.string.isRequired,
     projects: PropTypes.arrayOf(
         PropTypes.shape({
@@ -178,9 +179,15 @@ SingleProjectSidebar.propTypes = {
             closed: PropTypes.bool.isRequired,
         }),
     ).isRequired,
+    currentSprint: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        projectId: PropTypes.string.isRequired,
+        closed: PropTypes.bool.isRequired,
+        createdAt: PropTypes.instanceOf(Date).isRequired,
+    }),
     showAddSprint: PropTypes.bool.isRequired,
     showCreateLink: PropTypes.bool.isRequired,
-    isSprintClosed: PropTypes.bool,
     goToActionItems: PropTypes.func.isRequired,
     goToAddProject: PropTypes.func.isRequired,
     goToAddSprint: PropTypes.func.isRequired,
@@ -192,7 +199,6 @@ SingleProjectSidebar.propTypes = {
 
 SingleProjectSidebar.defaultProps = {
     currentSprintId: '',
-    currentSprintName: '',
     goToActionItems() {},
     goToAddProject() {},
     goToAddSprint() {},
@@ -200,7 +206,6 @@ SingleProjectSidebar.defaultProps = {
     goToProject() {},
     goToSprint() {},
     goToWorkingAgreements() {},
-    isSprintClosed: false,
     showAddSprint: false,
     selectedProjectTitle: 'Projects',
 };

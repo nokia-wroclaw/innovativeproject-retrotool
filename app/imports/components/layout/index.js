@@ -23,7 +23,7 @@ const composer = ({ params: { projectId, sprintId }, location: { pathname } }, o
             isCurrentUserAdmin,
             projectId,
             sprintId,
-            routePath: pathname,
+            pathname,
         });
     }
 };
