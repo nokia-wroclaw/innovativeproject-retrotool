@@ -8,7 +8,7 @@ import {
 import { getProjectName } from '/imports/api/projects';
 import MainLayout from './MainLayout.jsx';
 
-const composer = ({ params: { projectId, sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId }, location: { pathname } }, onData) => {
     const userHandler = Meteor.subscribe('extendedUser');
 
     if (userHandler.ready()) {
@@ -23,6 +23,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             isCurrentUserAdmin,
             projectId,
             sprintId,
+            pathname,
         });
     }
 };

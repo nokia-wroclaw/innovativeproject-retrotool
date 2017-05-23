@@ -24,6 +24,14 @@ class MainLayout extends React.Component {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        const { pathname } = nextProps;
+
+        if (pathname !== this.props.pathname) {
+            this.closeDrawer();
+        }
+    }
+
     closeDrawer() {
         this.setState({ isDrawerOpen: false });
     }
@@ -81,6 +89,7 @@ class MainLayout extends React.Component {
 }
 MainLayout.propTypes = {
     title: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
     main: PropTypes.node.isRequired,
     drawerContent: PropTypes.node.isRequired,
     isLoggedInUser: PropTypes.bool.isRequired,

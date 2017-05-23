@@ -39,6 +39,8 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
         const selectedProjectTitle = getProjectName(projectId);
 
+        const currentSprint = Sprints.findOne(currentSprintId);
+
         onData(null, {
             projectId,
             projects: projectList,
@@ -51,6 +53,7 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToActionItems: actionItemsActions.goToActionItems,
             goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
             currentSprintId,
+            currentSprint,
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
             selectedProjectTitle,
