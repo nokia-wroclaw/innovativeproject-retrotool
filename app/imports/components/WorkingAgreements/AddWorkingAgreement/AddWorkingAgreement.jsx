@@ -42,7 +42,6 @@ const AddWorkingAgreement = ({
                 name="date"
                 min={new Date()}
                 floatingLabelText="Start date"
-                defaultDate={new Date()}
             />
             <FlatButton
                 label="Close"
