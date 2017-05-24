@@ -48,12 +48,12 @@ const AddActionItem = ({
             <CustomDatePicker
                 name="startDate"
                 min={new Date()}
-                placeholder="Start date"
+                floatingLabelText="Start date"
             />
             <CustomDatePicker
                 name="endDate"
                 min={new Date()}
-                placeholder="End date"
+                floatingLabelText="End date"
             />
             <FlatButton
                 label="Close"
