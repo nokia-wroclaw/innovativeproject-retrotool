@@ -41,7 +41,8 @@ const AddWorkingAgreement = ({
             <CustomDatePicker
                 name="date"
                 min={new Date()}
-                placeholder="Start date"
+                floatingLabelText="Start date"
+                defaultDate={new Date()}
             />
             <FlatButton
                 label="Close"

@@ -8,22 +8,28 @@ const CustomDatePicker = props => (
     <DatePicker
         name={props.name}
         onChange={(e, date) => props.onChange(date)}
-        hintText={props.placeholder}
+        hintText={props.hintText}
+        floatingLabelText={props.floatingLabelText}
         minDate={props.min}
+        defaultDate={props.defaultDate}
     />
 );
 
 CustomDatePicker.defaultProps = {
     name: '',
-    placeholder: '',
+    hintText: '',
+    floatingLabelText: '',
     min: new Date(2000, 1, 1),
+    defaultDate: {},
 };
 
 CustomDatePicker.propTypes = {
     name: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string,
+    hintText: PropTypes.string,
     min: PropTypes.instanceOf(Date),
+    defaultDate: PropTypes.instanceOf(Date),
+    floatingLabelText: PropTypes.string,
 };
 
 export default connectField(CustomDatePicker, { ensureValue: false });
