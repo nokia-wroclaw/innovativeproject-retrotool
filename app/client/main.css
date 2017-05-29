@@ -23,3 +23,11 @@ html, body {
 .profile-container {
     max-width: 400px;
 }
+
+.date-action-item {
+    display: block;
+}
+
+p.closed-action-item {
+    text-decoration: line-through;
+}

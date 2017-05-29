@@ -10,7 +10,7 @@ import {
     CardHeader,
 } from 'material-ui';
 
-import '../Style/ActionItems.css';
+import { styles } from '../Style/styles.js';
 
 const formatDate = date => moment(date).format('Do MMMM YYYY');
 
@@ -28,9 +28,9 @@ const ActionItem = ({
     errorRemove,
     idToRemove,
 }) => (
-    <Card key={id} className="action-item" >
+    <Card key={id} className="action-item" style={!open ? styles.card : {}} >
         <CardHeader
-            title={!open ? `${assignee.name} [closed]` : assignee.name}
+            title={assignee.name}
             avatar={assignee.avatar}
         />
 
@@ -42,8 +42,8 @@ const ActionItem = ({
             }
 
             <p>
-                <span>Start date: {formatDate(startDate)}</span>
-                <span>Deadline: {formatDate(endDate)}</span>
+                <span className="date-action-item">Start date: {formatDate(startDate)}</span>
+                <span className="date-action-item">Deadline: {formatDate(endDate)}</span>
             </p>
         </CardText>
 
