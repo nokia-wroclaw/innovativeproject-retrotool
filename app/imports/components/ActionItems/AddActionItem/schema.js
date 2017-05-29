@@ -2,7 +2,8 @@ import SimpleSchema from 'simpl-schema';
 
 export const schema = new SimpleSchema({
     startDate: {
-        type: Date(),
+        type: Date,
+        defaultValue: new Date(),
     },
     endDate: {
         type: Date,
