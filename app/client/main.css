@@ -28,3 +28,11 @@ html, body {
     display: flex;
     flex-flow: row wrap;
 }
+
+.date-action-item {
+    display: block;
+}
+
+p.closed-action-item {
+    text-decoration: line-through;
+}
