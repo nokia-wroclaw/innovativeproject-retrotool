@@ -4,7 +4,7 @@ html, body {
 }
 
 .content-container {
-    margin: 32px;
+    margin: 32px 32px 0 32px;
 }
 
 .half {

@@ -115,6 +115,7 @@ class ActionItems extends React.Component {
         const {
             addActionItem,
             sprintId,
+            projectId,
             onData,
             handlers,
             hideButton,
@@ -123,6 +124,7 @@ class ActionItems extends React.Component {
 
         addActionItem(
             sprintId,
+            projectId,
             doc.startDate,
             doc.endDate,
             doc.assignee,
@@ -138,6 +140,7 @@ class ActionItems extends React.Component {
         const {
             toggleActionItem,
             sprintId,
+            projectId,
             onData,
             handlers,
             hideButton,
@@ -151,6 +154,7 @@ class ActionItems extends React.Component {
             doc.closeMessage,
             onData,
             sprintId,
+            projectId,
             handlers,
             hideButton,
             wrappedData,
@@ -257,6 +261,7 @@ ActionItems.defaultProps = {
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
