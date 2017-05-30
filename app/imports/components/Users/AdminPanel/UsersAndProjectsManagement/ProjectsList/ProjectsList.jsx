@@ -3,6 +3,7 @@ import Subheader from 'material-ui/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import { PropTypes } from 'prop-types';
 import { actions } from '/imports/api/users/actions.js';
+import { actions as projectAction } from '/imports/api/projects/actions.js';
 import AutoComplete from 'material-ui/AutoComplete';
 import SingleProjectView from './singleProjectView/';
 
@@ -21,6 +22,8 @@ export default class ProjectsList extends React.Component {
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
         this.filtr = this.filtr.bind(this);
+        this.addMode = this.addMode.bind(this);
+        this.removeMod = this.removeMod.bind(this);
     }
 
     filtr(project) {
@@ -33,6 +36,18 @@ export default class ProjectsList extends React.Component {
         this.setState({ project });
     }
     closeDialog() { this.setState({ openDialog: false }); }
+
+    addMode(props) {
+        props.moderators.map((x) => {
+            projectAction.addModerator(this.state.project._id, x); return 1;
+        });
+        this.setState({ moderators: this.state.moderators.concat(props.moderators) });
+    }
+
+    removeMod(moderator) {
+        projectAction.removeMod(this.state.project._id, moderator);
+        this.setState({ moderators: this.state.moderators.filter(item => item !== moderator) });
+    }
 
     render() {
         return (
@@ -58,6 +73,8 @@ export default class ProjectsList extends React.Component {
                     project={this.state.project}
                     moderators={this.state.moderators}
                     closeDialog={this.closeDialog}
+                    addMode={this.addMode}
+                    removeMod={this.removeMod}
                 />
             </div>
         );

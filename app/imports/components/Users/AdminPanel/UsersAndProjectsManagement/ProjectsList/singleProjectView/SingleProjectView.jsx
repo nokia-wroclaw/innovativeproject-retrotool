@@ -11,7 +11,17 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import { schema } from './schema.js';
 
-const SingleProjectView = props => (
+const listItems = props => (
+    props.moderators.map(moderator => (
+        <ListItem
+            primaryText={props.options.find(x => x.value === moderator).label}
+            key={`${moderator}`}
+            onTouchTap={() => props.removeMod(moderator)}
+        />
+)));
+
+const SingleProjectView = props =>
+(
     <div>
         <Dialog
             title={props.project.name}
@@ -21,19 +31,12 @@ const SingleProjectView = props => (
         >
             <List>
                 <Subheader>Moderators</Subheader>
-                {props.moderators.map(moderator => (
-                    <ListItem
-                        primaryText={props.options.find(x => x.value === moderator).label}
-                        key={`${moderator}xD`}
-                        onTouchTap={() => null}    // @TODO REMOVE FUNCTION
-                    />
-                        ),
-                    )
-                        }
+                {listItems(props)}
 
             </List>
             <AutoForm
                 className="content-container half"
+                onSubmit={props.addMode}
                 schema={schema}
             >
                 <ErrorsField />
@@ -47,7 +50,7 @@ const SingleProjectView = props => (
             </AutoForm>
         </Dialog>
     </div>
-    );
+        );
 
 export default SingleProjectView;
 
@@ -64,6 +67,6 @@ SingleProjectView.propTypes = {
 
     openDialog: PropTypes.func.isRequired,
     closeDialog: PropTypes.func.isRequired,
-    moderators: PropTypes.arrayOf(PropTypes.string).isRequired,
+    addMode: PropTypes.func.isRequired,
 
 };
