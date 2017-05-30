@@ -17,7 +17,7 @@ const SingleProject = ({
     isFavouriteProject,
     starProject,
     unstarProject,
-    users,
+    userList,
     isProjectModerator,
 }) => (
     <div>
@@ -40,7 +40,7 @@ const SingleProject = ({
             </h1>
 
             <div className="users-container">
-                {users.map(user => (
+                {userList.map(user => (
                     <GridTile
                         key={user._id}
                         title={user.profile.name}
@@ -79,7 +79,7 @@ SingleProject.propTypes = {
     starProject: PropTypes.func.isRequired,
     unstarProject: PropTypes.func.isRequired,
     isProjectModerator: PropTypes.func.isRequired,
-    users: PropTypes.arrayOf(PropTypes.shape({
+    userList: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
         profile: PropTypes.shape({

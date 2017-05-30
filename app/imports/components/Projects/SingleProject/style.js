@@ -7,6 +7,7 @@ export const styles = {
     GridTile: {
         width: 150,
         height: 150,
-        margin: 2,
+        marginRight: 2,
+        marginLeft: 2,
     },
 };

@@ -20,6 +20,10 @@ const composer = ({ params: { projectId } }, onData) => {
 
     if (projectsHandler.ready() && usersHandler.ready()) {
         const users = Meteor.users.find().fetch();
+        const moderators = users.filter(moderator => isProjectModerator(projectId, moderator._id));
+        const members = users.filter(member => !isProjectModerator(projectId, member._id));
+        const userList = moderators.concat(members);
+
         const project = Projects.findOne({ _id: projectId });
         const {
             starProject,
@@ -32,7 +36,7 @@ const composer = ({ params: { projectId } }, onData) => {
             isFavouriteProject,
             starProject,
             unstarProject,
-            users,
+            userList,
             isProjectModerator,
         });
     }
