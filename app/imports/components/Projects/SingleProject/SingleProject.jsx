@@ -1,10 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IconButton from 'material-ui/IconButton';
 import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {
+    GridTile,
+    IconButton,
+} from 'material-ui';
 
-const SingleProject = ({ projectId, name, isFavouriteProject, starProject, unstarProject }) => (
+import { styles } from './style.js';
+
+const SingleProject = ({
+    projectId,
+    name,
+    isFavouriteProject,
+    starProject,
+    unstarProject,
+    users,
+    isProjectModerator,
+}) => (
     <div className="content-container">
         <h1>
             {isFavouriteProject ?
@@ -22,6 +35,29 @@ const SingleProject = ({ projectId, name, isFavouriteProject, starProject, unsta
             }
             {name}
         </h1>
+
+        <div className="users-container">
+            {users.map(user => (
+                <GridTile
+                    key={user._id}
+                    title={user.profile.name}
+                    subtitle={isProjectModerator(projectId, user._id) ? 'Moderator' : ''}
+                    titleStyle={styles.titleStyle}
+                    style={styles.GridTile}
+                    titleBackground="linear-gradient(
+                        to top,
+                        rgba(0,0,0,0.7) 0%,
+                        rgba(0,0,0,0.3) 70%,
+                        rgba(0,0,0,0) 100%
+                    )"
+                >
+                    <img
+                        src={user.profile.avatar}
+                        alt={user.profile.name}
+                    />
+                </GridTile>
+            ))}
+        </div>
     </div>
 );
 
@@ -31,6 +67,15 @@ SingleProject.propTypes = {
     isFavouriteProject: PropTypes.bool.isRequired,
     starProject: PropTypes.func.isRequired,
     unstarProject: PropTypes.func.isRequired,
+    isProjectModerator: PropTypes.func.isRequired,
+    users: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        isAdmin: PropTypes.bool.isRequired,
+        profile: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            avatar: PropTypes.string.isRequired,
+        }).isRequired,
+    })).isRequired,
 };
 
 SingleProject.defaultProps = {

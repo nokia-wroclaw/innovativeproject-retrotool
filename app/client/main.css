@@ -23,3 +23,8 @@ html, body {
 .profile-container {
     max-width: 400px;
 }
+
+.users-container {
+    display: flex;
+    flex-flow: row wrap;
+}
