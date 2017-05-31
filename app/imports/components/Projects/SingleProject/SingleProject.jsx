@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Star from 'material-ui/svg-icons/toggle/star';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import {
-    GridTile,
-    IconButton,
-} from 'material-ui';
+import { GridTile } from 'material-ui';
 
 import ActionItemsBoard from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreementBoard from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
@@ -13,32 +8,19 @@ import { styles } from './style.js';
 
 const SingleProject = ({
     projectId,
-    name,
-    isFavouriteProject,
-    starProject,
-    unstarProject,
     userList,
     isProjectModerator,
 }) => (
-    <div>
+    <div className="project-overview">
+        <div className="ai-wa-container">
+            <div className="half">
+                <ActionItemsBoard hideButton />
+            </div>
+            <div className="half">
+                <WorkingAgreementBoard hideButton />
+            </div>
+        </div>
         <div className="content-container">
-            <h1>
-                {isFavouriteProject ?
-                    <IconButton
-                        onTouchTap={() => unstarProject(projectId)}
-                    >
-                        <Star />
-                    </IconButton>
-                    :
-                    <IconButton
-                        onTouchTap={() => starProject(projectId)}
-                    >
-                        <StarBorder />
-                    </IconButton>
-                }
-                {name}
-            </h1>
-
             <div className="users-container">
                 {userList.map(user => (
                     <GridTile
@@ -62,22 +44,11 @@ const SingleProject = ({
                 ))}
             </div>
         </div>
-
-        <div className="half">
-            <ActionItemsBoard hideButton />
-        </div>
-        <div className="half">
-            <WorkingAgreementBoard hideButton />
-        </div>
     </div>
 );
 
 SingleProject.propTypes = {
     projectId: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    isFavouriteProject: PropTypes.bool.isRequired,
-    starProject: PropTypes.func.isRequired,
-    unstarProject: PropTypes.func.isRequired,
     isProjectModerator: PropTypes.func.isRequired,
     userList: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,
