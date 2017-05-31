@@ -64,12 +64,14 @@ const composer = (props, onData) => {
             wrappedOnData(usersHandler, commentsHandler, postId, onData, {
                 addPostComment,
                 errorAddPostComment,
+                removeComment: actions.removePostComment,
             });
         }
     };
 
     wrappedOnData(usersHandler, commentsHandler, postId, onData, {
         addPostComment,
+        removeComment: actions.removePostComment,
     });
 };
 
