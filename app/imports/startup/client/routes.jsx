@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import { isAdmin } from '/imports/api/users';
+import { actions } from '/imports/api/projects';
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 import MainLayout from '/imports/components/layout';
 
@@ -44,6 +45,13 @@ const onlyAdmin = (nextState, replace) => {
     }
 };
 
+const updateLastViewedProject = (nextState) => {
+    const { projectId } = nextState.params;
+    if (projectId) {
+        actions.setLastViewedProject(projectId);
+    }
+};
+
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
@@ -56,7 +64,7 @@ export default (
             />
             <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
             <Route path="profile" component={{ main: Profile, drawerContent: ProjectList }} />
-            <Route path="project">
+            <Route path="project" onEnter={updateLastViewedProject}>
                 <Route
                     path=":projectId"
                     components={{ main: SingleProject, drawerContent: SingleProjectSidebar }}

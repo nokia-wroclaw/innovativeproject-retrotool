@@ -6,6 +6,13 @@ import ActionItem from './ActionItem.jsx';
 import AddActionItem from './../AddActionItem';
 import CloseOrReopenActionItem from './../CloseOrReopenActionItem';
 
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
+
+
 const isSelected = (ai, selectedState) =>
     ai.open.toString() === selectedState || selectedState === 'all';
 
@@ -20,30 +27,61 @@ class ActionItems extends React.Component {
         this.showToggleActionItemModal = this.showToggleActionItemModal.bind(this);
         this.hideToggleActionItemModal = this.hideToggleActionItemModal.bind(this);
         this.toggleModalActionItem = this.toggleModalActionItem.bind(this);
+        this.closeSnackBar = this.closeSnackBar.bind(this);
 
         this.onChangeCategory = this.onChangeCategory.bind(this);
+        this.handleChangeSort = this.handleChangeSort.bind(this);
 
         this.state = {
             showAddActionItemModal: false,
             showToggleActionItemModal: false,
+            openSnackbar: false,
+            snackbarMessage: '',
             actionItemId: '',
             selectedState: 'all',
             isOpen: false,
             message: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
-    componentWillReceiveProps(props) {
-        if (!props.errorAdd && props.openSnackbar) {
+    componentWillReceiveProps(nextProps) {
+        const {
+            errorAdd,
+            errorToggle,
+            addResult,
+            toggleResult,
+        } = nextProps;
+
+        if (!errorAdd) {
             this.hideAddActionItemModal();
         }
-        if (!props.errorToggle && props.openToggleSnackbar) {
+        if (!errorToggle) {
             this.hideToggleActionItemModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'New action item has been created!',
+            });
+        }
+        if (toggleResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Changes saved!',
+            });
         }
     }
 
     onChangeCategory(event, index, value) {
         this.setState({ selectedState: value });
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
+        }
     }
 
     showAddActionItemModal() {
@@ -67,12 +105,19 @@ class ActionItems extends React.Component {
         this.setState({ showToggleActionItemModal: false });
     }
 
+    closeSnackBar() {
+        this.setState({
+            openSnackbar: false,
+        });
+    }
+
     addActionItem(doc) {
         const {
             addActionItem,
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -84,6 +129,7 @@ class ActionItems extends React.Component {
             doc.text,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         );
     }
@@ -94,6 +140,7 @@ class ActionItems extends React.Component {
             sprintId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
@@ -105,6 +152,7 @@ class ActionItems extends React.Component {
             onData,
             sprintId,
             handlers,
+            hideButton,
             wrappedData,
         );
     }
@@ -116,10 +164,12 @@ class ActionItems extends React.Component {
             selectedState,
             isOpen,
             message,
+            openSnackbar,
+            snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            actionItems,
             isMember,
             isModerator,
             userId,
@@ -127,23 +177,23 @@ class ActionItems extends React.Component {
             idToRemove,
             isClosed,
             errorAdd,
-            openSnackbar,
-            openToggleSnackbar,
-            closeSnackBar,
-            sprintId,
-            onData,
-            handlers,
-            wrappedData,
+            hideButton,
         } = this.props;
+
+        const actionItems = sort(this.props.actionItems, selectedSortId);
 
         return (
             <div>
                 <ActionItemsToolbar
                     addActionItem={this.showAddActionItemModal}
                     onChangeCategory={this.onChangeCategory}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     selectedState={selectedState}
+                    sortOptions={sortOptions}
                     isMember={isMember}
                     isClosed={isClosed}
+                    hideButton={hideButton}
                 />
 
                 <div className="content-container">
@@ -165,10 +215,6 @@ class ActionItems extends React.Component {
                                 isModerator={isModerator}
                                 userId={userId}
                                 idToRemove={idToRemove}
-                                sprintId={sprintId}
-                                onData={onData}
-                                handlers={handlers}
-                                wrappedData={wrappedData}
                             />,
                     )}
                 </div>
@@ -191,16 +237,9 @@ class ActionItems extends React.Component {
 
                 <Snackbar
                     open={openSnackbar}
-                    message="New action item has been added!"
+                    message={snackbarMessage}
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
-                />
-
-                <Snackbar
-                    open={openToggleSnackbar}
-                    message="Changes saved!"
-                    autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={this.closeSnackBar}
                 />
             </div>
         );
@@ -211,15 +250,15 @@ ActionItems.defaultProps = {
     errorToggle: null,
     errorAdd: null,
     idToRemove: '',
-    openSnackbar: false,
-    openToggleSnackbar: false,
+    hideButton: false,
+    addResult: false,
+    toggleResult: false,
 };
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     addActionItem: PropTypes.func.isRequired,
-    closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
     onData: PropTypes.func.isRequired,
     toggleActionItem: PropTypes.func.isRequired,
@@ -245,8 +284,9 @@ ActionItems.propTypes = {
         }).isRequired,
     ).isRequired,
     idToRemove: PropTypes.string,
-    openSnackbar: PropTypes.bool,
-    openToggleSnackbar: PropTypes.bool,
+    hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    toggleResult: PropTypes.bool,
     errorToggle: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };

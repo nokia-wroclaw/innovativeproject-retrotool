@@ -14,27 +14,30 @@ import { Sprints } from '/imports/api/sprints';
 import ActionItems from './ActionItemsBoard.jsx';
 
 
-const toggleActionItem = async (
+const toggleActionItem = (
     actionItemId,
     closeMessage,
     onData,
     sprintId,
     handlers,
+    hideButton,
     wrappedData,
 ) => {
-    try {
-        await actionItemsActions.toggleActionItemState(actionItemId, closeMessage);
-        wrappedData(onData, sprintId, handlers, {
-            openToggleSnackbar: true,
+    actionItemsActions.toggleActionItemState(
+        actionItemId,
+        closeMessage,
+    ).then((toggleResult) => {
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            toggleResult: !!toggleResult,
         });
-    } catch (error) {
-        wrappedData(onData, sprintId, handlers, {
+    }).catch((error) => {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             errorToggle: error,
         });
-    }
+    });
 };
 
-const addActionItem = async (
+const addActionItem = (
     sprintId,
     startDate,
     endDate,
@@ -42,28 +45,27 @@ const addActionItem = async (
     text,
     onData,
     handlers,
+    hideButton,
     wrappedData,
 ) => {
-    try {
-        await actionItemsActions.createActionItem(sprintId, startDate, endDate, assigneeId, text);
-        wrappedData(onData, sprintId, handlers, {
-            openSnackbar: true,
+    actionItemsActions.createActionItem(
+        sprintId,
+        startDate,
+        endDate,
+        assigneeId,
+        text,
+    ).then((addResult) => {
+        wrappedData(onData, sprintId, handlers, hideButton, {
+            addResult: !!addResult,
         });
-    } catch (error) {
-        wrappedData(onData, sprintId, handlers, {
+    }).catch((error) => {
+        wrappedData(onData, sprintId, handlers, hideButton, {
             errorAdd: error,
         });
-    }
-};
-
-const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
-    wrappedData(onData, sprintId, handlers, {
-        openSnackbar: false,
-        openToggleSnackbar: false,
     });
 };
 
-const wrappedData = (onData, sprintId, handlers, data) => {
+const wrappedData = (onData, sprintId, handlers, hideButton, data) => {
     if (handlers.every(handler => handler.ready())) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
@@ -86,11 +88,11 @@ const wrappedData = (onData, sprintId, handlers, data) => {
         onData(null, {
             onData,
             handlers,
+            hideButton,
             wrappedData,
             actionItems,
             toggleActionItem,
             addActionItem,
-            closeSnackBar,
             isMember,
             isModerator,
             projectId,
@@ -102,16 +104,16 @@ const wrappedData = (onData, sprintId, handlers, data) => {
     }
 };
 
-const composer = ({ params: { projectId, sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId }, hideButton }, onData) => {
     const handlers = [
-        Meteor.subscribe('actionItems', sprintId),
+        Meteor.subscribe('actionItems', sprintId || projectId, !!sprintId),
         Meteor.subscribe('singleSprint', sprintId),
         Meteor.subscribe('singleProject', projectId),
         Meteor.subscribe('projectMembers', projectId),
     ];
 
     if (handlers.every(handler => handler.ready())) {
-        wrappedData(onData, sprintId, handlers);
+        wrappedData(onData, sprintId, handlers, hideButton);
     }
 };
 

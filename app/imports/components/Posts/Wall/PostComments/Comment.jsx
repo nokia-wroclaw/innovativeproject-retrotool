@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import ReactMarkdown from 'react-markdown';
 import {
     Card,
     CardHeader,
@@ -18,7 +19,7 @@ const Comment = ({ author, createdAt, text }) =>
             subtitle={formatDate(createdAt)}
         />
         <CardText>
-            {text}
+            <ReactMarkdown source={text} />
         </CardText>
     </Card>
 ;

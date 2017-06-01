@@ -19,3 +19,15 @@ html, body {
 .post-comment, .working-agreement, .action-item {
     margin: 8px;
 }
+
+.profile-container {
+    max-width: 400px;
+}
+
+.date-action-item {
+    display: block;
+}
+
+p.closed-action-item {
+    text-decoration: line-through;
+}

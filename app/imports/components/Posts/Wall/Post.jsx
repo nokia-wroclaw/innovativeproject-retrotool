@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import ReactMarkdown from 'react-markdown';
 import {
     Card,
     CardActions,
@@ -27,6 +28,7 @@ const Post = ({
     dislikePost,
     removePost,
     likes,
+    dislikes,
 }) => (
     <Card
         className="post"
@@ -38,21 +40,17 @@ const Post = ({
             subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
-            {text}
+            <ReactMarkdown source={text} />
         </CardText>
         <CardActions>
             <RaisedButton
                 icon={<ThumbUp />}
-                label="Like It"
+                label={`Like It (${likes})`}
                 onTouchTap={() => likePost(id)}
             />
             <RaisedButton
-                label={`${likes}`}
-                disabled
-            />
-            <RaisedButton
                 icon={<ThumbDown />}
-                label="Dislike It"
+                label={`Dislike It (${dislikes})`}
                 onTouchTap={() => dislikePost(id)}
             />
             {canRemove &&
@@ -84,6 +82,7 @@ Post.propTypes = {
     likePost: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
     likes: PropTypes.number.isRequired,
+    dislikes: PropTypes.number.isRequired,
 };
 
 Post.defaultProps = {
@@ -93,6 +92,7 @@ Post.defaultProps = {
     },
     canRemove: false,
     likes: 0,
+    dislikes: 0,
 };
 
 export default Post;

@@ -1,6 +1,9 @@
 import SimpleSchema from 'simpl-schema';
 
 const WorkingAgreementsSchema = new SimpleSchema({
+    projectId: {
+        type: String,
+    },
     sprintId: {
         type: String,
     },
@@ -11,12 +14,22 @@ const WorkingAgreementsSchema = new SimpleSchema({
         type: Date,
         defaultValue: new Date(),
     },
+    createdAt: {
+        type: Date,
+        defaultValue: new Date(),
+    },
 });
 
-const romoveWorkingAgreementsSchema = new SimpleSchema({
+const AddWorkingAgreementsSchema = WorkingAgreementsSchema.pick('sprintId', 'text', 'date');
+
+const RemoveWorkingAgreementsSchema = new SimpleSchema({
     workingAgreementId: {
         type: String,
     },
 });
 
-export { WorkingAgreementsSchema, romoveWorkingAgreementsSchema };
+export {
+    WorkingAgreementsSchema,
+    AddWorkingAgreementsSchema,
+    RemoveWorkingAgreementsSchema,
+};
