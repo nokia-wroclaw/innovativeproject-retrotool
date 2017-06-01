@@ -40,7 +40,6 @@ p.closed-action-item {
 .project-overview {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .ai-wa-container {
