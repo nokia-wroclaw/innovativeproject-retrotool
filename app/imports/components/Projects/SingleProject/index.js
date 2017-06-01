@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { FullPageLoader } from '/imports/components/Loaders';
 import {
     Projects,
-    isProjectModerator,
     actions,
 } from '/imports/api/projects';
 import SingleProject from './SingleProject.jsx';
@@ -13,7 +12,6 @@ import SingleProject from './SingleProject.jsx';
 const {
     starProject,
     unstarProject,
-    goToProjectMembers,
 } = actions;
 
 const composer = ({ params: { projectId } }, onData) => {
@@ -32,7 +30,6 @@ const composer = ({ params: { projectId } }, onData) => {
             isFavouriteProject,
             starProject,
             unstarProject,
-            goToProjectMembers,
         });
     }
 };

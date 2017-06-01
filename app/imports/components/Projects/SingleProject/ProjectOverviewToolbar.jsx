@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    RaisedButton,
     Toolbar,
     ToolbarGroup,
     ToolbarTitle,
@@ -15,7 +14,6 @@ const renderTitle = (
     projectId,
     projectName,
     isFavouriteProject,
-    goToProjectMembers,
     starProject,
     unstarProject,
 ) =>
@@ -41,7 +39,6 @@ const ProjectOverviewToolbar = ({
     projectId,
     projectName,
     isFavouriteProject,
-    goToProjectMembers,
     starProject,
     unstarProject,
 }) =>
@@ -52,17 +49,9 @@ const ProjectOverviewToolbar = ({
                     projectId,
                     projectName,
                     isFavouriteProject,
-                    goToProjectMembers,
                     starProject,
                     unstarProject,
                 )}
-            />
-        </ToolbarGroup>
-        <ToolbarGroup>
-            <RaisedButton
-                primary
-                label="Members"
-                onTouchTap={goToProjectMembers}
             />
         </ToolbarGroup>
     </Toolbar>
@@ -72,7 +61,6 @@ ProjectOverviewToolbar.propTypes = {
     projectId: PropTypes.string.isRequired,
     isFavouriteProject: PropTypes.bool.isRequired,
     projectName: PropTypes.string.isRequired,
-    goToProjectMembers: PropTypes.func.isRequired,
     starProject: PropTypes.func.isRequired,
     unstarProject: PropTypes.func.isRequired,
 };

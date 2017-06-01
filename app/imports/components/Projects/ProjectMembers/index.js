@@ -9,6 +9,9 @@ import {
 } from '/imports/api/projects';
 import ProjectMembers from './ProjectMembers.jsx';
 
+const {
+    removeMember,
+} = actions;
 
 const composer = ({ projectId }, onData) => {
     const projectsHandler = Meteor.subscribe('singleProject', projectId);
@@ -35,8 +38,10 @@ const composer = ({ projectId }, onData) => {
         }));
 
         onData(null, {
+            projectId,
             users,
             isCurrentUserProjectModerator,
+            removeMember,
         });
     }
 };
