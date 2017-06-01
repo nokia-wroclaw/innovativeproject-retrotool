@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router';
 import {
     createProject,
+    updateProject,
     removeMember as removeMemberMethod,
     setLastViewedProject as setLastViewedProjectMethod,
     starProject as starProjectMethod,
@@ -25,6 +26,7 @@ const createNewProject = (name, moderators, members) => new Promise((resolve, re
 });
 
 const removeMember = (projectId, userId) => removeMemberMethod.call({ projectId, userId });
+const addMembers = doc => updateProject.call(doc);
 
 const setLastViewedProject = projectId => setLastViewedProjectMethod.call({ projectId });
 const starProject = projectId => starProjectMethod.call({ projectId });
@@ -37,6 +39,7 @@ const actions = {
     setLastViewedProject,
     starProject,
     unstarProject,
+    addMembers,
     removeMember,
 };
 

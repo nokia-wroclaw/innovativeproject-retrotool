@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { GridTile, IconButton } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import { styles } from './styles.js';
+import AddMember from './AddMember';
 import RemoveMember from './RemoveMember.jsx';
+import { styles } from './styles.js';
 
 class ProjectMembers extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             openRemoveModal: false,
+            openAddModal: true,
             selectedUser: {},
         };
+        this.openAddModal = this.openAddModal.bind(this);
+        this.closeAddModal = this.closeAddModal.bind(this);
         this.openRemoveModal = this.openRemoveModal.bind(this);
         this.closeRemoveModal = this.closeRemoveModal.bind(this);
     }
@@ -34,6 +38,18 @@ class ProjectMembers extends React.Component {
         });
     }
 
+    openAddModal() {
+        this.setState({
+            openAddModal: true,
+        });
+    }
+
+    closeAddModal() {
+        this.setState({
+            openAddModal: false,
+        });
+    }
+
     render() {
         const {
             projectId,
@@ -42,6 +58,7 @@ class ProjectMembers extends React.Component {
             removeMember,
         } = this.props;
         const {
+            openAddModal,
             openRemoveModal,
             selectedUser,
         } = this.state;
@@ -78,6 +95,7 @@ class ProjectMembers extends React.Component {
 
                 {isCurrentUserProjectModerator &&
                     <GridTile
+                        onTouchTap={this.openAddModal}
                         title="Add new member"
                         titleStyle={styles.titleStyle}
                         style={styles.GridTile}
@@ -101,7 +119,12 @@ class ProjectMembers extends React.Component {
                         removeMember(projectId, selectedUser.id);
                         this.closeRemoveModal();
                     }}
+                />
 
+                <AddMember
+                    projectId={projectId}
+                    open={openAddModal}
+                    onClose={this.closeAddModal}
                 />
             </div>
         );
