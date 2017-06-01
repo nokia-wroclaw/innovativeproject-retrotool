@@ -70,6 +70,7 @@ export const setAvatar = new ValidatedMethod({
             return Meteor.users.update(userId, {
                 $set: {
                     'profile.avatar': `https://s.gravatar.com/avatar/${emailHash}`,
+                    'emails.0.address': address,
                 },
             });
         }
