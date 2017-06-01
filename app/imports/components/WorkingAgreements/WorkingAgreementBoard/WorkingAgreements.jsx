@@ -108,6 +108,7 @@ class WorkingAgreements extends React.Component {
         const {
             addWorkingAgreement,
             sprintId,
+            projectId,
             onData,
             handlers,
             hideButton,
@@ -116,6 +117,7 @@ class WorkingAgreements extends React.Component {
 
         addWorkingAgreement(
             sprintId,
+            projectId,
             doc.text,
             doc.date,
             onData,
@@ -129,13 +131,14 @@ class WorkingAgreements extends React.Component {
         const {
             removeWorkingAgreement,
             sprintId,
+            projectId,
             onData,
             handlers,
             hideButton,
             wrappedData,
         } = this.props;
 
-        removeWorkingAgreement(id, sprintId, onData, handlers, hideButton, wrappedData);
+        removeWorkingAgreement(id, sprintId, projectId, onData, handlers, hideButton, wrappedData);
     }
 
     render() {
@@ -221,6 +224,7 @@ WorkingAgreements.defaultProps = {
 
 WorkingAgreements.propTypes = {
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
     addWorkingAgreement: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
     onData: PropTypes.func.isRequired,

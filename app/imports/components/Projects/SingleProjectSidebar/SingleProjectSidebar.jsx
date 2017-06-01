@@ -133,6 +133,9 @@ const SingleProjectSidebar = (props) => {
         showAddSprint,
         showCreateLink,
         selectedProjectTitle,
+        favouriteProjects,
+        starProject,
+        unstarProject,
     } = props;
 
     const sprintActions = {
@@ -147,7 +150,15 @@ const SingleProjectSidebar = (props) => {
             <ListItem
                 primaryText={selectedProjectTitle}
                 nestedItems={
-                renderProjectListItems(projects, goToProject, showCreateLink, goToAddProject)
+                    renderProjectListItems(
+                        projects,
+                        goToProject,
+                        showCreateLink,
+                        goToAddProject,
+                        favouriteProjects,
+                        starProject,
+                        unstarProject,
+                    )
                 }
             />
             {currentSprintId && renderSprintLinks(
@@ -186,6 +197,11 @@ SingleProjectSidebar.propTypes = {
         closed: PropTypes.bool.isRequired,
         createdAt: PropTypes.instanceOf(Date).isRequired,
     }),
+    favouriteProjects: PropTypes.arrayOf(
+        PropTypes.string.isRequired,
+    ).isRequired,
+    starProject: PropTypes.func.isRequired,
+    unstarProject: PropTypes.func.isRequired,
     showAddSprint: PropTypes.bool.isRequired,
     showCreateLink: PropTypes.bool.isRequired,
     goToActionItems: PropTypes.func.isRequired,
