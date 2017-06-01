@@ -7,6 +7,7 @@ import {
 } from './methods.js';
 
 const goToProject = projectId => browserHistory.push(`/project/${projectId}`);
+const goToProjectMembers = projectId => {};
 const goToAddProject = () => browserHistory.push('/create');
 
 const createNewProject = (name, moderators, members) => new Promise((resolve, reject) => {
@@ -30,6 +31,7 @@ const unstarProject = projectId => unstarProjectMethod.call({ projectId });
 const actions = {
     goToProject,
     goToAddProject,
+    goToProjectMembers,
     createNewProject,
     setLastViewedProject,
     starProject,
