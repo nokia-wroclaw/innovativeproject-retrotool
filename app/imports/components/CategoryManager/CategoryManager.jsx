@@ -5,9 +5,9 @@ import {
     CardActions,
     CardTitle,
     CardText,
-    Chip,
-    FlatButton,
 } from 'material-ui';
+import { CategoryChip } from './CategoryChip.jsx';
+import { CategoryCreator } from './CategoryCreator.jsx';
 
 const CategoriesManager = ({
     projectId,
@@ -15,29 +15,32 @@ const CategoriesManager = ({
     globalCategories,
     canEditGlobalCategories,
     canEditProjectCategories,
+    addPostCategory,
+    removePostCategory,
 }) =>
     <div>
-        Project Manager
-
         <Card>
             <CardTitle
                 title="Global Categories"
             />
             <CardText>
                 {globalCategories.map(category =>
-                    <Chip key={category.value}>{category.label}</Chip>,
+                    <CategoryChip
+                        key={category.value}
+                        value={category.value}
+                        label={category.label}
+                        onRequestDelete={removePostCategory}
+                    />,
                 )}
             </CardText>
             {canEditGlobalCategories &&
                 <CardActions>
-                    <FlatButton
-                        label="Add category"
-                        onTouchTap={() => {}}
+                    <CategoryCreator
+                        onAdd={addPostCategory}
                     />
                 </CardActions>
             }
         </Card>
-
 
         {projectId &&
             <Card>
@@ -45,15 +48,13 @@ const CategoriesManager = ({
                     title="Project Categories"
                 />
                 <CardText>
-                    {projectCategories.map(category =>
-                        <Chip className="chip-style" key={category.value}>{category.label}</Chip>,
-                    )}
+                    {projectCategories.map(CategoryChip)}
                 </CardText>
                 {canEditProjectCategories &&
                     <CardActions>
-                        <FlatButton
-                            label="Add category"
-                            onTouchTap={() => {}}
+                        <CategoryCreator
+                            projectId={projectId}
+                            onAdd={addPostCategory}
                         />
                     </CardActions>
                 }
@@ -73,6 +74,8 @@ CategoriesManager.propTypes = {
     canEditProjectCategories: PropTypes.bool.isRequired,
     globalCategories: PropTypes.arrayOf(categoryPropTypes).isRequired,
     projectCategories: PropTypes.arrayOf(categoryPropTypes).isRequired,
+    addPostCategory: PropTypes.func.isRequired,
+    removePostCategory: PropTypes.func.isRequired,
 };
 
 CategoriesManager.defaultProps = {
@@ -81,6 +84,8 @@ CategoriesManager.defaultProps = {
     projectCategories: [],
     canEditGlobalCategories: false,
     canEditProjectCategories: false,
+    addPostCategory() {},
+    removePostCategory() {},
 };
 
 export default CategoriesManager;

@@ -1,7 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { composeWithTracker } from 'react-komposer';
 import { withRouter } from 'react-router';
-import { Categories } from '/imports/api/categories';
+import {
+    Categories,
+    actions,
+} from '/imports/api/categories';
 import { isAdmin } from '/imports/api/users';
 import { isProjectModerator } from '/imports/api/projects';
 import CategoryManager from './CategoryManager.jsx';
@@ -29,6 +32,8 @@ const composer = ({ params: { projectId = '' } }, onData) => {
 
         onData(null, {
             projectId,
+            addPostCategory: actions.addPostCategory,
+            removePostCategory: actions.removePostCategory,
             canEditGlobalCategories,
             canEditProjectCategories,
             projectCategories,
