@@ -64,6 +64,7 @@ const Post = ({
         <PostComments
             postId={id}
             projectId={projectId}
+            canRemove={canRemove}
         />
     </Card>
 );
