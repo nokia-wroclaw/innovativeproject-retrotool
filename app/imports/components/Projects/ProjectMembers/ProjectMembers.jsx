@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { GridTile, IconButton } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
-import { styles } from './style.js';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
+import { styles } from './styles.js';
 import RemoveMember from './RemoveMember.jsx';
 
 class ProjectMembers extends React.Component {
@@ -74,6 +75,23 @@ class ProjectMembers extends React.Component {
                         />
                     </GridTile>
                 ))}
+
+                {isCurrentUserProjectModerator &&
+                    <GridTile
+                        title="Add new member"
+                        titleStyle={styles.titleStyle}
+                        style={styles.GridTile}
+                        titleBackground="linear-gradient(
+                            to top,
+                            rgba(0,0,0,0.7) 0%,
+                            rgba(0,0,0,0.3) 70%,
+                            rgba(0,0,0,0) 100%
+                        )"
+                    >
+                        <PersonAdd style={styles.personAdd} />
+                    </GridTile>
+                }
+
                 <RemoveMember
                     id={selectedUser.id}
                     name={selectedUser.name}

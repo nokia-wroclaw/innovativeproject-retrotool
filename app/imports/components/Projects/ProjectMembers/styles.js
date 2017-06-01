@@ -10,4 +10,9 @@ export const styles = {
         marginRight: 2,
         marginLeft: 2,
     },
+    personAdd: {
+        width: 180,
+        height: 180,
+        padding: 10,
+    },
 };
