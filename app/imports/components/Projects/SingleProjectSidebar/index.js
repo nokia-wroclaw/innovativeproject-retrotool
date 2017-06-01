@@ -41,6 +41,13 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
 
         const currentSprint = Sprints.findOne(currentSprintId);
 
+        const user = Meteor.user();
+        const { favouriteProjects = [] } = user && user.profile;
+        const {
+            starProject,
+            unstarProject,
+        } = projectActions;
+
         onData(null, {
             projectId,
             projects: projectList,
@@ -57,6 +64,9 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
             selectedProjectTitle,
+            favouriteProjects,
+            starProject,
+            unstarProject,
         });
     }
 };
