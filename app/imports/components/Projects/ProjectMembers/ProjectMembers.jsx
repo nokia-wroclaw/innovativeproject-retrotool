@@ -12,7 +12,7 @@ class ProjectMembers extends React.Component {
         super(props);
         this.state = {
             openRemoveModal: false,
-            openAddModal: true,
+            openAddModal: false,
             selectedUser: {},
         };
         this.openAddModal = this.openAddModal.bind(this);
