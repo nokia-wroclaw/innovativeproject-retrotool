@@ -42,35 +42,8 @@ class ActionItems extends React.Component {
             isOpen: false,
             message: '',
             selectedSortId: getDefaultOptionValue(),
+            error: null,
         };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {
-            errorAdd,
-            errorToggle,
-            addResult,
-            toggleResult,
-        } = nextProps;
-
-        if (!errorAdd) {
-            this.hideAddActionItemModal();
-        }
-        if (!errorToggle) {
-            this.hideToggleActionItemModal();
-        }
-        if (addResult) {
-            this.setState({
-                openSnackbar: true,
-                snackbarMessage: 'New action item has been created!',
-            });
-        }
-        if (toggleResult) {
-            this.setState({
-                openSnackbar: true,
-                snackbarMessage: 'Changes saved!',
-            });
-        }
     }
 
     onChangeCategory(event, index, value) {
@@ -89,7 +62,10 @@ class ActionItems extends React.Component {
     }
 
     hideAddActionItemModal() {
-        this.setState({ showAddActionItemModal: false });
+        this.setState({
+            showAddActionItemModal: false,
+            error: null,
+        });
     }
 
     showToggleActionItemModal(actionItemId, isOpen, closeMessage) {
@@ -102,7 +78,10 @@ class ActionItems extends React.Component {
     }
 
     hideToggleActionItemModal() {
-        this.setState({ showToggleActionItemModal: false });
+        this.setState({
+            showToggleActionItemModal: false,
+            error: null,
+        });
     }
 
     closeSnackBar() {
@@ -113,52 +92,50 @@ class ActionItems extends React.Component {
 
     addActionItem(doc) {
         const {
-            addActionItem,
+            createActionItem,
             sprintId,
-            projectId,
-            onData,
-            handlers,
-            hideButton,
-            wrappedData,
         } = this.props;
 
-        addActionItem(
+        createActionItem(
             sprintId,
-            projectId,
             doc.startDate,
             doc.endDate,
             doc.assignee,
             doc.text,
-            onData,
-            handlers,
-            hideButton,
-            wrappedData,
-        );
+        ).then(() => {
+            this.hideAddActionItemModal();
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'New action item has been created!',
+            });
+        }).catch((error) => {
+            this.setState({
+                error,
+            });
+        });
     }
 
     toggleModalActionItem(doc) {
         const {
-            toggleActionItem,
-            sprintId,
-            projectId,
-            onData,
-            handlers,
-            hideButton,
-            wrappedData,
+            toggleActionItemState,
         } = this.props;
 
         const { actionItemId } = this.state;
 
-        toggleActionItem(
+        toggleActionItemState(
             actionItemId,
             doc.closeMessage,
-            onData,
-            sprintId,
-            projectId,
-            handlers,
-            hideButton,
-            wrappedData,
-        );
+        ).then(() => {
+            this.hideToggleActionItemModal();
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Changes saved!',
+            });
+        }).catch((error) => {
+            this.setState({
+                error,
+            });
+        });
     }
 
     render() {
@@ -171,16 +148,15 @@ class ActionItems extends React.Component {
             openSnackbar,
             snackbarMessage,
             selectedSortId,
+            error,
         } = this.state;
 
         const {
             isMember,
             isModerator,
             userId,
-            errorToggle,
             idToRemove,
             isClosed,
-            errorAdd,
             hideButton,
         } = this.props;
 
@@ -226,14 +202,14 @@ class ActionItems extends React.Component {
                 <AddActionItem
                     open={showAddActionItemModal}
                     onSubmit={this.addActionItem}
-                    error={errorAdd}
+                    error={error}
                     onClose={this.hideAddActionItemModal}
                 />
 
                 <CloseOrReopenActionItem
                     open={showToggleActionItemModal}
                     onSubmit={this.toggleModalActionItem}
-                    error={errorToggle}
+                    error={error}
                     onClose={this.hideToggleActionItemModal}
                     isOpen={isOpen}
                     closeMessage={message}
@@ -251,22 +227,15 @@ class ActionItems extends React.Component {
 }
 
 ActionItems.defaultProps = {
-    errorToggle: null,
-    errorAdd: null,
     idToRemove: '',
     hideButton: false,
-    addResult: false,
-    toggleResult: false,
 };
 
 ActionItems.propTypes = {
     sprintId: PropTypes.string.isRequired,
-    projectId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-    addActionItem: PropTypes.func.isRequired,
-    wrappedData: PropTypes.func.isRequired,
-    onData: PropTypes.func.isRequired,
-    toggleActionItem: PropTypes.func.isRequired,
+    createActionItem: PropTypes.func.isRequired,
+    toggleActionItemState: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
     isModerator: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
@@ -283,17 +252,8 @@ ActionItems.propTypes = {
             }).isRequired,
         }),
     ).isRequired,
-    handlers: PropTypes.arrayOf(
-        PropTypes.shape({
-            subscriptionId: PropTypes.string.isRequired,
-        }).isRequired,
-    ).isRequired,
     idToRemove: PropTypes.string,
     hideButton: PropTypes.bool,
-    addResult: PropTypes.bool,
-    toggleResult: PropTypes.bool,
-    errorToggle: PropTypes.instanceOf(Error),
-    errorAdd: PropTypes.instanceOf(Error),
 };
 
 export default ActionItems;
