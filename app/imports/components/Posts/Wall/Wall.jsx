@@ -74,6 +74,7 @@ class Wall extends React.Component {
             likePost,
             dislikePost,
             isSprintOpen,
+            isMember,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -89,6 +90,7 @@ class Wall extends React.Component {
                     selectedSortId={selectedSortId}
                     sortOptions={sortOptions}
                     isSprintOpen={isSprintOpen}
+                    isMember={isMember}
                 />
 
                 <div className="content-container">
@@ -110,6 +112,7 @@ class Wall extends React.Component {
                                 dislikePost={dislikePost}
                                 likes={post.likes}
                                 dislikes={post.dislikes}
+                                isMember={isMember}
                             />,
                         )
                     }
@@ -128,6 +131,7 @@ class Wall extends React.Component {
 }
 
 Wall.propTypes = {
+    isMember: PropTypes.bool.isRequired,
     addPost: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({

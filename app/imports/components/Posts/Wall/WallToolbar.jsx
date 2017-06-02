@@ -18,6 +18,7 @@ const WallToolbar = ({
     selectedSortId,
     sortOptions,
     isSprintOpen,
+    isMember,
 }) =>
     <Toolbar>
         <ToolbarGroup>
@@ -32,7 +33,7 @@ const WallToolbar = ({
                 handleChangeSelectedCategory={handleChangeSelectedCategory}
             />
         </ToolbarGroup>
-        {isSprintOpen &&
+        {isSprintOpen && isMember &&
             <ToolbarGroup>
                 <RaisedButton
                     icon={<Add />}
@@ -64,6 +65,7 @@ WallToolbar.propTypes = {
         }),
     ).isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 WallToolbar.defaultProps = {

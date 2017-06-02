@@ -6,7 +6,7 @@ import { CardText } from 'material-ui';
 import AddComment from './AddComment.jsx';
 import Comment from './Comment.jsx';
 
-const PostComments = ({ comments, addPostComment, errorAddPostComment, ...props }) => (
+const PostComments = ({ comments, addPostComment, errorAddPostComment, isMember, ...props }) => (
     <CardText>
         {comments.map((comment) => {
             const {
@@ -27,14 +27,18 @@ const PostComments = ({ comments, addPostComment, errorAddPostComment, ...props 
                 />
             );
         })}
-        <AddComment
-            error={errorAddPostComment}
-            onSubmit={addPostComment}
-        />
+
+        {isMember &&
+            <AddComment
+                error={errorAddPostComment}
+                onSubmit={addPostComment}
+            />
+        }
     </CardText>
 );
 
 PostComments.propTypes = {
+    isMember: PropTypes.bool.isRequired,
     errorAddPostComment: PropTypes.instanceOf(Error),
     addPostComment: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(
