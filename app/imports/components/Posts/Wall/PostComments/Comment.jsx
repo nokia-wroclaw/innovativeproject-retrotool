@@ -27,7 +27,7 @@ const Comment = ({ id, author, canRemove, createdAt, text, removeComment }) =>
             <CardActions>
                 <FlatButton
                     icon={<Delete />}
-                    label="Remove Post"
+                    label="Remove Comment"
                     onTouchTap={() => removeComment(id)}
                 />
             </CardActions>
