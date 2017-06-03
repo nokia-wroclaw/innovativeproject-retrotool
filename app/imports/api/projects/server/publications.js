@@ -5,7 +5,7 @@ import { Projects } from './../Projects.js';
 import { isProjectMember } from './../helpers.js';
 
 /**
- * If user is not admin limit query to current user projects
+ * Limit query to current user projects
  * Works only if query doesn't have property `members`
  * @param  {String} userId Current userId
  * @param  {Object} query  Mongo query
@@ -13,7 +13,7 @@ import { isProjectMember } from './../helpers.js';
  */
 const limitQueryToUserProjects = (userId, query) => {
     const isCurrentUserAdmin = isAdmin(userId);
-    if (!isCurrentUserAdmin && query && !query.members) {
+    if (query && !query.members) {
         query.members = userId;
     }
     return query;
