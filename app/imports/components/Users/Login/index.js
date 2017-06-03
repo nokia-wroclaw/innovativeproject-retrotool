@@ -7,8 +7,14 @@ import { FullPageLoader } from '/imports/components/Loaders';
 import Login from './Login.jsx';
 
 const composer = ({ router }, onData) => {
-    if (Meteor.userId()) {
-        router.push('/hello');
+    const user = Meteor.user();
+    if (user) {
+        const { lastViewedProject } = user.profile || {};
+        if (lastViewedProject) {
+            router.push(`/project/${lastViewedProject}`);
+        } else {
+            router.push('/hello');
+        }
         return;
     }
 

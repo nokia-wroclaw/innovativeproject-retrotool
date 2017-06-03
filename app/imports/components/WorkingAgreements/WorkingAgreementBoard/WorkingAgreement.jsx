@@ -21,7 +21,7 @@ const WorkingAgreement = ({
     <Card key={id} className="working-agreement">
         <CardHeader
             title={text}
-            subtitle={formatDate(date)}
+            subtitle={`Validity date: ${formatDate(date)}`}
         />
 
         <CardActions>

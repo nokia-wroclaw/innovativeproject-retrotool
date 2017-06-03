@@ -10,7 +10,7 @@ import {
     CardHeader,
 } from 'material-ui';
 
-import '../Style/ActionItems.css';
+import { styles } from '../Style/styles.js';
 
 const formatDate = date => moment(date).format('Do MMMM YYYY');
 
@@ -28,50 +28,38 @@ const ActionItem = ({
     errorRemove,
     idToRemove,
 }) => (
-    <Card key={id} className="action-item" >
+    <Card key={id} className="action-item" style={!open ? styles.card : {}} >
         <CardHeader
-            title={!open ? `${assignee.name} [closed]` : assignee.name}
+            title={assignee.name}
             avatar={assignee.avatar}
         />
 
         <CardText>
             <p>{text}</p>
 
-            {open && closeMessage ?
-                <p><del>Close message: { closeMessage }</del></p>
-                :
-                ''
-            }
-
-            {!open && closeMessage ?
-                <p>Close message: { closeMessage }</p>
-                :
-                ''
+            {closeMessage &&
+                <p className={open ? 'closed-action-item' : ''}>{closeMessage}</p>
             }
 
             <p>
-                <span>Start date: {formatDate(startDate)}</span>
-                <span>Deadline: {formatDate(endDate)}</span>
+                <span className="date-action-item">Start date: {formatDate(startDate)}</span>
+                <span className="date-action-item">Deadline: {formatDate(endDate)}</span>
             </p>
         </CardText>
 
-        {errorRemove && id === idToRemove ?
+        {errorRemove && id === idToRemove &&
             <CardText color="red">
                 {errorRemove.reason ? errorRemove.reason : errorRemove.toString()}
             </CardText>
-            :
-            ''
         }
 
         <CardActions>
-            {isModerator || userId === assignee._id ?
+            {(isModerator || userId === assignee._id) &&
                 <RaisedButton
                     label={open ? 'Close action item' : 'Reopen action item'}
                     onTouchTap={toggleActionItem}
                     secondary={open}
                 />
-                :
-                ''
             }
         </CardActions>
     </Card>

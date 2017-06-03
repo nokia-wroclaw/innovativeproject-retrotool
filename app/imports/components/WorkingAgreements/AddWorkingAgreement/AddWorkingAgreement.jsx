@@ -25,6 +25,7 @@ const AddWorkingAgreement = ({
     <Dialog
         title="Add working agreement"
         open={open}
+        onRequestClose={onClose}
     >
         <AutoForm
             schema={schema}
@@ -40,7 +41,7 @@ const AddWorkingAgreement = ({
             <CustomDatePicker
                 name="date"
                 min={new Date()}
-                placeholder="Start date"
+                floatingLabelText="Start date"
             />
             <FlatButton
                 label="Close"

@@ -19,6 +19,7 @@ import { renderProjectListItems } from '/imports/components/Projects/ProjectList
 const renderSprintLinks = (
     projectId,
     sprintId,
+    currentSprint,
     {
         goToSprint,
         goToPosts,
@@ -29,7 +30,11 @@ const renderSprintLinks = (
 ) =>
     <div>
         {withSubheader && <Divider />}
-        {withSubheader && <Subheader>Current Sprint</Subheader>}
+        {withSubheader && <Subheader>{currentSprint.name} {currentSprint.closed ?
+            ' [CLOSED]'
+            :
+            ''
+        }</Subheader>}
         <ListItem
             leftIcon={<Dashboard />}
             primaryText="Sprint summary"
@@ -56,18 +61,46 @@ const renderSprintLinks = (
 const renderSprintListItems = (
     sprints,
     goToAddSprint,
+    currentSprintId,
     goToSprint,
     projectId,
     showAddSprint = false,
 ) => {
-    const listSprints = sprints.map(sprint => (
+    const openSprints = sprints.filter(sprint => !sprint.closed);
+    const closedSprints = sprints.filter(sprint => sprint.closed);
+
+    const listSprints = openSprints.map(sprint => (
         <ListItem
             leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
             key={sprint._id}
-            primaryText={sprint.name}
+            primaryText={sprint._id === currentSprintId ? <b>{sprint.name}</b> : sprint.name}
             onTouchTap={() => goToSprint(projectId, sprint._id)}
         />
     ));
+
+    if (closedSprints.length) {
+        listSprints.push(
+            <ListItem
+                primaryText="Closed sprints"
+                key="closedSprints"
+                leftIcon={<Lock />}
+                nestedItems={
+                    closedSprints.map(sprint => (
+                        <ListItem
+                            leftIcon={sprint.closed ? <Lock /> : <DirectionsRun />}
+                            key={`nested${sprint._id}`}
+                            primaryText={sprint._id === currentSprintId ?
+                                <b>{sprint.name}</b>
+                                :
+                                sprint.name
+                            }
+                            onTouchTap={() => goToSprint(projectId, sprint._id)}
+                        />
+                    ))
+                }
+            />,
+        );
+    }
 
     if (showAddSprint) {
         listSprints.push(
@@ -96,9 +129,13 @@ const SingleProjectSidebar = (props) => {
         goToSprint,
         goToWorkingAgreements,
         currentSprintId,
+        currentSprint,
         showAddSprint,
         showCreateLink,
         selectedProjectTitle,
+        favouriteProjects,
+        starProject,
+        unstarProject,
     } = props;
 
     const sprintActions = {
@@ -113,13 +150,25 @@ const SingleProjectSidebar = (props) => {
             <ListItem
                 primaryText={selectedProjectTitle}
                 nestedItems={
-                renderProjectListItems(projects, goToProject, showCreateLink, goToAddProject)
+                    renderProjectListItems(
+                        projects,
+                        goToProject,
+                        showCreateLink,
+                        goToAddProject,
+                        favouriteProjects,
+                        starProject,
+                        unstarProject,
+                    )
                 }
             />
-            {currentSprintId && renderSprintLinks(projectId, currentSprintId, sprintActions)}
+            {currentSprintId && renderSprintLinks(
+                projectId, currentSprintId, currentSprint, sprintActions,
+            )}
             <Divider />
             <Subheader>Sprints</Subheader>
-            {renderSprintListItems(sprints, goToAddSprint, goToSprint, projectId, showAddSprint)}
+            {renderSprintListItems(
+                sprints, goToAddSprint, currentSprintId, goToSprint, projectId, showAddSprint,
+            )}
         </List>
     );
 };
@@ -141,6 +190,18 @@ SingleProjectSidebar.propTypes = {
             closed: PropTypes.bool.isRequired,
         }),
     ).isRequired,
+    currentSprint: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        projectId: PropTypes.string.isRequired,
+        closed: PropTypes.bool.isRequired,
+        createdAt: PropTypes.instanceOf(Date).isRequired,
+    }),
+    favouriteProjects: PropTypes.arrayOf(
+        PropTypes.string.isRequired,
+    ).isRequired,
+    starProject: PropTypes.func.isRequired,
+    unstarProject: PropTypes.func.isRequired,
     showAddSprint: PropTypes.bool.isRequired,
     showCreateLink: PropTypes.bool.isRequired,
     goToActionItems: PropTypes.func.isRequired,

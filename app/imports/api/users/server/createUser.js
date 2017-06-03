@@ -1,4 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
+import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 
 const saveUserProfile = (options, user) => {
@@ -30,9 +31,39 @@ const setUsernameIfDoesntHave = (options, user) => {
     return user;
 };
 
+const setAdminOnFirstUser = (options, user) => {
+    if (Meteor.users.find({}).count() > 0) {
+        user.isAdmin = false;
+    } else {
+        user.isAdmin = true;
+    }
+    return user;
+};
+
+const getPublicEmail = (user) => {
+    if (user.services.github) {
+        const githubEmail = [{
+            address: _.get(user, 'services.github.email'),
+            verified: true,
+        }];
+        return githubEmail;
+    }
+    return undefined;
+};
+
+const setPublicEmail = (options, user) => {
+    if (user && !user.emails && getPublicEmail(user)) {
+        user.emails = getPublicEmail(user);
+    }
+    return user;
+};
+
+
 Accounts.onCreateUser((options, user) => {
     user = saveUserProfile(options, user);
+    user = setAdminOnFirstUser(options, user);
     user = setUsernameIfDoesntHave(options, user);
     user = setAvatar(options, user);
+    user = setPublicEmail(options, user);
     return user;
 });

@@ -4,14 +4,16 @@ import { isAdmin } from '/imports/api/users';
 import {
     Projects,
     isProjectMember,
+    isProjectModerator,
 } from '/imports/api/projects';
 
-Meteor.publish('userList', function publishUserList(projectId = null) {
+Meteor.publish('userList', function publishUserList(projectId = null, subscribeAll = false) {
     const userId = this.userId;
 
     const query = {};
     const options = {
         fields: {
+            isAdmin: 1,
             'profile.name': 1,
             'profile.avatar': 1,
         },
@@ -19,6 +21,13 @@ Meteor.publish('userList', function publishUserList(projectId = null) {
 
     if (projectId) {
         check(projectId, String);
+        if (subscribeAll) {
+            const isModerator = isProjectModerator(projectId, userId);
+            if (isModerator) {
+                return Meteor.users.find(query, options);
+            }
+        }
+
         const isMember = isProjectMember(projectId, userId);
         if (isMember) {
             const project = Projects.findOne(projectId);
@@ -50,4 +59,17 @@ Meteor.publish('extendedUser', function publishExtendedUser() {
             isAdmin: 1,
         },
     });
+});
+
+Meteor.publish('githubUsername', function publishGithubUsername() {
+    const userId = this.userId;
+
+    if (userId) {
+        return Meteor.users.find(userId, {
+            fields: {
+                'services.github.username': 1,
+            },
+        });
+    }
+    return this.ready();
 });

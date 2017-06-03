@@ -4,7 +4,7 @@ html, body {
 }
 
 .content-container {
-    margin: 32px;
+    margin: 32px 32px 0 32px;
 }
 
 .half {
@@ -18,4 +18,30 @@ html, body {
 
 .post-comment, .working-agreement, .action-item {
     margin: 8px;
+}
+
+.profile-container {
+    max-width: 400px;
+}
+
+.users-container {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.date-action-item {
+    display: block;
+}
+
+p.closed-action-item {
+    text-decoration: line-through;
+}
+
+.project-overview {
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-wa-container {
+    width: 100%;
 }

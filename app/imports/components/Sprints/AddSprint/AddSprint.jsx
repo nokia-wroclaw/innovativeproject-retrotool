@@ -26,6 +26,7 @@ const AddSprint = ({
         error={error}
     >
         <h1>Add new sprint</h1>
+        <p>Open sprints will be automatically closed</p>
         <ErrorsField />
         <TextField
             name="name"

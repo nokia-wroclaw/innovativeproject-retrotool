@@ -6,7 +6,7 @@ import { CardText } from 'material-ui';
 import AddComment from './AddComment.jsx';
 import Comment from './Comment.jsx';
 
-const PostComments = ({ comments, addPostComment, errorAddPostComment }) => (
+const PostComments = ({ comments, addPostComment, errorAddPostComment, ...props }) => (
     <CardText>
         {comments.map((comment) => {
             const {
@@ -19,9 +19,11 @@ const PostComments = ({ comments, addPostComment, errorAddPostComment }) => (
             return (
                 <Comment
                     key={id}
+                    id={id}
                     text={text}
                     author={author}
                     createdAt={createdAt}
+                    {...props}
                 />
             );
         })}
