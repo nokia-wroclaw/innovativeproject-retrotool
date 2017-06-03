@@ -23,6 +23,7 @@ const Post = ({
     author,
     text,
     categoryName,
+    categoryColor,
     createdAt,
     projectId,
     canRemove,
@@ -42,7 +43,7 @@ const Post = ({
             subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
-            <Chip>{categoryName}</Chip>
+            <Chip backgroundColor={categoryColor}>{categoryName}</Chip>
             <ReactMarkdown source={text} />
         </CardText>
         <CardActions>
@@ -81,6 +82,7 @@ Post.propTypes = {
     }),
     text: PropTypes.string.isRequired,
     categoryName: PropTypes.string.isRequired,
+    categoryColor: PropTypes.string.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,

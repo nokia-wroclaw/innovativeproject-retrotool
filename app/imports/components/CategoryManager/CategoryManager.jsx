@@ -29,6 +29,7 @@ const CategoriesManager = ({
                         key={category.value}
                         value={category.value}
                         label={category.label}
+                        backgroundColor={category.color}
                         onRequestDelete={removePostCategory}
                     />,
                 )}

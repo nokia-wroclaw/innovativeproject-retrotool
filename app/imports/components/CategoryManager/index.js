@@ -21,12 +21,14 @@ const composer = ({ params: { projectId = '' } }, onData) => {
             category => ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
         const globalCategories = Categories.find({ projectId: { $exists: false } }).map(
             category => ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
 
