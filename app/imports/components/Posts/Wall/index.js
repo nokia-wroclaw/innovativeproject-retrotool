@@ -41,6 +41,12 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                 authorId,
             } = post;
 
+            post.categoryName = _.get(
+                _.find(categories, c => c.value === post.categoryId),
+                'label',
+                'None',
+            );
+
             if (showAuthor) {
                 const author = _.find(users, { _id: authorId });
                 post.author = {
