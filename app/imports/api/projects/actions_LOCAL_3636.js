@@ -3,8 +3,6 @@ import {
     createProject,
     removeModerator,
     addModerators,
-    updateProject,
-    removeMember as removeMemberMethod,
     setLastViewedProject as setLastViewedProjectMethod,
     starProject as starProjectMethod,
     unstarProject as unstarProjectMethod,
@@ -27,7 +25,6 @@ const createNewProject = (name, moderators, members) => new Promise((resolve, re
     });
 });
 
-
 const addModerator = (projectId, moderators) => new Promise((resolve, reject) => {
     addModerators.call({
         projectId,
@@ -48,10 +45,6 @@ const removeMod = (projectId, userId) => {
     });
 };
 
-const removeMember = (projectId, userId) => removeMemberMethod.call({ projectId, userId });
-const addMembers = doc => updateProject.call(doc);
-
-
 const setLastViewedProject = projectId => setLastViewedProjectMethod.call({ projectId });
 const starProject = projectId => starProjectMethod.call({ projectId });
 const unstarProject = projectId => unstarProjectMethod.call({ projectId });
@@ -65,8 +58,6 @@ const actions = {
     setLastViewedProject,
     starProject,
     unstarProject,
-    addMembers,
-    removeMember,
 };
 
 export { actions };

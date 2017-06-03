@@ -15,15 +15,24 @@ const {
 const composer = (props, onData) => {
     const projectsHandler = Meteor.subscribe('projectList');
     const showCreateLink = isAdmin();
+    const user = Meteor.user();
+    const { favouriteProjects = [] } = user && user.profile;
 
     if (projectsHandler.ready()) {
         const projects = Projects.find({}).fetch();
+        const {
+            starProject,
+            unstarProject,
+        } = actions;
 
         onData(null, {
             projects,
             onTouchTap: goToProject,
             goToAddProject,
             showCreateLink,
+            favouriteProjects,
+            starProject,
+            unstarProject,
         });
     }
 };

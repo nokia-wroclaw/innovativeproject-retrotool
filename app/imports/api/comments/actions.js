@@ -1,4 +1,7 @@
-import { addComment } from './methods.js';
+import {
+    addComment,
+    removeComment,
+} from './methods.js';
 
 const addPostComment = ({ postId, showAuthor, text }) => new Promise((resolve, reject) => {
     addComment.call({ postId, showAuthor, text }, (error, result) => {
@@ -10,8 +13,11 @@ const addPostComment = ({ postId, showAuthor, text }) => new Promise((resolve, r
     });
 });
 
+const removePostComment = id => removeComment.call({ id });
+
 const actions = {
     addPostComment,
+    removePostComment,
 };
 
 export { actions };
