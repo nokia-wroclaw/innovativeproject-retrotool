@@ -5,13 +5,21 @@ import { Projects } from './../Projects.js';
 import { isProjectMember } from './../helpers.js';
 
 /**
- * Limit query to current user projects
+ * If user is not admin limit query to current user projects
  * Works only if query doesn't have property `members`
  * @param  {String} userId Current userId
  * @param  {Object} query  Mongo query
  * @return {Object}        Updated mongo query
  */
 const limitQueryToUserProjects = (userId, query) => {
+    const isCurrentUserAdmin = isAdmin(userId);
+    if (!isCurrentUserAdmin && query && !query.members) {
+        query.members = userId;
+    }
+    return query;
+};
+
+const limitQueryToMemberProjects = (userId, query) => {
     if (query && !query.members) {
         query.members = userId;
     }
@@ -28,6 +36,23 @@ Meteor.publish('projectList', function publishProjectList() {
     const options = {
         fields: {
             name: 1,
+        },
+    };
+
+    return Projects.find(query, options);
+});
+
+Meteor.publish('memberProjectList', function publishMemberProjectList() {
+    if (!this.userId) {
+        return this.ready();
+    }
+    const query = {};
+    limitQueryToMemberProjects(this.userId, query);
+
+    const options = {
+        fields: {
+            name: 1,
+            members: 1,
         },
     };
 
