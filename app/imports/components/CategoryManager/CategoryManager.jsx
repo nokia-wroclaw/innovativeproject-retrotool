@@ -49,7 +49,15 @@ const CategoriesManager = ({
                     title="Project Categories"
                 />
                 <CardText>
-                    {projectCategories.map(CategoryChip)}
+                    {projectCategories.map(category =>
+                        <CategoryChip
+                            key={category.value}
+                            value={category.value}
+                            label={category.label}
+                            backgroundColor={category.color}
+                            onRequestDelete={removePostCategory}
+                        />,
+                    )}
                 </CardText>
                 {canEditProjectCategories &&
                     <CardActions>

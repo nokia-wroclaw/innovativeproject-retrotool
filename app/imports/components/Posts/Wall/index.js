@@ -18,7 +18,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectHandler = Meteor.subscribe('singleProject', projectId);
     const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
     const postsHandler = Meteor.subscribe('sprintPosts', sprintId);
-    const categoriesHandler = Meteor.subscribe('categories');
+    const categoriesHandler = Meteor.subscribe('categories', projectId);
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
 
     if (
