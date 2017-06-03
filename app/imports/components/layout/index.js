@@ -13,10 +13,13 @@ import MainLayout from './MainLayout.jsx';
 
 
 const composer = ({ params: { projectId, sprintId }, location: { pathname } }, onData) => {
-    const userHandler = Meteor.subscribe('extendedUser');
-    const sprintListHandler = Meteor.subscribe('sprintList', projectId);
+    const handlers = [Meteor.subscribe('extendedUser')];
 
-    if (userHandler.ready() && sprintListHandler.ready()) {
+    if (projectId) {
+        handlers.push(Meteor.subscribe('sprintList', projectId));
+    }
+
+    if (handlers.every(handler => handler.ready())) {
         const isLoggedInUser = isLoggedIn();
         const isCurrentUserAdmin = isAdmin();
 
