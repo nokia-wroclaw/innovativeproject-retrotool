@@ -12,7 +12,6 @@ import { isProjectMember } from './../helpers.js';
  * @return {Object}        Updated mongo query
  */
 const limitQueryToUserProjects = (userId, query) => {
-    const isCurrentUserAdmin = isAdmin(userId);
     if (query && !query.members) {
         query.members = userId;
     }
