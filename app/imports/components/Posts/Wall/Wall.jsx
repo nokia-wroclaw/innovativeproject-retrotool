@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import ConfirmModal from '/imports/components/ConfirmModal';
 import AddPost from '../AddPost';
 import WallToolbar from './WallToolbar.jsx';
 import Post from './Post.jsx';
@@ -20,10 +20,13 @@ class Wall extends React.Component {
         this.showAddPostModal = this.showAddPostModal.bind(this);
         this.hideAddPostModal = this.hideAddPostModal.bind(this);
         this.addPost = this.addPost.bind(this);
+        this.showRemovePostModal = this.showRemovePostModal.bind(this);
+        this.hideRemovePostModal = this.hideRemovePostModal.bind(this);
 
         this.state = {
             selectedSortId: getDefaultOptionValue(),
             showAddPostModal: false,
+            showAddRemoveModal: false,
             addPostError: null,
         };
     }
@@ -47,6 +50,19 @@ class Wall extends React.Component {
         });
     }
 
+    showRemovePostModal(postId) {
+        this.setState({
+            showAddRemoveModal: true,
+            postId,
+        });
+    }
+
+    hideRemovePostModal() {
+        this.setState({
+            showAddRemoveModal: false,
+        });
+    }
+
     addPost(doc) {
         const { sprintId } = this.props;
         this.props.addPost({ sprintId, ...doc }, (error) => {
@@ -63,7 +79,9 @@ class Wall extends React.Component {
             addPostError,
             selectedCategoryId,
             showAddPostModal,
+            showAddRemoveModal,
             selectedSortId,
+            postId,
         } = this.state;
 
         const {
@@ -72,8 +90,12 @@ class Wall extends React.Component {
             isProjectModeratorOrAdmin,
             removePost,
             likePost,
+            removeLike,
             dislikePost,
+            removeDislike,
             isSprintOpen,
+            userId,
+            isMember,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -89,6 +111,7 @@ class Wall extends React.Component {
                     selectedSortId={selectedSortId}
                     sortOptions={sortOptions}
                     isSprintOpen={isSprintOpen}
+                    isMember={isMember}
                 />
 
                 <div className="content-container">
@@ -101,18 +124,37 @@ class Wall extends React.Component {
                                 key={post._id}
                                 id={post._id}
                                 author={post.author}
+                                categoryName={post.categoryName}
+                                categoryColor={post.categoryColor}
                                 text={post.text}
                                 createdAt={post.createdAt}
                                 projectId={projectId}
                                 canRemove={isProjectModeratorOrAdmin}
-                                removePost={removePost}
+                                removePost={this.showRemovePostModal}
                                 likePost={likePost}
+                                removeLike={removeLike}
                                 dislikePost={dislikePost}
-                                likes={post.likes}
+                                removeDislike={removeDislike}
+                                likes={post.likes.length}
+                                dislikes={post.dislikes.length}
+                                isLiked={!!post.likes.find(like => like === userId)}
+                                isDisliked={!!post.dislikes.find(dislike => dislike === userId)}
+                                isMember={isMember}
                             />,
                         )
                     }
                 </div>
+
+                <ConfirmModal
+                    title="Are you sure?"
+                    text="You are removing post, please confirm"
+                    open={showAddRemoveModal}
+                    onCancel={this.hideRemovePostModal}
+                    onConfirm={() => {
+                        removePost(postId);
+                        this.hideRemovePostModal();
+                    }}
+                />
 
                 <AddPost
                     categories={categories}
@@ -147,11 +189,15 @@ Wall.propTypes = {
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
     projectId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 Wall.defaultProps = {

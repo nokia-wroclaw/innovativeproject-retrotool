@@ -13,78 +13,86 @@ import { Sprints } from '/imports/api/sprints';
 
 import WorkingAgreements from './WorkingAgreements.jsx';
 
-const removeWorkingAgreement = (id, sprintId, onData, handlers, wrappedData) => {
-    workingAgreementActions.deleteWorkingAgreement(id).then(() => {
-        wrappedData(onData, sprintId, handlers, {
-            openRemoveSnackbar: true,
+const removeWorkingAgreement = (
+    id,
+    sprintId,
+    projectId,
+    onData,
+    handlers,
+    hideButton,
+    wrappedData,
+) => {
+    workingAgreementActions.deleteWorkingAgreement(id).then((removeResult) => {
+        wrappedData(onData, sprintId, projectId, handlers, hideButton, {
+            removeResult: !!removeResult,
         });
     }).catch((error) => {
-        wrappedData(onData, sprintId, handlers, {
+        wrappedData(onData, sprintId, projectId, handlers, hideButton, {
             errorRemove: error,
         });
     });
 };
 
-const addWorkingAgreement = async (sprintId, text, date, onData, handlers, wrappedData) => {
-    try {
-        await workingAgreementActions.createWorkingAgreement(sprintId, text, date);
-        wrappedData(onData, sprintId, handlers, {
-            openSnackbar: true,
+const addWorkingAgreement = (
+    sprintId,
+    projectId,
+    text,
+    date,
+    onData,
+    handlers,
+    hideButton,
+    wrappedData,
+) => {
+    workingAgreementActions.createWorkingAgreement(sprintId, text, date).then((addResult) => {
+        wrappedData(onData, sprintId, projectId, handlers, hideButton, {
+            addResult: !!addResult,
         });
-    } catch (error) {
-        wrappedData(onData, sprintId, handlers, {
+    }).catch((error) => {
+        wrappedData(onData, sprintId, projectId, handlers, hideButton, {
             errorAdd: error,
         });
-    }
-};
-
-const closeSnackBar = (sprintId, onData, handlers, wrappedData) => {
-    wrappedData(onData, sprintId, handlers, {
-        openSnackbar: false,
-        openRemoveSnackbar: false,
     });
 };
 
-const wrappedData = (onData, sprintId, handlers, data) => {
+const wrappedData = (onData, sprintId, projectId, handlers, hideButton, data) => {
     if (handlers.every(handler => handler.ready())) {
         const userId = Meteor.userId();
         const sprint = Sprints.findOne(sprintId);
-        const projectId = sprint.projectId;
         const isMember = isProjectMember(projectId, userId);
         const isModerator = isProjectModerator(projectId, userId);
         const workingAgreements = workingAgreementCollection.find().fetch();
+        const isClosed = sprint ? sprint.closed : true;
 
         onData(null, {
             onData,
             handlers,
             wrappedData,
+            hideButton,
             workingAgreements,
             removeWorkingAgreement,
             addWorkingAgreement,
-            closeSnackBar,
             isMember,
             isModerator,
             sprintId,
-            isClosed: sprint.closed,
+            projectId,
+            isClosed,
             ...data,
         });
     }
 };
 
-const composer = ({ params: { sprintId } }, onData) => {
+const composer = ({ params: { projectId, sprintId }, hideButton }, onData) => {
     const handlers = [
-        Meteor.subscribe('WorkingAgreements', sprintId),
-        Meteor.subscribe('singleSprint', sprintId),
+        Meteor.subscribe('WorkingAgreements', sprintId || projectId, !!sprintId),
+        Meteor.subscribe('singleProject', projectId),
+
     ];
 
-    if (handlers.every(handler => handler.ready())) {
-        const sprint = Sprints.findOne(sprintId);
-        const projectId = sprint.projectId;
-        handlers.push(Meteor.subscribe('singleProject', projectId));
-
-        if (handlers.every(handler => handler.ready())) {
-            wrappedData(onData, sprintId, handlers);
-        }
+    if (sprintId) {
+        handlers.push(Meteor.subscribe('singleSprint', sprintId));
+        wrappedData(onData, sprintId, projectId, handlers, hideButton);
+    } else {
+        wrappedData(onData, '', projectId, handlers, hideButton);
     }
 };
 

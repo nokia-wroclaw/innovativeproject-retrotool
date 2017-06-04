@@ -23,7 +23,6 @@ const composer = ({ params: { sprintId } }, onData) => {
         const projectId = sprint.projectId;
         const projectsHandler = Meteor.subscribe('singleProject', projectId);
 
-
         if (projectsHandler.ready()) {
             const project = Projects.findOne(projectId);
             const userId = Meteor.userId();

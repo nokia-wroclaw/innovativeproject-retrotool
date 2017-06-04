@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
+import { isAdmin } from '/imports/api/users';
+import { actions } from '/imports/api/projects';
 import BasicLayout from '/imports/components/layout/BasicLayout.jsx';
 import MainLayout from '/imports/components/layout';
 
@@ -18,8 +20,14 @@ import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
+import CategoryManager from '/imports/components/CategoryManager';
+
 import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
+
+import Profile from '/imports/components/Users/Profile';
+
+import AdminPanel from '/imports/components/Users/AdminPanel';
 
 const onlyLoggedIn = (nextState, replace) => {
     if (!Meteor.userId()) {
@@ -33,15 +41,32 @@ const onlyLoggedOut = (nextState, replace) => {
     }
 };
 
+const onlyAdmin = (nextState, replace) => {
+    if (!isAdmin()) {
+        replace('/hello');
+    }
+};
+
+const updateLastViewedProject = (nextState) => {
+    const { projectId } = nextState.params;
+    if (projectId) {
+        actions.setLastViewedProject(projectId);
+    }
+};
+
 export default (
     <Route path="/">
         <Route component={MainLayout} onEnter={onlyLoggedIn}>
-            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="admin" onEnter={onlyAdmin}>
+                <Route path="main" component={{ main: AdminPanel, drawerContent: ProjectList }} />
+            </Route>
             <Route
                 path="create"
                 components={{ main: CreateNewProject, drawerContent: ProjectList }}
             />
-            <Route path="project">
+            <Route path="hello" components={{ main: Hello, drawerContent: ProjectList }} />
+            <Route path="profile" component={{ main: Profile, drawerContent: ProjectList }} />
+            <Route path="project" onEnter={updateLastViewedProject}>
                 <Route
                     path=":projectId"
                     components={{ main: SingleProject, drawerContent: SingleProjectSidebar }}
@@ -65,6 +90,10 @@ export default (
                 <Route
                     path=":projectId/sprint/:sprintId/working-agreement"
                     components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/categories"
+                    components={{ main: CategoryManager, drawerContent: SingleProjectSidebar }}
                 />
             </Route>
         </Route>

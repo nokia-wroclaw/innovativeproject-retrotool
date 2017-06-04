@@ -5,21 +5,30 @@ import { isAdmin } from '/imports/api/users';
 import { Sprints } from '/imports/api/sprints';
 import { WorkingAgreements } from './../WorkingAgreements.js';
 
-Meteor.publish('WorkingAgreements', function publishWorkingAgreements(sprintId) {
-    check(sprintId, String);
 
-    const userId = this.userId;
-    const isCurrentUserAdmin = isAdmin(userId);
+Meteor.publish(
+    'WorkingAgreements',
+    function publishWorkingAgreements(sprintOrProjectId, isSprint = true,
+) {
+        check(sprintOrProjectId, String);
+        check(isSprint, Boolean);
 
-    const sprint = Sprints.findOne(sprintId);
-    const projectId = sprint.projectId;
+        const getProjectId = (sprintId) => {
+            const sprint = Sprints.findOne(sprintId);
+            const projectId = sprint.projectId;
+            return projectId;
+        };
 
-    if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
-        const query = { sprintId };
+        const userId = this.userId;
+        const isCurrentUserAdmin = isAdmin(userId);
 
-        const options = {};
+        const query = isSprint ? { sprintId: sprintOrProjectId } : { projectId: sprintOrProjectId };
+        const projectId = isSprint ? getProjectId(sprintOrProjectId) : sprintOrProjectId;
 
-        return WorkingAgreements.find(query, options);
-    }
-    return this.ready();
-});
+        if (isProjectMember(projectId, userId) || isCurrentUserAdmin) {
+            const options = {};
+
+            return WorkingAgreements.find(query, options);
+        }
+        return this.ready();
+    });

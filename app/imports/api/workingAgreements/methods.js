@@ -4,13 +4,13 @@ import { isProjectMember, isProjectModerator } from '/imports/api/projects';
 import { Sprints } from '/imports/api/sprints';
 import { WorkingAgreements } from './WorkingAgreements.js';
 import {
-    WorkingAgreementsSchema,
-    romoveWorkingAgreementsSchema,
+    AddWorkingAgreementsSchema,
+    RemoveWorkingAgreementsSchema,
 } from './schema.js';
 
 export const addWorkingAgreement = new ValidatedMethod({
     name: 'workingAgreement.add',
-    validate: WorkingAgreementsSchema.validator({ clean: true }),
+    validate: AddWorkingAgreementsSchema.validator({ clean: true }),
     run({ sprintId, text, date }) {
         const userId = Meteor.userId();
 
@@ -26,7 +26,13 @@ export const addWorkingAgreement = new ValidatedMethod({
         const projectId = sprint.projectId;
 
         if (isProjectMember(projectId, userId)) {
-            return WorkingAgreements.insert({ sprintId, text, date });
+            return WorkingAgreements.insert({
+                projectId,
+                sprintId,
+                text,
+                date,
+                createdAt: new Date(),
+            });
         }
         throw new Meteor.Error(
             'working-agreements-only-members-can-add',
@@ -37,7 +43,7 @@ export const addWorkingAgreement = new ValidatedMethod({
 
 export const removeWorkingAgreement = new ValidatedMethod({
     name: 'workingAgreement.remove',
-    validate: romoveWorkingAgreementsSchema.validator({ clean: true }),
+    validate: RemoveWorkingAgreementsSchema.validator({ clean: true }),
     run({ workingAgreementId }) {
         const userId = Meteor.userId();
 

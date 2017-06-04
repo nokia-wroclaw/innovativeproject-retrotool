@@ -123,3 +123,47 @@ export const dislikePost = new ValidatedMethod({
         );
     },
 });
+
+export const removeLike = new ValidatedMethod({
+    name: 'remove.like',
+    validate: LikePostSchema.validator({ clean: true }),
+    run({ postId }) {
+        const userId = Meteor.userId();
+        const { sprintId = null } = Posts.findOne(postId);
+        const { projectId = null } = Sprints.findOne(sprintId);
+        if (isProjectMember(projectId, userId)) {
+            return Posts.update({ _id: postId }, {
+                $pull: {
+                    likes: userId,
+                },
+            });
+        }
+
+        throw new Meteor.Error(
+            'posts-only-members-can-remove-like',
+            'Only members can remove like',
+        );
+    },
+});
+
+export const removeDislike = new ValidatedMethod({
+    name: 'remove.dislike',
+    validate: LikePostSchema.validator({ clean: true }),
+    run({ postId }) {
+        const userId = Meteor.userId();
+        const { sprintId = null } = Posts.findOne(postId);
+        const { projectId = null } = Sprints.findOne(sprintId);
+        if (isProjectMember(projectId, userId)) {
+            return Posts.update({ _id: postId }, {
+                $pull: {
+                    dislikes: userId,
+                },
+            });
+        }
+
+        throw new Meteor.Error(
+            'posts-only-members-can-remove-dislike',
+            'Only members can remove dislike',
+        );
+    },
+});

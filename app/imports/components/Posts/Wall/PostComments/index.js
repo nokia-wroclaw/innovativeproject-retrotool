@@ -52,6 +52,7 @@ const composer = (props, onData) => {
     const {
         postId,
         projectId,
+        isMember,
      } = props;
 
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
@@ -64,12 +65,16 @@ const composer = (props, onData) => {
             wrappedOnData(usersHandler, commentsHandler, postId, onData, {
                 addPostComment,
                 errorAddPostComment,
+                removeComment: actions.removePostComment,
+                isMember,
             });
         }
     };
 
     wrappedOnData(usersHandler, commentsHandler, postId, onData, {
         addPostComment,
+        removeComment: actions.removePostComment,
+        isMember,
     });
 };
 

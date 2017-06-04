@@ -4,7 +4,14 @@ import {
     AppBar,
     Drawer,
 } from 'material-ui';
-import { onLogOut } from '/imports/api/users';
+
+import {
+    actions as postActions,
+} from '/imports/api/posts';
+import {
+    onLogOut,
+    actions as usersActions,
+} from '/imports/api/users';
 import Navigation from './Navigation.jsx';
 
 class MainLayout extends React.Component {
@@ -15,6 +22,14 @@ class MainLayout extends React.Component {
         this.state = {
             isDrawerOpen: false,
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { pathname } = nextProps;
+
+        if (pathname !== this.props.pathname) {
+            this.closeDrawer();
+        }
     }
 
     closeDrawer() {
@@ -32,7 +47,10 @@ class MainLayout extends React.Component {
             isLoggedInUser,
             isCurrentUserAdmin,
             title,
+            projectId,
+            sprintId,
         } = this.props;
+
         const { isDrawerOpen } = this.state;
 
         return (
@@ -42,12 +60,12 @@ class MainLayout extends React.Component {
                     onLeftIconButtonTouchTap={this.handleToggleDrawer}
                     iconElementRight={
                         <Navigation
-                            goToWall={() => {}}
-                            goToProfile={() => {}}
-                            goToAdminPanel={() => {}}
+                            goToWall={() => postActions.goToPosts(projectId, sprintId)}
+                            goToProfile={usersActions.goToProfile}
+                            goToAdminPanel={usersActions.goToAdminPanel}
                             onLogOut={onLogOut}
                             showButtons={{
-                                wall: isLoggedInUser,
+                                wall: isLoggedInUser && !!projectId && !!sprintId,
                                 profile: isLoggedInUser,
                                 adminPanel: isCurrentUserAdmin,
                                 logout: isLoggedInUser,
@@ -71,15 +89,20 @@ class MainLayout extends React.Component {
 }
 MainLayout.propTypes = {
     title: PropTypes.string.isRequired,
+    pathname: PropTypes.string.isRequired,
     main: PropTypes.node.isRequired,
     drawerContent: PropTypes.node.isRequired,
     isLoggedInUser: PropTypes.bool.isRequired,
     isCurrentUserAdmin: PropTypes.bool.isRequired,
+    projectId: PropTypes.string,
+    sprintId: PropTypes.string,
 };
 
 MainLayout.defaultProps = {
     isLoggedInUser: false,
     isCurrentUserAdmin: false,
+    projectId: '',
+    sprintId: '',
 };
 
 export default MainLayout;

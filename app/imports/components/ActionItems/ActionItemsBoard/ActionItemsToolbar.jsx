@@ -6,6 +6,7 @@ import {
     ToolbarGroup,
 } from 'material-ui';
 
+import SortSelect from '/imports/components/Posts/Wall/SortSelect.jsx';
 import RenderStatus from './RenderStatus.jsx';
 
 const ActionItemsToolbar = ({
@@ -14,6 +15,10 @@ const ActionItemsToolbar = ({
     isClosed,
     selectedState,
     onChangeCategory,
+    handleChangeSort,
+    selectedSortId,
+    sortOptions,
+    hideButton,
 }) => {
     const status = [
         {
@@ -33,6 +38,11 @@ const ActionItemsToolbar = ({
     return (
         <Toolbar>
             <ToolbarGroup>
+                <SortSelect
+                    onChange={handleChangeSort}
+                    selectedId={selectedSortId}
+                    options={sortOptions}
+                />
                 <RenderStatus
                     status={status}
                     selectedState={selectedState}
@@ -40,7 +50,7 @@ const ActionItemsToolbar = ({
                 />
             </ToolbarGroup>
             <ToolbarGroup>
-                {isMember && !isClosed ?
+                {isMember && !isClosed && !hideButton ?
                     <RaisedButton
                         label="Add action item"
                         onTouchTap={addActionItem}
@@ -54,12 +64,26 @@ const ActionItemsToolbar = ({
     );
 };
 
+ActionItemsToolbar.defaultProps = {
+    hideButton: false,
+    selectedSortId: '',
+};
+
 ActionItemsToolbar.propTypes = {
     addActionItem: PropTypes.func.isRequired,
     onChangeCategory: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
     selectedState: PropTypes.string.isRequired,
+    handleChangeSort: PropTypes.func.isRequired,
+    selectedSortId: PropTypes.string.isRequired,
+    sortOptions: PropTypes.arrayOf(
+        PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        }),
+    ).isRequired,
+    hideButton: PropTypes.bool,
 };
 
 export default ActionItemsToolbar;

@@ -11,6 +11,7 @@ const wrappedOnData = (handler, onData, data) => {
         const options = Meteor.users.find({}).map(user => ({
             value: user._id,
             label: user.profile.name,
+            avatar: user.profile.avatar,
         }));
 
         onData(null, {

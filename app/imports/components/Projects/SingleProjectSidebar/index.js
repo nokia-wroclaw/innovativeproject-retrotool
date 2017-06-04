@@ -26,7 +26,7 @@ import { isAdmin } from '/imports/api/users';
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
 const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) => {
-    const projectListHandler = Meteor.subscribe('projectList');
+    const projectListHandler = Meteor.subscribe('memberProjectList');
     const sprintListHandler = Meteor.subscribe('sprintList', projectId);
     const userId = Meteor.userId();
 
@@ -38,6 +38,15 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
         const canAddNewSprint = isProjectModerator(projectId, userId) || isCurrentUserAdmin;
 
         const selectedProjectTitle = getProjectName(projectId);
+
+        const currentSprint = Sprints.findOne(currentSprintId);
+
+        const user = Meteor.user();
+        const { favouriteProjects = [] } = user && user.profile;
+        const {
+            starProject,
+            unstarProject,
+        } = projectActions;
 
         onData(null, {
             projectId,
@@ -51,9 +60,13 @@ const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) 
             goToActionItems: actionItemsActions.goToActionItems,
             goToWorkingAgreements: workingAgreementsActions.goToWorkingAgreements,
             currentSprintId,
+            currentSprint,
             showAddSprint: canAddNewSprint,
             showCreateLink: isCurrentUserAdmin,
             selectedProjectTitle,
+            favouriteProjects,
+            starProject,
+            unstarProject,
         });
     }
 };

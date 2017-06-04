@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Categories } from './../Categories.js';
+import selectedColors from './../colors.js';
 
 if (Meteor.isServer) {
     const { skipSeeds } = Meteor.settings;
@@ -14,8 +15,11 @@ if (Meteor.isServer) {
     ];
 
     if (Categories.find().count() === 0) {
-        categories.forEach(categoryName =>
-            Categories.insert({ name: categoryName }),
+        categories.forEach((categoryName, index) =>
+            Categories.insert({
+                name: categoryName,
+                color: selectedColors[index % selectedColors.length],
+            }),
         );
     }
 }

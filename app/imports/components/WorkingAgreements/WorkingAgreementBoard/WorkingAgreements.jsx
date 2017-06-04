@@ -1,10 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from 'material-ui/Snackbar';
+
 import WorkingAgreementsToolbar from './WorkingAgreementsToolbar.jsx';
 import WorkingAgreement from './WorkingAgreement.jsx';
 import AddWorkingAgreement from '../AddWorkingAgreement';
 import RemoveWorkingAgreement from '../RemoveWorkingAgreement';
+
+import {
+    getDefaultOptionValue,
+    sort,
+    sortOptions,
+} from './utils.js';
 
 
 class WorkingAgreements extends React.Component {
@@ -14,23 +21,56 @@ class WorkingAgreements extends React.Component {
         this.showAddWorkingAgreementModal = this.showAddWorkingAgreementModal.bind(this);
         this.hideAddWorkingAgreementModal = this.hideAddWorkingAgreementModal.bind(this);
         this.addWorkingAgreement = this.addWorkingAgreement.bind(this);
+        this.deleteWorkingAgreement = this.deleteWorkingAgreement.bind(this);
 
         this.showRemoveWorkingAgreementModal = this.showRemoveWorkingAgreementModal.bind(this);
         this.hideRemoveWorkingAgreementModal = this.hideRemoveWorkingAgreementModal.bind(this);
+        this.closeSnackBar = this.closeSnackBar.bind(this);
+
+        this.handleChangeSort = this.handleChangeSort.bind(this);
 
         this.state = {
             showAddWorkingAgreementModal: false,
             showRemoveWorkingAgreementModal: false,
             workingAgreementId: '',
+            openSnackbar: false,
+            snackbarMessage: '',
+            selectedSortId: getDefaultOptionValue(),
         };
     }
 
     componentWillReceiveProps(props) {
-        if (!props.errorAdd && props.openSnackbar) {
+        const {
+            errorAdd,
+            errorRemove,
+            addResult,
+            removeResult,
+        } = props;
+
+        if (!errorAdd) {
             this.hideAddWorkingAgreementModal();
         }
-        if (!props.errorRemove && props.openRemoveSnackbar) {
+        if (!errorRemove) {
             this.hideRemoveWorkingAgreementModal();
+        }
+        if (addResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been created!',
+            });
+        }
+        if (removeResult) {
+            this.setState({
+                openSnackbar: true,
+                snackbarMessage: 'Working agreement has been removed!',
+            });
+        }
+    }
+
+    handleChangeSort(event, index, value) {
+        const { selectedSortId } = this.state;
+        if (selectedSortId !== value) {
+            this.setState({ selectedSortId: value });
         }
     }
 
@@ -57,16 +97,48 @@ class WorkingAgreements extends React.Component {
         });
     }
 
+    closeSnackBar() {
+        this.setState({
+            openSnackbar: false,
+            openRemoveSnackbar: false,
+        });
+    }
+
     addWorkingAgreement(doc) {
         const {
             addWorkingAgreement,
             sprintId,
+            projectId,
             onData,
             handlers,
+            hideButton,
             wrappedData,
         } = this.props;
 
-        addWorkingAgreement(sprintId, doc.text, doc.date, onData, handlers, wrappedData);
+        addWorkingAgreement(
+            sprintId,
+            projectId,
+            doc.text,
+            doc.date,
+            onData,
+            handlers,
+            hideButton,
+            wrappedData,
+        );
+    }
+
+    deleteWorkingAgreement(id) {
+        const {
+            removeWorkingAgreement,
+            sprintId,
+            projectId,
+            onData,
+            handlers,
+            hideButton,
+            wrappedData,
+        } = this.props;
+
+        removeWorkingAgreement(id, sprintId, projectId, onData, handlers, hideButton, wrappedData);
     }
 
     render() {
@@ -74,31 +146,32 @@ class WorkingAgreements extends React.Component {
             showAddWorkingAgreementModal,
             showRemoveWorkingAgreementModal,
             workingAgreementId,
+            openSnackbar,
+            snackbarMessage,
+            selectedSortId,
         } = this.state;
 
         const {
-            workingAgreements,
-            removeWorkingAgreement,
             isMember,
             isModerator,
             errorRemove,
             isClosed,
             errorAdd,
-            openSnackbar,
-            openRemoveSnackbar,
-            closeSnackBar,
-            sprintId,
-            onData,
-            handlers,
-            wrappedData,
+            hideButton,
         } = this.props;
+
+        const workingAgreements = sort(this.props.workingAgreements, selectedSortId);
 
         return (
             <div>
                 <WorkingAgreementsToolbar
                     addWorkingAgreement={this.showAddWorkingAgreementModal}
+                    handleChangeSort={this.handleChangeSort}
+                    selectedSortId={selectedSortId}
                     isMember={isMember}
                     isClosed={isClosed}
+                    hideButton={hideButton}
+                    sortOptions={sortOptions}
                 />
 
                 <div className="content-container">
@@ -110,10 +183,6 @@ class WorkingAgreements extends React.Component {
                             date={wa.date}
                             deleteWorkingAgreement={this.showRemoveWorkingAgreementModal}
                             isModerator={isModerator}
-                            sprintId={sprintId}
-                            onData={onData}
-                            handlers={handlers}
-                            wrappedData={wrappedData}
                         />,
                     )}
                 </div>
@@ -127,28 +196,17 @@ class WorkingAgreements extends React.Component {
 
                 <RemoveWorkingAgreement
                     open={showRemoveWorkingAgreementModal}
-                    onSubmit={removeWorkingAgreement}
+                    onSubmit={this.deleteWorkingAgreement}
                     error={errorRemove}
                     onClose={this.hideRemoveWorkingAgreementModal}
                     id={workingAgreementId}
-                    sprintId={sprintId}
-                    onData={onData}
-                    handlers={handlers}
-                    wrappedData={wrappedData}
                 />
 
                 <Snackbar
                     open={openSnackbar}
-                    message="New working agreement has been added!"
+                    message={snackbarMessage}
                     autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
-                />
-
-                <Snackbar
-                    open={openRemoveSnackbar}
-                    message="Working agreement has been removed!"
-                    autoHideDuration={4000}
-                    onRequestClose={() => closeSnackBar(sprintId, onData, handlers, wrappedData)}
+                    onRequestClose={this.closeSnackBar}
                 />
             </div>
         );
@@ -159,22 +217,21 @@ WorkingAgreements.defaultProps = {
     errorRemove: null,
     errorAdd: null,
     idToRemove: '',
-    openSnackbar: false,
-    openRemoveSnackbar: false,
+    hideButton: false,
+    addResult: false,
+    removeResult: false,
 };
 
 WorkingAgreements.propTypes = {
     sprintId: PropTypes.string.isRequired,
+    projectId: PropTypes.string.isRequired,
     addWorkingAgreement: PropTypes.func.isRequired,
-    closeSnackBar: PropTypes.func.isRequired,
     wrappedData: PropTypes.func.isRequired,
     onData: PropTypes.func.isRequired,
     removeWorkingAgreement: PropTypes.func.isRequired,
     isMember: PropTypes.bool.isRequired,
     isModerator: PropTypes.bool.isRequired,
     isClosed: PropTypes.bool.isRequired,
-    openSnackbar: PropTypes.bool.isRequired,
-    openRemoveSnackbar: PropTypes.bool.isRequired,
     workingAgreements: PropTypes.arrayOf(
         PropTypes.shape({
             _id: PropTypes.string.isRequired,
@@ -187,6 +244,9 @@ WorkingAgreements.propTypes = {
             subscriptionId: PropTypes.string.isRequired,
         }).isRequired,
     ).isRequired,
+    hideButton: PropTypes.bool,
+    addResult: PropTypes.bool,
+    removeResult: PropTypes.bool,
     errorRemove: PropTypes.instanceOf(Error),
     errorAdd: PropTypes.instanceOf(Error),
 };
