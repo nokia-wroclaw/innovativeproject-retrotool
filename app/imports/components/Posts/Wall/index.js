@@ -18,7 +18,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectHandler = Meteor.subscribe('singleProject', projectId);
     const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
     const postsHandler = Meteor.subscribe('sprintPosts', sprintId);
-    const categoriesHandler = Meteor.subscribe('categories');
+    const categoriesHandler = Meteor.subscribe('categories', projectId);
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
 
     if (
@@ -33,6 +33,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
         const posts = Posts.find({}).map((post) => {
@@ -40,6 +41,10 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                 showAuthor,
                 authorId,
             } = post;
+
+            const category = _.find(categories, c => c.value === post.categoryId) || {};
+            post.categoryName = category.label;
+            post.categoryColor = category.color;
 
             if (showAuthor) {
                 const author = _.find(users, { _id: authorId });

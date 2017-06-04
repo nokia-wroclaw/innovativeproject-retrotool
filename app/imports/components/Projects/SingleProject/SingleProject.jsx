@@ -15,6 +15,8 @@ const SingleProject = ({
     isFavouriteProject,
     starProject,
     unstarProject,
+    canEditCategories,
+    goToCategoryManager,
 }) => (
     <div className="project-overview">
         <ProjectOverviewToolbar
@@ -23,6 +25,8 @@ const SingleProject = ({
             isFavouriteProject={isFavouriteProject}
             starProject={starProject}
             unstarProject={unstarProject}
+            canEditCategories={canEditCategories}
+            goToCategoryManager={goToCategoryManager}
         />
         <div className="ai-wa-container">
             <div className="half">
@@ -46,6 +50,8 @@ SingleProject.propTypes = {
     isFavouriteProject: PropTypes.bool.isRequired,
     starProject: PropTypes.func.isRequired,
     unstarProject: PropTypes.func.isRequired,
+    canEditCategories: PropTypes.bool.isRequired,
+    goToCategoryManager: PropTypes.func.isRequired,
 };
 
 SingleProject.defaultProps = {

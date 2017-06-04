@@ -10,23 +10,27 @@ import { isProjectModerator } from '/imports/api/projects';
 import CategoryManager from './CategoryManager.jsx';
 
 const composer = ({ params: { projectId = '' } }, onData) => {
+    const projectHandler = Meteor.subscribe('singleProject', projectId);
     const categoriesHandler = Meteor.subscribe('categories', projectId);
 
     const userId = Meteor.userId();
     const canEditGlobalCategories = isAdmin();
-    const canEditProjectCategories = projectId && isProjectModerator(projectId, userId);
 
-    if (categoriesHandler.ready()) {
+    if (categoriesHandler.ready() && projectHandler.ready()) {
+        const canEditProjectCategories = projectId && isProjectModerator(projectId, userId);
+
         const projectCategories = Categories.find({ projectId }).map(
             category => ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
         const globalCategories = Categories.find({ projectId: { $exists: false } }).map(
             category => ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
 

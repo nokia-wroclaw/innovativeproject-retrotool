@@ -33,7 +33,6 @@ export default class SetAdmin extends React.Component {
         const choice = [
             <FlatButton
                 label="No"
-                keyboardFocused
                 primary
                 onTouchTap={() => this.handleClose(false)}
             />,
