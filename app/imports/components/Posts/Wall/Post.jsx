@@ -8,12 +8,16 @@ import {
     CardHeader,
     CardText,
     RaisedButton,
+    FlatButton,
+    LinearProgress,
 } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
 import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import { blue500 } from 'material-ui/styles/colors';
 
 import PostComments from './PostComments';
+import { styles } from './styles.js';
 
 const formatDate = date => moment.utc(date).fromNow();
 
@@ -48,30 +52,40 @@ const Post = ({
         </CardText>
         <CardActions>
             {!isLiked ?
-                <RaisedButton
+                <FlatButton
                     icon={<ThumbUp />}
-                    label={`Like It (${likes})`}
+                    label={likes}
                     onTouchTap={() => likePost(id)}
                 />
                 :
-                <RaisedButton
-                    icon={<ThumbUp />}
-                    label={`Remove like (${likes})`}
+                <FlatButton
+                    icon={<ThumbUp color={blue500} />}
+                    label={likes}
                     onTouchTap={() => removeLike(id)}
                 />
             }
             {!isDisliked ?
-                <RaisedButton
+                <FlatButton
                     icon={<ThumbDown />}
-                    label={`Dislike It (${dislikes})`}
+                    label={dislikes}
                     onTouchTap={() => dislikePost(id)}
                 />
                 :
-                <RaisedButton
-                    icon={<ThumbDown />}
-                    label={`Remove dislike (${dislikes})`}
+                <FlatButton
+                    icon={<ThumbDown color={blue500} />}
+                    label={dislikes}
                     onTouchTap={() => removeDislike(id)}
                 />
+            }
+            {likes ?
+                <LinearProgress
+                    mode="determinate"
+                    value={likes}
+                    max={likes + dislikes}
+                    style={styles.LinearProgress}
+                />
+                :
+                ''
             }
 
             {canRemove &&
