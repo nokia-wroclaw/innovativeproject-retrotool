@@ -7,6 +7,7 @@ import {
     CardActions,
     CardHeader,
     CardText,
+    Chip,
     RaisedButton,
 } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
@@ -21,6 +22,8 @@ const Post = ({
     id,
     author,
     text,
+    categoryName,
+    categoryColor,
     createdAt,
     projectId,
     canRemove,
@@ -41,6 +44,7 @@ const Post = ({
             subtitle={`Posted ${formatDate(createdAt)}`}
         />
         <CardText>
+            <Chip backgroundColor={categoryColor}>{categoryName}</Chip>
             <ReactMarkdown source={text} />
         </CardText>
         <CardActions>
@@ -79,6 +83,8 @@ Post.propTypes = {
         avatar: PropTypes.string,
     }),
     text: PropTypes.string.isRequired,
+    categoryName: PropTypes.string.isRequired,
+    categoryColor: PropTypes.string.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,

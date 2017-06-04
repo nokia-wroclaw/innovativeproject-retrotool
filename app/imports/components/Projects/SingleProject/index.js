@@ -6,13 +6,17 @@ import { FullPageLoader } from '/imports/components/Loaders';
 import {
     Projects,
     actions,
+    isProjectModeratorOrAdmin,
 } from '/imports/api/projects';
+import { actions as categoryActions } from '/imports/api/categories';
 import SingleProject from './SingleProject.jsx';
 
 const {
     starProject,
     unstarProject,
 } = actions;
+
+const { goToCategoryManager } = categoryActions;
 
 const composer = ({ params: { projectId } }, onData) => {
     const projectsHandler = Meteor.subscribe('singleProject', projectId);
@@ -23,6 +27,7 @@ const composer = ({ params: { projectId } }, onData) => {
             .get(Meteor.user(), 'profile.favouriteProjects', [])
             .indexOf(projectId) !== -1
         ;
+        const canEditCategories = isProjectModeratorOrAdmin(projectId, Meteor.userId());
 
         onData(null, {
             projectId,
@@ -30,6 +35,8 @@ const composer = ({ params: { projectId } }, onData) => {
             isFavouriteProject,
             starProject,
             unstarProject,
+            canEditCategories,
+            goToCategoryManager,
         });
     }
 };

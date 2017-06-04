@@ -7,6 +7,7 @@ import {
     AddCategorySchema,
     RemoveCategorySchema,
 } from './schema.js';
+import selectedColors from './colors.js';
 
 export const addCategory = new ValidatedMethod({
     name: 'categories.add',
@@ -22,9 +23,14 @@ export const addCategory = new ValidatedMethod({
             );
         }
 
+        const categoryCount = Categories.find().count();
+        const colorsCount = selectedColors.length;
+        const color = selectedColors[categoryCount % colorsCount];
+
         return Categories.insert({
             name,
             projectId,
+            color,
         });
     },
 });

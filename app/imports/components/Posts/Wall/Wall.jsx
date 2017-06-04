@@ -121,6 +121,8 @@ class Wall extends React.Component {
                                 key={post._id}
                                 id={post._id}
                                 author={post.author}
+                                categoryName={post.categoryName}
+                                categoryColor={post.categoryColor}
                                 text={post.text}
                                 createdAt={post.createdAt}
                                 projectId={projectId}
