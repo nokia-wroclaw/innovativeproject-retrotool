@@ -36,6 +36,7 @@ Meteor.publish('projectList', function publishProjectList() {
     const options = {
         fields: {
             name: 1,
+            moderators: 1,
         },
     };
 

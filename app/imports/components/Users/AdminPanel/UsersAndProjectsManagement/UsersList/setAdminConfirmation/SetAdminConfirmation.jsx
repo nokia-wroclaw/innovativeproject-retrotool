@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { PropTypes } from 'prop-types';
 import { actions } from '/imports/api/users';
 
-export default class SetAdmin extends React.Component {
+export default class SetAdminConfirmation extends React.Component {
 
     constructor(props) {
         super(props);
@@ -60,7 +60,7 @@ export default class SetAdmin extends React.Component {
         );
     }
 }
-SetAdmin.propTypes = {
+SetAdminConfirmation.propTypes = {
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
