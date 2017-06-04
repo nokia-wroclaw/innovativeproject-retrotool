@@ -33,7 +33,7 @@ ProjectsListing.propTypes = {
 
 const Hello = ({ projects, goToProject }) => (
     <div className="content-container">
-        <h2>Hello!</h2>
+        <h2>Favourite projects!</h2>
 
         {projects.length ?
             <ProjectsListing
