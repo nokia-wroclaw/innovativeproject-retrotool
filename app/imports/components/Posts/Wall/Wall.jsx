@@ -77,6 +77,7 @@ class Wall extends React.Component {
             removeDislike,
             isSprintOpen,
             userId,
+            isMember,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -117,6 +118,7 @@ class Wall extends React.Component {
                                 dislikes={post.dislikes.length}
                                 isLiked={!!post.likes.find(like => like === userId)}
                                 isDisliked={!!post.dislikes.find(dislike => dislike === userId)}
+                                isMember={isMember}
                             />,
                         )
                     }
@@ -163,6 +165,7 @@ Wall.propTypes = {
     dislikePost: PropTypes.func.isRequired,
     removeDislike: PropTypes.func.isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 Wall.defaultProps = {

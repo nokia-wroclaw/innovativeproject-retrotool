@@ -8,16 +8,11 @@ import {
     CardHeader,
     CardText,
     RaisedButton,
-    FlatButton,
-    LinearProgress,
 } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
-import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
-import { blue500 } from 'material-ui/styles/colors';
 
 import PostComments from './PostComments';
-import { styles } from './styles.js';
+import Likes from './Likes.jsx';
 
 const formatDate = date => moment.utc(date).fromNow();
 
@@ -37,6 +32,7 @@ const Post = ({
     dislikes,
     isLiked,
     isDisliked,
+    isMember,
 }) => (
     <Card
         className="post"
@@ -50,44 +46,23 @@ const Post = ({
         <CardText>
             <ReactMarkdown source={text} />
         </CardText>
+
         <CardActions>
-            {!isLiked ?
-                <FlatButton
-                    icon={<ThumbUp />}
-                    label={likes}
-                    onTouchTap={() => likePost(id)}
-                />
-                :
-                <FlatButton
-                    icon={<ThumbUp color={blue500} />}
-                    label={likes}
-                    onTouchTap={() => removeLike(id)}
-                />
-            }
-            {!isDisliked ?
-                <FlatButton
-                    icon={<ThumbDown />}
-                    label={dislikes}
-                    onTouchTap={() => dislikePost(id)}
-                />
-                :
-                <FlatButton
-                    icon={<ThumbDown color={blue500} />}
-                    label={dislikes}
-                    onTouchTap={() => removeDislike(id)}
-                />
-            }
-            {likes ?
-                <LinearProgress
-                    mode="determinate"
-                    value={likes}
-                    max={likes + dislikes}
-                    style={styles.LinearProgress}
+            {isMember ?
+                <Likes
+                    likePost={likePost}
+                    removeLike={removeLike}
+                    dislikePost={dislikePost}
+                    removeDislike={removeDislike}
+                    likes={likes}
+                    dislikes={dislikes}
+                    isLiked={isLiked}
+                    isDisliked={isDisliked}
+                    id={id}
                 />
                 :
                 ''
             }
-
             {canRemove &&
                 <RaisedButton
                     icon={<Delete />}
@@ -123,6 +98,7 @@ Post.propTypes = {
     dislikes: PropTypes.number.isRequired,
     isLiked: PropTypes.bool.isRequired,
     isDisliked: PropTypes.bool.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 Post.defaultProps = {
