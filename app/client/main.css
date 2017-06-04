@@ -24,7 +24,7 @@ html, body {
     max-width: 400px;
 }
 
-.users-container {
+.tiles-container {
     display: flex;
     flex-flow: row wrap;
 }
