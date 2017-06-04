@@ -5,6 +5,7 @@ import {
     ToolbarGroup,
     ToolbarTitle,
     IconButton,
+    RaisedButton,
 } from 'material-ui';
 
 import Star from 'material-ui/svg-icons/toggle/star';
@@ -41,6 +42,8 @@ const ProjectOverviewToolbar = ({
     isFavouriteProject,
     starProject,
     unstarProject,
+    canEditCategories,
+    goToCategoryManager,
 }) =>
     <Toolbar>
         <ToolbarGroup>
@@ -54,6 +57,14 @@ const ProjectOverviewToolbar = ({
                 )}
             />
         </ToolbarGroup>
+        {canEditCategories &&
+            <ToolbarGroup>
+                <RaisedButton
+                    label="Project Categories"
+                    onTouchTap={() => goToCategoryManager(projectId)}
+                />
+            </ToolbarGroup>
+        }
     </Toolbar>
 ;
 
@@ -63,6 +74,8 @@ ProjectOverviewToolbar.propTypes = {
     projectName: PropTypes.string.isRequired,
     starProject: PropTypes.func.isRequired,
     unstarProject: PropTypes.func.isRequired,
+    canEditCategories: PropTypes.bool.isRequired,
+    goToCategoryManager: PropTypes.func.isRequired,
 };
 
 export default ProjectOverviewToolbar;

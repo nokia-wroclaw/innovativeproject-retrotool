@@ -7,7 +7,7 @@ import {
 import {
     AutoForm,
     BoolField,
-    ErrorsField,
+    ErrorField,
     TextField,
     SelectField,
     SubmitField,
@@ -30,7 +30,9 @@ const AddPost = ({
             onSubmit={onSubmit}
             error={error}
         >
-            <ErrorsField />
+            <ErrorField
+                name="text"
+            />
             <TextField
                 name="text"
                 floatingLabelText="What would you say?"

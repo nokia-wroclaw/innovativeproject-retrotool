@@ -20,6 +20,8 @@ import CreateNewProject from '/imports/components/Projects/CreateNewProject';
 import AddSprint from '/imports/components/Sprints/AddSprint';
 import SingleSprint from '/imports/components/Sprints/SingleSprint';
 
+import CategoryManager from '/imports/components/CategoryManager';
+
 import ActionItems from '/imports/components/ActionItems/ActionItemsBoard';
 import WorkingAgreements from '/imports/components/WorkingAgreements/WorkingAgreementBoard';
 
@@ -88,6 +90,10 @@ export default (
                 <Route
                     path=":projectId/sprint/:sprintId/working-agreement"
                     components={{ main: WorkingAgreements, drawerContent: SingleProjectSidebar }}
+                />
+                <Route
+                    path=":projectId/categories"
+                    components={{ main: CategoryManager, drawerContent: SingleProjectSidebar }}
                 />
             </Route>
         </Route>

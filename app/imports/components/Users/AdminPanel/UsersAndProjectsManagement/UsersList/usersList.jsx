@@ -17,13 +17,18 @@ const UsersList = props => (
                     leftAvatar={<Avatar
                         src={user.profile.avatar}
                     />}
-                    nestedItems={[
-                        <SetAdmin
-                            primaryText="Set admin"
-                            user={user}
-                            key={user._id}
-                        />,
-                    ]}
+                    nestedItems={
+                        user._id === props.currentUserId ?
+                        []
+                        :
+                        [
+                            <SetAdmin
+                                primaryText="Set admin"
+                                user={user}
+                                key={user._id}
+                            />,
+                        ]
+                    }
                 />
         ))}
         </List>
@@ -35,6 +40,7 @@ UsersList.propTypes = {
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
     })).isRequired,
+    currentUserId: PropTypes.string.isRequired,
 };
 
 export default UsersList;

@@ -8,6 +8,9 @@ export const CategorySchema = new SimpleSchema({
         type: String,
         optional: true,
     },
+    color: {
+        type: String,
+    },
 });
 
 // method schemas

@@ -19,6 +19,8 @@ Meteor.publish('categories', function publishCategories(projectId = '') {
                 { projectId: { $exists: false } },
             ];
         }
+    } else {
+        query.projectId = { $exists: false };
     }
 
     return Categories.find(query);
