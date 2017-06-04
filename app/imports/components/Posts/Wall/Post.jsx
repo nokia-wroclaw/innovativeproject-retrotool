@@ -25,10 +25,14 @@ const Post = ({
     projectId,
     canRemove,
     likePost,
+    removeLike,
     dislikePost,
+    removeDislike,
     removePost,
     likes,
     dislikes,
+    isLiked,
+    isDisliked,
 }) => (
     <Card
         className="post"
@@ -43,16 +47,33 @@ const Post = ({
             <ReactMarkdown source={text} />
         </CardText>
         <CardActions>
-            <RaisedButton
-                icon={<ThumbUp />}
-                label={`Like It (${likes})`}
-                onTouchTap={() => likePost(id)}
-            />
-            <RaisedButton
-                icon={<ThumbDown />}
-                label={`Dislike It (${dislikes})`}
-                onTouchTap={() => dislikePost(id)}
-            />
+            {!isLiked ?
+                <RaisedButton
+                    icon={<ThumbUp />}
+                    label={`Like It (${likes})`}
+                    onTouchTap={() => likePost(id)}
+                />
+                :
+                <RaisedButton
+                    icon={<ThumbUp />}
+                    label={`Remove like (${likes})`}
+                    onTouchTap={() => removeLike(id)}
+                />
+            }
+            {!isDisliked ?
+                <RaisedButton
+                    icon={<ThumbDown />}
+                    label={`Dislike It (${dislikes})`}
+                    onTouchTap={() => dislikePost(id)}
+                />
+                :
+                <RaisedButton
+                    icon={<ThumbDown />}
+                    label={`Remove dislike (${dislikes})`}
+                    onTouchTap={() => removeDislike(id)}
+                />
+            }
+
             {canRemove &&
                 <RaisedButton
                     icon={<Delete />}
@@ -81,9 +102,13 @@ Post.propTypes = {
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     likes: PropTypes.number.isRequired,
     dislikes: PropTypes.number.isRequired,
+    isLiked: PropTypes.bool.isRequired,
+    isDisliked: PropTypes.bool.isRequired,
 };
 
 Post.defaultProps = {
@@ -94,6 +119,8 @@ Post.defaultProps = {
     canRemove: false,
     likes: 0,
     dislikes: 0,
+    isLiked: false,
+    isDisliked: false,
 };
 
 export default Post;

@@ -72,8 +72,11 @@ class Wall extends React.Component {
             isProjectModeratorOrAdmin,
             removePost,
             likePost,
+            removeLike,
             dislikePost,
+            removeDislike,
             isSprintOpen,
+            userId,
         } = this.props;
 
         const posts = sort(this.props.posts, selectedSortId);
@@ -107,9 +110,13 @@ class Wall extends React.Component {
                                 canRemove={isProjectModeratorOrAdmin}
                                 removePost={removePost}
                                 likePost={likePost}
+                                removeLike={removeLike}
                                 dislikePost={dislikePost}
-                                likes={post.likes}
-                                dislikes={post.dislikes}
+                                removeDislike={removeDislike}
+                                likes={post.likes.length}
+                                dislikes={post.dislikes.length}
+                                isLiked={!!post.likes.find(like => like === userId)}
+                                isDisliked={!!post.dislikes.find(dislike => dislike === userId)}
                             />,
                         )
                     }
@@ -148,10 +155,13 @@ Wall.propTypes = {
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
     projectId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
 };
 
