@@ -49,16 +49,12 @@ const Likes = ({
                 onTouchTap={() => removeDislike(id)}
             />
         }
-        {likes ?
-            <LinearProgress
-                mode="determinate"
-                value={likes}
-                max={likes + dislikes}
-                style={styles.LinearProgress}
-            />
-            :
-            ''
-        }
+        <LinearProgress
+            mode="determinate"
+            value={likes}
+            max={likes + dislikes === 0 ? 1 : likes + dislikes}
+            style={styles.LinearProgress}
+        />
     </div>
 );
 
