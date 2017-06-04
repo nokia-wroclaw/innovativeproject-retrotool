@@ -32,6 +32,7 @@ const Post = ({
     removePost,
     likes,
     dislikes,
+    isMember,
 }) => (
     <Card
         className="post"
@@ -66,6 +67,7 @@ const Post = ({
             }
         </CardActions>
         <PostComments
+            isMember={isMember}
             postId={id}
             projectId={projectId}
             canRemove={canRemove}
@@ -90,6 +92,7 @@ Post.propTypes = {
     dislikePost: PropTypes.func.isRequired,
     likes: PropTypes.number.isRequired,
     dislikes: PropTypes.number.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 Post.defaultProps = {
