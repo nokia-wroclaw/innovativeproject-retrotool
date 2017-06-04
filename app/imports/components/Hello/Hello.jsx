@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Subheader } from 'material-ui';
-import { List, ListItem } from 'material-ui/List';
+import { Subheader, Paper } from 'material-ui';
+import { styles } from './styles.js';
 
 const ProjectsListing = ({ projects, goToProject }) =>
     <div>
         <Subheader>Favourite Projects</Subheader>
-        <List>
+
+        <div className="tiles-container">
             {projects.map(project => (
-                <ListItem
-                    key={project.id}
-                    primaryText={project.name}
+                <Paper
+                    key={`paper${project.id}`}
+                    style={styles.paper}
+                    zDepth={3}
                     onTouchTap={() => goToProject(project.id)}
-                />
+                >
+                    {project.name}
+                </Paper>
             ))}
-        </List>
+        </div>
     </div>
 ;
 
@@ -29,7 +33,7 @@ ProjectsListing.propTypes = {
 
 const Hello = ({ projects, goToProject }) => (
     <div className="content-container">
-        <h2>Hello!</h2>
+        <h2>Favourite projects!</h2>
 
         {projects.length ?
             <ProjectsListing
