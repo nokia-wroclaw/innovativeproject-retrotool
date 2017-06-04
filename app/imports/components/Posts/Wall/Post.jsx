@@ -11,10 +11,9 @@ import {
     RaisedButton,
 } from 'material-ui';
 import Delete from 'material-ui/svg-icons/action/delete';
-import ThumbDown from 'material-ui/svg-icons/action/thumb-down';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 import PostComments from './PostComments';
+import Likes from './Likes.jsx';
 
 const formatDate = date => moment.utc(date).fromNow();
 
@@ -28,10 +27,14 @@ const Post = ({
     projectId,
     canRemove,
     likePost,
+    removeLike,
     dislikePost,
+    removeDislike,
     removePost,
     likes,
     dislikes,
+    isLiked,
+    isDisliked,
     isMember,
 }) => (
     <Card
@@ -47,17 +50,23 @@ const Post = ({
             <Chip backgroundColor={categoryColor}>{categoryName}</Chip>
             <ReactMarkdown source={text} />
         </CardText>
+
         <CardActions>
-            <RaisedButton
-                icon={<ThumbUp />}
-                label={`Like It (${likes})`}
-                onTouchTap={() => likePost(id)}
-            />
-            <RaisedButton
-                icon={<ThumbDown />}
-                label={`Dislike It (${dislikes})`}
-                onTouchTap={() => dislikePost(id)}
-            />
+            {isMember ?
+                <Likes
+                    likePost={likePost}
+                    removeLike={removeLike}
+                    dislikePost={dislikePost}
+                    removeDislike={removeDislike}
+                    likes={likes}
+                    dislikes={dislikes}
+                    isLiked={isLiked}
+                    isDisliked={isDisliked}
+                    id={id}
+                />
+                :
+                ''
+            }
             {canRemove &&
                 <RaisedButton
                     icon={<Delete />}
@@ -89,9 +98,13 @@ Post.propTypes = {
     canRemove: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     likes: PropTypes.number.isRequired,
     dislikes: PropTypes.number.isRequired,
+    isLiked: PropTypes.bool.isRequired,
+    isDisliked: PropTypes.bool.isRequired,
     isMember: PropTypes.bool.isRequired,
 };
 
@@ -103,6 +116,8 @@ Post.defaultProps = {
     canRemove: false,
     likes: 0,
     dislikes: 0,
+    isLiked: false,
+    isDisliked: false,
 };
 
 export default Post;

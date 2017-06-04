@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 import { FullPageLoader } from '/imports/components/Loaders';
 import {
-    isProjectMember,
     isProjectModeratorOrAdmin,
+    isProjectMember,
 } from '/imports/api/projects';
 import { isSprintClosed } from '/imports/api/sprints';
 import {
@@ -56,8 +56,6 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
-            post.likes = post.likes.length;
-            post.dislikes = post.dislikes.length;
             return post;
         });
 
@@ -67,17 +65,20 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
         const isSprintOpen = !isSprintClosed(sprintId);
 
         onData(null, {
-            isMember,
             addPost: actions.addPost,
             removePost: actions.removePost,
             likePost: actions.likePost,
+            removeLike: actions.removeLike,
             dislikePost: actions.dislikePost,
+            removeDislike: actions.removeDislike,
             categories,
             posts,
             sprintId,
             projectId,
             isProjectModeratorOrAdmin: hasModeratorRights,
             isSprintOpen,
+            userId,
+            isMember,
         });
     }
 };

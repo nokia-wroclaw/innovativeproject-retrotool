@@ -90,8 +90,11 @@ class Wall extends React.Component {
             isProjectModeratorOrAdmin,
             removePost,
             likePost,
+            removeLike,
             dislikePost,
+            removeDislike,
             isSprintOpen,
+            userId,
             isMember,
         } = this.props;
 
@@ -129,9 +132,13 @@ class Wall extends React.Component {
                                 canRemove={isProjectModeratorOrAdmin}
                                 removePost={this.showRemovePostModal}
                                 likePost={likePost}
+                                removeLike={removeLike}
                                 dislikePost={dislikePost}
-                                likes={post.likes}
-                                dislikes={post.dislikes}
+                                removeDislike={removeDislike}
+                                likes={post.likes.length}
+                                dislikes={post.dislikes.length}
+                                isLiked={!!post.likes.find(like => like === userId)}
+                                isDisliked={!!post.dislikes.find(dislike => dislike === userId)}
                                 isMember={isMember}
                             />,
                         )
@@ -162,7 +169,6 @@ class Wall extends React.Component {
 }
 
 Wall.propTypes = {
-    isMember: PropTypes.bool.isRequired,
     addPost: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(
         PropTypes.shape({
@@ -183,11 +189,15 @@ Wall.propTypes = {
     ).isRequired,
     sprintId: PropTypes.string.isRequired,
     projectId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     isProjectModeratorOrAdmin: PropTypes.bool.isRequired,
     removePost: PropTypes.func.isRequired,
     likePost: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     dislikePost: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     isSprintOpen: PropTypes.bool.isRequired,
+    isMember: PropTypes.bool.isRequired,
 };
 
 Wall.defaultProps = {
