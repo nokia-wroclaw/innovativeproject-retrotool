@@ -4,7 +4,10 @@ import { withRouter } from 'react-router';
 import _ from 'lodash';
 
 import { FullPageLoader } from '/imports/components/Loaders';
-import { isProjectModeratorOrAdmin } from '/imports/api/projects';
+import {
+    isProjectModeratorOrAdmin,
+    isProjectMember,
+} from '/imports/api/projects';
 import { isSprintClosed } from '/imports/api/sprints';
 import {
     Posts,
@@ -18,7 +21,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
     const projectHandler = Meteor.subscribe('singleProject', projectId);
     const sprintHandler = Meteor.subscribe('singleSprint', sprintId);
     const postsHandler = Meteor.subscribe('sprintPosts', sprintId);
-    const categoriesHandler = Meteor.subscribe('categories');
+    const categoriesHandler = Meteor.subscribe('categories', projectId);
     const usersHandler = Meteor.subscribe('projectMembers', projectId);
 
     if (
@@ -33,6 +36,7 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
             ({
                 value: category._id,
                 label: category.name,
+                color: category.color,
             }),
         );
         const posts = Posts.find({}).map((post) => {
@@ -41,6 +45,10 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                 authorId,
             } = post;
 
+            const category = _.find(categories, c => c.value === post.categoryId) || {};
+            post.categoryName = category.label;
+            post.categoryColor = category.color;
+
             if (showAuthor) {
                 const author = _.find(users, { _id: authorId });
                 post.author = {
@@ -48,26 +56,29 @@ const composer = ({ params: { projectId, sprintId } }, onData) => {
                     avatar: _.get(author, 'profile.avatar', ''),
                 };
             }
-            post.likes = post.likes.length;
-            post.dislikes = post.dislikes.length;
             return post;
         });
 
         const userId = Meteor.userId();
         const hasModeratorRights = isProjectModeratorOrAdmin(projectId, userId);
+        const isMember = isProjectMember(projectId, userId);
         const isSprintOpen = !isSprintClosed(sprintId);
 
         onData(null, {
             addPost: actions.addPost,
             removePost: actions.removePost,
             likePost: actions.likePost,
+            removeLike: actions.removeLike,
             dislikePost: actions.dislikePost,
+            removeDislike: actions.removeDislike,
             categories,
             posts,
             sprintId,
             projectId,
             isProjectModeratorOrAdmin: hasModeratorRights,
             isSprintOpen,
+            userId,
+            isMember,
         });
     }
 };

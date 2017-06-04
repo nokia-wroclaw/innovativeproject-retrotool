@@ -19,6 +19,13 @@ const limitQueryToUserProjects = (userId, query) => {
     return query;
 };
 
+const limitQueryToMemberProjects = (userId, query) => {
+    if (query && !query.members) {
+        query.members = userId;
+    }
+    return query;
+};
+
 Meteor.publish('projectList', function publishProjectList() {
     if (!this.userId) {
         return this.ready();
@@ -30,6 +37,23 @@ Meteor.publish('projectList', function publishProjectList() {
         fields: {
             name: 1,
             moderators: 1,
+        },
+    };
+
+    return Projects.find(query, options);
+});
+
+Meteor.publish('memberProjectList', function publishMemberProjectList() {
+    if (!this.userId) {
+        return this.ready();
+    }
+    const query = {};
+    limitQueryToMemberProjects(this.userId, query);
+
+    const options = {
+        fields: {
+            name: 1,
+            members: 1,
         },
     };
 

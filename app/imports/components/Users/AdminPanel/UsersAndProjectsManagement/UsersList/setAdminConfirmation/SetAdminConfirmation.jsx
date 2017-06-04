@@ -33,7 +33,6 @@ export default class SetAdminConfirmation extends React.Component {
         const choice = [
             <FlatButton
                 label="No"
-                keyboardFocused
                 primary
                 onTouchTap={() => this.handleClose(false)}
             />,

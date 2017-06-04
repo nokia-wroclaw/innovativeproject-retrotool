@@ -25,6 +25,7 @@ export default class UsersList extends React.Component {
     }
 
     render() {
+        const { currentUserId } = this.props;
         return (
             <div>
                 Search: <AutoComplete
@@ -42,7 +43,10 @@ export default class UsersList extends React.Component {
                             leftAvatar={<Avatar
                                 src={user.profile.avatar}
                             />}
-                            nestedItems={[
+                            nestedItems={user._id === currentUserId ?
+                        []
+                        :
+                            [
                                 <SetAdminConfirmation
                                     primaryText="Set admin"
                                     user={user}
@@ -62,5 +66,6 @@ UsersList.propTypes = {
         _id: PropTypes.string.isRequired,
         isAdmin: PropTypes.bool.isRequired,
     })).isRequired,
+    currentUserId: PropTypes.string.isRequired,
 };
 
