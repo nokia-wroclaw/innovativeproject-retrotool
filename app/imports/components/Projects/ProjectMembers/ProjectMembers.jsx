@@ -64,7 +64,7 @@ class ProjectMembers extends React.Component {
         } = this.state;
 
         return (
-            <div className="users-container">
+            <div className="tiles-container">
                 {users.map(user => (
                     <GridTile
                         key={user.id}

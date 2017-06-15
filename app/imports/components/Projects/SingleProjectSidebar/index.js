@@ -26,7 +26,7 @@ import { isAdmin } from '/imports/api/users';
 import SingleProjectSidebar from './SingleProjectSidebar.jsx';
 
 const composer = ({ params: { projectId, sprintId: currentSprintId } }, onData) => {
-    const projectListHandler = Meteor.subscribe('projectList');
+    const projectListHandler = Meteor.subscribe('memberProjectList');
     const sprintListHandler = Meteor.subscribe('sprintList', projectId);
     const userId = Meteor.userId();
 
